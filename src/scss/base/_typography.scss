@@ -1,0 +1,71 @@
+/* --------------------------------------------
+    Template Default Fonts & Fonts Styles
+ ---------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Rubik:wght@300;400;500;600;700;800&display=swap");
+
+$heading-font: "Rubik", sans-serif;
+$body-font: "Roboto", sans-serif;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $body-font;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: $semiWhite-color;
+}
+
+ul {
+  @include reset-ul;
+  list-style: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.nav-top {
+  margin-top: 65px;
+
+  @media (max-width: $xsm) {
+    margin-top: 125px;
+  }
+}
+
+.input-field {
+  border: 2px solid #dddfe2;
+  padding: 10px 12px;
+  background-color: transparent;
+  border-radius: 5px;
+
+  &[name="password"] {
+    padding-right: 43px;
+  }
+
+  &.input-error {
+    border-color: #e94235;
+
+    &::placeholder {
+      color: #e94235;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    border: 2px solid #1877f2;
+
+    &::placeholder {
+      color: #1877f2;
+    }
+  }
+}

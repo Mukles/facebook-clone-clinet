@@ -1,0 +1,55 @@
+.create-post {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 550px;
+  width: 100%;
+  margin: auto;
+
+  .profile {
+    border-bottom: 01px solid #e4e6eb;
+
+    img {
+      border-radius: 50%;
+    }
+  }
+
+  input {
+    background-color: $semiWhite-color;
+    @include reset-button;
+    border-radius: 25px;
+    padding: 12px;
+    height: 45px;
+    transition: 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+
+  svg {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  .icons {
+    li {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      transition: 0.5s;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+
+      span {
+        font-size: 15px;
+        font-weight: 500;
+        word-break: break-word;
+      }
+    }
+  }
+}

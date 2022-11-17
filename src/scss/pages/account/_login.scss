@@ -1,0 +1,152 @@
+.login-container {
+  margin: 5% 0;
+  .brand-details {
+    margin-top: -25px;
+
+    .logo-img {
+      transform: translateX(-2%);
+
+      @media (max-width: $md) {
+        text-align: center;
+      }
+    }
+
+    p {
+      font-size: 28px;
+      line-height: 32px;
+      color: #1c1e21;
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+
+      @media (max-width: $md) {
+        text-align: center;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .login-form {
+    background-color: #fff;
+    padding: 25px 20px;
+    max-width: 400px;
+    margin: auto;
+
+    a {
+      font-size: 14px;
+      line-height: 19px;
+      color: #1877f2;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .input-container {
+      position: relative;
+      svg {
+        cursor: pointer;
+        width: 30px;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .login-button {
+      width: 100%;
+      background-color: #1877f2;
+      border-radius: 5px;
+      border: none;
+      padding: 0px 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 48px;
+      color: #fff;
+
+      &:hover {
+        background-color: #166fe5;
+      }
+
+      &:disabled {
+        background-color: #6198de !important;
+      }
+
+      .loader {
+        position: absolute;
+        top: 50%;
+        right: 89px;
+        transform: translateY(-50%);
+      }
+    }
+
+    .register {
+      background-color: #42b72a;
+      max-width: 230px;
+      &:hover {
+        background-color: #36a420;
+      }
+    }
+
+    .divider {
+      white-space: nowrap;
+      font-weight: 500;
+
+      &::after,
+      &::before {
+        content: "";
+        flex-grow: 1;
+        height: 1px;
+        width: 100%;
+      }
+
+      &::before,
+      &::after {
+        background-color: #0009;
+        opacity: 0.5;
+      }
+    }
+
+    .social-media {
+      button {
+        width: 75px;
+        height: 35px;
+        background-color: transparent;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 20px;
+        transition: 0.3s;
+      }
+
+      li:first-child button {
+        color: #e94235;
+
+        &:hover {
+          background-color: #e94235;
+          color: #fff;
+        }
+      }
+
+      li:nth-child(2) button {
+        color: #1da1f2;
+
+        &:hover {
+          background-color: #1da1f2;
+          color: #fff;
+        }
+      }
+
+      li:last-child button {
+        color: #000;
+
+        &:hover {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

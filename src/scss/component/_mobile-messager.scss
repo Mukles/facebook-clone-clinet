@@ -1,0 +1,36 @@
+.mobile-conversation.messenger {
+  height: 100vh;
+
+  .chat-lists {
+    height: calc(100% - 114px);
+  }
+}
+
+.mobile-messenger {
+  height: calc(100vh - 130px);
+  margin-top: 63px !important;
+
+  .mobile-messenger-right {
+    padding: 0;
+  }
+
+  .messenger-body {
+    height: 100%;
+    padding: 0;
+  }
+
+  .chathead {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .messenger-form {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+  }
+}

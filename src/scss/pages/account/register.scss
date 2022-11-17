@@ -1,0 +1,21 @@
+.register-modal {
+  background-color: #fff;
+  max-width: 450px;
+  width: 100%;
+  padding: 10px 20px;
+  margin: auto;
+
+  .register-submit {
+    max-width: 150px;
+    width: 100%;
+    margin: auto;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 700;
+    background-color: #42b72a;
+
+    &:hover {
+      background-color: #36a420;
+    }
+  }
+}

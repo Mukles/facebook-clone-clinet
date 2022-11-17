@@ -1,0 +1,35 @@
+.post-footer {
+  .user-reactions {
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:not(:last-child) {
+        margin-right: -4px;
+      }
+    }
+  }
+
+  .icon-wrapper {
+    border-top: 1px solid #ced0d4;
+    border-bottom: 1px solid #ced0d4;
+    li {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 5px;
+      border-radius: 6px;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+    }
+    svg {
+      width: 25px;
+      margin-right: 10px;
+    }
+  }
+}

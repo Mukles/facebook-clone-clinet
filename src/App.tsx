@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect } from "react";
+
+import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import { userLogin } from "./App/features/auth/authSlice";
+import Header from "./components/header";
+import Home from "./pages";
+import Login from "./pages/account/login";
+import Register from "./pages/account/register";
+import Messenger from "./pages/messenger/index";
+import MobileConversation from "./pages/messenger/mobile/conversation";
+import MobileSpecificConversation from "./pages/messenger/mobile/[id]";
+import SpecificConversation from "./pages/messenger/[id]";
+import Video from "./pages/videos";
+import "./plugins/fontawesome-free/css/all.min.css";
+import "./scss/app.scss";
+import { onAuthChanged } from "./service/authService";
 
 function App() {
+  const dispatch = useDispatch();
+  dispatch(userLogin({ loading: true }));
+
+  useEffect(() => {
+    onAuthChanged(dispatch);
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/account/login" element={<Login />} />
+        <Route path="/account/register" element={<Register />} />
+        <Route path="/videos" element={<Video />} />
+        <Route path="/messenger" element={<Messenger />} />
+        <Route path="/messenger/:id" element={<SpecificConversation />} />
+        <Route
+          path="/messenger/mobile/conversation"
+          element={<MobileConversation />}
+        />
+        <Route
+          path="/messenger/mobile/conversation/:id"
+          element={<MobileSpecificConversation />}
+        />
+      </Routes>
+    </>
   );
 }
 

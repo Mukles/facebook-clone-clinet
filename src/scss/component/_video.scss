@@ -1,0 +1,76 @@
+.video {
+  padding: 10px 15px;
+  max-width: 750px;
+  width: 100%;
+  margin: auto;
+  background-color: #fff;
+
+  .player-wrapper {
+    position: relative;
+    padding: 10px 0;
+  }
+
+  .react-player {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .user-profile {
+    border: 3px solid #297be5;
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    img {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .user-details {
+    p {
+      font-weight: 500;
+    }
+  }
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+
+    svg {
+      width: 25px;
+    }
+  }
+
+  .desc {
+    padding: 10px 0;
+    font-weight: 500;
+    line-height: 25px;
+    font-size: 16px;
+    color: #050505;
+  }
+
+  .show-more {
+    @include reset-button;
+    color: #297be5;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

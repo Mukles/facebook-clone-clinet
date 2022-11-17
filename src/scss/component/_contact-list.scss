@@ -1,0 +1,66 @@
+.contact-list {
+  .contact-header p {
+    color: #65676b;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .contact-icons {
+    .icon {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: #e4e6e9;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .active-user-list {
+    .active-user {
+      cursor: pointer;
+      padding: 3px 5px;
+      border-radius: 6px;
+
+      &:hover {
+        background-color: #e4e6e9;
+      }
+    }
+
+    .user-profile {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background-color: #31a24c;
+        border-radius: 50%;
+        bottom: 7px;
+        right: 3px;
+      }
+
+      img {
+        border-radius: 50%;
+      }
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 500;
+      color: #050505;
+    }
+  }
+}
