@@ -1,7 +1,11 @@
 import { FastField, Field, Form, Formik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { registerRequst, signUpWithPassword } from "../../service/authService";
+import { setFormData } from "../../App/features/auth/authSlice";
+import {
+  authRequestHandler,
+  signUpWithPassword,
+} from "../../service/authService";
 import { registerSchema } from "../../validation/loginValidition";
 
 const Register = ({ setShow }: any) => {
@@ -35,7 +39,8 @@ const Register = ({ setShow }: any) => {
           }}
           validationSchema={registerSchema}
           onSubmit={(values, actions) => {
-            registerRequst(values, dispatch, signUpWithPassword);
+            dispatch(setFormData(values));
+            authRequestHandler(values, dispatch, signUpWithPassword);
           }}
         >
           {(values) => {

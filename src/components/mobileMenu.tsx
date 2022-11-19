@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/Header/Facebook-Logo.png";
 import GammingSvg from "../assets/Header/GammingSvg";
 import GroupSvg from "../assets/Header/GroupSvg";
@@ -37,48 +37,67 @@ const MobileMenu = () => {
               />
             </svg>
           </div>
-          <a className="messenger-icon">
+          <Link to={"/messenger"} className="messenger-icon">
             <MessengerSvg />
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* nav-items */}
-      <ul className="nav-items pt-1 d-flex justify-content-between">
+      <ul className="nav-items pt-1 d-flex justify-content-between mobile-nav">
         <li className="nav-item">
-          <a>
+          <NavLink
+            end
+            to="/"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <HomeSvg />
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item">
-          <a>
+          <NavLink
+            to="/video"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <VideoSvg />
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item">
-          <a>
+          <NavLink
+            to={"/market-place"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <MarketPlaceSvg />
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item">
-          <a>
+          <NavLink
+            to={"/group"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <GroupSvg />
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item">
-          <a>
+          <NavLink
+            to={"/notification"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <NotificationSvg color={"#fff"} />
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item">
-          <a>
+          <NavLink
+            to={"/gamming"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             <GammingSvg />
-          </a>
+          </NavLink>
         </li>
       </ul>
     </div>

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import { userLogin } from "./App/features/auth/authSlice";
 import Header from "./components/header";
 import Home from "./pages";
 import Login from "./pages/account/login";
@@ -16,32 +15,69 @@ import Video from "./pages/videos";
 import "./plugins/fontawesome-free/css/all.min.css";
 import "./scss/app.scss";
 import { onAuthChanged } from "./service/authService";
+import RequiredAuth from "./utilities/requireAuth";
 
 function App() {
   const dispatch = useDispatch();
-  dispatch(userLogin({ loading: true }));
 
   useEffect(() => {
     onAuthChanged(dispatch);
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <RequiredAuth>
+              <Home />
+            </RequiredAuth>
+          }
+        />
         <Route path="/account/login" element={<Login />} />
         <Route path="/account/register" element={<Register />} />
-        <Route path="/videos" element={<Video />} />
-        <Route path="/messenger" element={<Messenger />} />
-        <Route path="/messenger/:id" element={<SpecificConversation />} />
+        <Route
+          path="/videos"
+          element={
+            <RequiredAuth>
+              <Video />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/messenger"
+          element={
+            <RequiredAuth>
+              <Messenger />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/messenger/:id"
+          element={
+            <RequiredAuth>
+              <SpecificConversation />
+            </RequiredAuth>
+          }
+        />
         <Route
           path="/messenger/mobile/conversation"
-          element={<MobileConversation />}
+          element={
+            <RequiredAuth>
+              <MobileConversation />
+            </RequiredAuth>
+          }
         />
         <Route
           path="/messenger/mobile/conversation/:id"
-          element={<MobileSpecificConversation />}
+          element={
+            <RequiredAuth>
+              <MobileSpecificConversation />
+            </RequiredAuth>
+          }
         />
       </Routes>
     </>

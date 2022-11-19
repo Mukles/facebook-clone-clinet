@@ -6,7 +6,8 @@ export const authSlice = createSlice({
     error: null,
     user: null,
     token: null,
-    loading: false,
+    loading: true,
+    formData: null,
   },
   reducers: {
     userLogin: (state, { payload }) => ({
@@ -16,7 +17,11 @@ export const authSlice = createSlice({
       token: payload.token,
       error: payload.error,
     }),
+    setFormData: (state, { payload }) => ({
+      ...state,
+      formData: { ...payload },
+    }),
   },
 });
 
-export const { userLogin } = authSlice.actions;
+export const { userLogin, setFormData } = authSlice.actions;

@@ -2,6 +2,12 @@
   .nav-items {
     max-width: 500px;
     margin: auto;
+    svg {
+      fill: black;
+    }
+    li a.active svg {
+      fill: #0078f6;
+    }
   }
 
   .messenger-icon {

@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { RootState } from "../App/store";
 import LaptopMenu from "./laptopMenu";
 import MobileMenu from "./mobileMenu";
 //import MobileMenu from "./mobileMenu";
 
 const Header = () => {
+  const { loading } = useSelector<RootState, any>((state) => state.auth);
   const { pathname } = useLocation();
-  console.log(pathname);
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -28,12 +30,16 @@ const Header = () => {
       : "";
 
   return (
-    <header ref={ref} className={`py-2 fixed-top ${shadow} ${display}`}>
-      <div className="container-fluid">
-        <LaptopMenu />
-        <MobileMenu />
-      </div>
-    </header>
+    <>
+      {!loading && (
+        <header ref={ref} className={`py-2 fixed-top ${shadow} ${display}`}>
+          <div className="container-fluid">
+            <LaptopMenu />
+            <MobileMenu />
+          </div>
+        </header>
+      )}
+    </>
   );
 };
 

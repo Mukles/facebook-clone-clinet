@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../App/store";
 import logo from "../../assets/account/facebook.svg";
-import { loginRequest, loginWithPassword } from "../../service/authService";
+import {
+  authRequestHandler,
+  loginWithGoogle,
+  loginWithPassword,
+} from "../../service/authService";
 import CustomInput from "../../utilities/customInput";
 import ErrorModal from "../../utilities/errorModal";
 import { loginSchema } from "../../validation/loginValidition";
@@ -21,9 +25,9 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (user) {
-      //navigator("/");
-    }
+    // if (user) {
+    //   navigator("/");
+    // }
   }, [user, navigator]);
 
   return (
@@ -54,7 +58,7 @@ const Login = () => {
                 }}
                 validationSchema={loginSchema}
                 onSubmit={(values, actions) =>
-                  loginRequest(values, dispatch, loginWithPassword)
+                  authRequestHandler(values, dispatch, loginWithPassword)
                 }
               >
                 {({ isSubmitting, values }) => {
@@ -129,7 +133,7 @@ const Login = () => {
                           <div className="d-flex justify-content-center loader">
                             <div
                               className={`spinner-border ${
-                                isSubmitting ? "d-flex" : "d-none"
+                                isSubmitting && loading ? "d-flex" : "d-none"
                               }`}
                               role="status"
                             >
@@ -144,7 +148,17 @@ const Login = () => {
                         </div>
                         <ul className="social-media d-flex gap-3 my-2 mx-auto align-itmes-center justify-content-center flex-wrap">
                           <li>
-                            <button type="button" disabled={loading}>
+                            <button
+                              type="button"
+                              disabled={loading}
+                              onClick={() =>
+                                authRequestHandler(
+                                  values,
+                                  dispatch,
+                                  loginWithGoogle
+                                )
+                              }
+                            >
                               <i className="fa-brands fa-google"></i>
                             </button>
                           </li>
