@@ -13,7 +13,11 @@ import NotificationSvg from "../assets/Header/notificationSvg";
 import VideoSvg from "../assets/Header/videsSvg";
 import profile from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
 
-const LaptopMenu = () => {
+interface Props {
+  setOpen: any;
+}
+
+const LaptopMenu = ({ setOpen }: Props) => {
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
 
@@ -182,7 +186,7 @@ const LaptopMenu = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/profile"}>
+            <button onClick={() => setOpen(true)}>
               <img
                 className="rounded-circle"
                 src={profile}
@@ -190,7 +194,7 @@ const LaptopMenu = () => {
                 height={40}
                 alt={"profile"}
               />
-            </Link>
+            </button>
           </li>
         </ul>
       </div>

@@ -1,13 +1,16 @@
-import { useEffect, useRef } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../App/store";
 import LaptopMenu from "./laptopMenu";
 import MobileMenu from "./mobileMenu";
+import Settings from "./settings/settings";
 //import MobileMenu from "./mobileMenu";
 
 const Header = () => {
   const { loading } = useSelector<RootState, any>((state) => state.auth);
+  const [isOpen, setOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
   const ref = useRef<HTMLElement>(null);
 
@@ -34,9 +37,12 @@ const Header = () => {
       {!loading && (
         <header ref={ref} className={`py-2 fixed-top ${shadow} ${display}`}>
           <div className="container-fluid">
-            <LaptopMenu />
+            <LaptopMenu setOpen={setOpen} />
             <MobileMenu />
           </div>
+          <AnimatePresence>
+            {isOpen && <Settings setOpen={setOpen} />}
+          </AnimatePresence>
         </header>
       )}
     </>

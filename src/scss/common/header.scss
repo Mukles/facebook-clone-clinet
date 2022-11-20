@@ -121,6 +121,11 @@ header {
       background-color: $secondary-color;
       transition: 0.5s;
 
+      button {
+        @include reset-button;
+        background-color: transparent;
+      }
+
       &:hover {
         background-color: #dfdfdf;
       }

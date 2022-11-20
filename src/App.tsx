@@ -15,6 +15,7 @@ import Video from "./pages/videos";
 import "./plugins/fontawesome-free/css/all.min.css";
 import "./scss/app.scss";
 import { onAuthChanged } from "./service/authService";
+import PublicRoute from "./utilities/publicRoute";
 import RequiredAuth from "./utilities/requireAuth";
 
 function App() {
@@ -37,7 +38,15 @@ function App() {
             </RequiredAuth>
           }
         />
-        <Route path="/account/login" element={<Login />} />
+
+        <Route
+          path="/account/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
         <Route path="/account/register" element={<Register />} />
         <Route
           path="/videos"

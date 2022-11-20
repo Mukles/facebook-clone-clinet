@@ -4,7 +4,7 @@ type Props = {
   children: JSX.Element;
 };
 
-const MessengerLayout = ({ children }: Props) => {
+const MessengerLayout: React.FC<Props> = ({ children }: Props) => {
   return (
     <>
       <div className="col col-lg-4 col-md-2 h-100">
