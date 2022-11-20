@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/header";
+import useWidth from "./hooks/useWith";
 import Home from "./pages";
 import Login from "./pages/account/login";
 import Register from "./pages/account/register";
@@ -25,6 +26,61 @@ function App() {
     onAuthChanged(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const width = useWidth();
+
+  if (width < 576) {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequiredAuth>
+                <Home />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/account/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route path="/account/register" element={<Register />} />
+          <Route
+            path="/videos"
+            element={
+              <RequiredAuth>
+                <Video />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/messenger"
+            element={
+              <RequiredAuth>
+                <MobileConversation />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/messenger/:id"
+            element={
+              <RequiredAuth>
+                <MobileSpecificConversation />
+              </RequiredAuth>
+            }
+          />
+          <Route path="/profile/:id" element={<h1>Hellow form profile</h1>} />
+        </Routes>
+      </>
+    );
+  }
 
   return (
     <>
@@ -88,6 +144,7 @@ function App() {
             </RequiredAuth>
           }
         />
+        <Route path="/profile/:id" element={<h1>Hellow form profile</h1>} />
       </Routes>
     </>
   );

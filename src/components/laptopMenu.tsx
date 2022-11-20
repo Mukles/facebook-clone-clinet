@@ -186,7 +186,10 @@ const LaptopMenu = ({ setOpen }: Props) => {
             </Link>
           </li>
           <li className="nav-item">
-            <button onClick={() => setOpen(true)}>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setOpen(true)}
+            >
               <img
                 className="rounded-circle"
                 src={profile}
@@ -194,7 +197,7 @@ const LaptopMenu = ({ setOpen }: Props) => {
                 height={40}
                 alt={"profile"}
               />
-            </button>
+            </motion.button>
           </li>
         </ul>
       </div>

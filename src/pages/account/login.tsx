@@ -1,8 +1,7 @@
 import { Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { RootState } from "../../App/store";
 import logo from "../../assets/account/facebook.svg";
 import {
@@ -17,18 +16,11 @@ import Register from "./register";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [passwordShow, setPasswordShow] = useState(false);
   const { user, loading, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
-
-  useEffect(() => {
-    // if (user) {
-    //   navigator("/");
-    // }
-  }, [user, navigator]);
 
   return (
     <section className="login-container py-5 px-0 mx-0">
@@ -133,7 +125,7 @@ const Login = () => {
                           <div className="d-flex justify-content-center loader">
                             <div
                               className={`spinner-border ${
-                                isSubmitting && loading ? "d-flex" : "d-none"
+                                isSubmitting || loading ? "d-flex" : "d-none"
                               }`}
                               role="status"
                             >

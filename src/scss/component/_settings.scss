@@ -92,6 +92,7 @@
       &:not(:last-child) {
         margin-bottom: 10px;
       }
+
       .icon {
         &:first-child {
           background: #d8dadf;
@@ -120,6 +121,7 @@
     &.siblings {
       svg {
         width: 27px;
+        cursor: pointer;
       }
 
       h2 {

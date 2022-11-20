@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { authApi } from "../App/features/auth/authApi";
 import { userLogin } from "../App/features/auth/authSlice";
@@ -52,6 +53,16 @@ export const signUpWithPassword = async (userData: loginType) => {
 
 export const loginWithPassword = async (userData: loginType) => {
   await signInWithEmailAndPassword(auth, userData.email, userData.password);
+};
+
+export const logOut = async (dispatch: any) => {
+  try {
+    await signOut(auth);
+    return false;
+  } catch (error) {
+    dispatchError(error, dispatch);
+    return false;
+  }
 };
 
 const signInAndSignUp = async (data: any, dispatch: any) => {
