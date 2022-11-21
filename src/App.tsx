@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/header";
-import useWidth from "./hooks/useWith";
+import useWidth from "./hooks/useWidth";
 import Home from "./pages";
 import Login from "./pages/account/login";
 import Register from "./pages/account/register";
@@ -28,6 +28,7 @@ function App() {
   }, []);
 
   const width = useWidth();
+  console.log(width);
 
   if (width < 576) {
     return (

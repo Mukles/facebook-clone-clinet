@@ -2,16 +2,13 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import BarSvg from "../assets/Header/barSvg";
-import GammingSvg from "../assets/Header/GammingSvg";
-import GroupSvg from "../assets/Header/GroupSvg";
-import HomeSvg from "../assets/Header/homeSvg";
 import LogoSvg from "../assets/Header/logoSvg";
-import MarketPlaceSvg from "../assets/Header/marketPlaceSvg";
 import MenuSvg from "../assets/Header/MenuSvg";
 import MessengerSvg from "../assets/Header/messagerSvg";
 import NotificationSvg from "../assets/Header/notificationSvg";
-import VideoSvg from "../assets/Header/videsSvg";
 import profile from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
+import { header } from "../data/settings/header";
+import CustomeNav from "../utilities/navLink";
 
 interface Props {
   setOpen: any;
@@ -80,92 +77,9 @@ const LaptopMenu = ({ setOpen }: Props) => {
       {/* menu-bar */}
       <div className="d-flex justify-content-between nav-items-wrapper">
         <ul className="nav-itmes d-md-flex align-items-center justify-center d-none">
-          <li className="nav-item">
-            <Link to={"/"} className={`${pathname === "/" ? "active" : ""}`}>
-              <HomeSvg isActive={pathname === "/" ? true : false} />
-              {pathname === "/" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
-
-          <li className="nav-item">
-            <Link
-              to={"/videos"}
-              className={`${pathname === "/videos" ? "active" : ""}`}
-            >
-              <VideoSvg isActive={pathname === "/videos" ? true : false} />
-              {pathname === "/videos" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
-
-          <li className="nav-item">
-            <Link
-              to={"marketplace"}
-              className={`${pathname === "/marketplace" ? "active" : ""}`}
-            >
-              <MarketPlaceSvg />
-              {pathname === "/marketplace" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
-
-          <li className="nav-item d-none d-xl-block">
-            <Link
-              to={"groups"}
-              className={`${pathname === "/groups" ? "active" : ""}`}
-            >
-              <GroupSvg />
-              {pathname === "/groups" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
-
-          <li className="nav-item d-block d-xl-none">
-            <Link
-              to={"/bar"}
-              className={`${pathname === "/bar" ? "active" : ""}`}
-            >
-              <BarSvg />
-              {pathname === "/bar" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
-
-          <li className="nav-item d-none d-xl-block">
-            <Link
-              to={"/"}
-              className={`${pathname === "/gamming" ? "active" : ""}`}
-            >
-              <GammingSvg />
-              {pathname === "/gamming" && (
-                <motion.div
-                  className="underline"
-                  layoutId="underline"
-                ></motion.div>
-              )}
-            </Link>
-          </li>
+          {header.large.map((data) => {
+            return <CustomeNav key={data.id} {...data} />;
+          })}
         </ul>
 
         {/* acount-control */}

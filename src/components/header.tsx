@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../App/store";
-import useWidth from "../hooks/useWith";
+import useWidth from "../hooks/useWidth";
 import LaptopMenu from "./laptopMenu";
 import MobileMenu from "./mobileMenu";
 import Settings from "./settings/settings";
@@ -24,12 +24,17 @@ const Header = () => {
         ref.current?.classList.remove("shadow-bottom");
       }
     });
-  }, [pathname]);
+  }, [pathname, width]);
 
   const shadow = pathname === "/messenger" ? "shadow-bottom" : "";
   const display =
     pathname === "/account/login" ||
-   (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length && width < 576 )? "mobile-nav" : "";
+    (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length &&
+      width < 576)
+      ? "mobile-nav"
+      : "";
+
+  console.log("display", display);
 
   return (
     <>

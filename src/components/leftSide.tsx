@@ -1,9 +1,6 @@
-import groups from "../assets/leftside/groups.png";
-import marketplace from "../assets/leftside/market-place.png";
-import messenger from "../assets/leftside/messenger.png";
-import friends from "../assets/leftside/S0U5ECzYUSu.png";
-import watch from "../assets/leftside/videos.png";
+import { Link } from "react-router-dom";
 import profile from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
+import { leftSide } from "../data/sidebar/leftside";
 
 const LeftSide = () => {
   return (
@@ -18,29 +15,15 @@ const LeftSide = () => {
           <p className="m-0">Mukles Ali</p>
         </li>
         {/* icon */}
-        <li className="d-flex align-items-center gap-2">
-          <img width={36} height={36} src={friends} alt="freinds" />
-          <p className="mb-0">Friends</p>
-        </li>
-        {/* icon */}
-        <li className="d-flex align-items-center gap-2">
-          <img width={36} height={36} src={groups} alt="groups" />
-          <p className="mb-0">Groups</p>
-        </li>
-        {/* icon */}
-        <li className="d-flex align-items-center gap-2">
-          <img width={36} height={36} src={messenger} alt="messenger" />
-          <p className="mb-0">Messenger</p>
-        </li>
-        <li className="d-flex align-items-center gap-2">
-          <img width={36} height={36} src={marketplace} alt="market-place" />
-          <p className="mb-0">Marketplace</p>
-        </li>
-        {/* icon */}
-        <li className="d-flex align-items-center gap-2">
-          <img width={36} height={36} src={watch} alt="watch" />
-          <p className="mb-0">Watch</p>
-        </li>
+        {leftSide.map((item) => (
+          <li key={item.id}>
+            <Link to={item.url} className="d-flex align-items-center gap-2">
+              <img width={36} height={36} src={item.icon} alt={item.text} />
+              <p className="mb-0">{item.text}</p>
+            </Link>
+          </li>
+        ))}
+
         {/* button */}
         <li className="d-flex align-items-center gap-3">
           <button className="show-more">

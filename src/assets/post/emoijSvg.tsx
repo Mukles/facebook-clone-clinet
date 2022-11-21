@@ -1,14 +1,14 @@
 const EmoijSvg = () => {
   return (
     <svg fill="#EAB026" viewBox="0 0 24 24" width="1em" height="1em">
-      <g fill-rule="evenodd" transform="translate(-444 -156)">
+      <g fillRule="evenodd" transform="translate(-444 -156)">
         <g>
           <path
             d="M107.285 13c.49 0 .841.476.712.957-.623 2.324-2.837 4.043-5.473 4.043-2.636 0-4.85-1.719-5.473-4.043-.13-.48.222-.957.712-.957h9.522z"
             transform="translate(353.5 156.5)"
           ></path>
           <path
-            fill-rule="nonzero"
+            fillRule="nonzero"
             d="M114.024 11.5c0 6.351-5.149 11.5-11.5 11.5s-11.5-5.149-11.5-11.5S96.173 0 102.524 0s11.5 5.149 11.5 11.5zm-2 0a9.5 9.5 0 1 0-19 0 9.5 9.5 0 0 0 19 0z"
             transform="translate(353.5 156.5)"
           ></path>

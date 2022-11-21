@@ -1,5 +1,17 @@
 .right-side {
   position: fixed;
+  height: calc(100% - 67px);
+  overflow: hidden;
+  overflow-y: auto;
+  top: 68px;
+  right: 0;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .last-frd-req {
     .wrapper:hover {
