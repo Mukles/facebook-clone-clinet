@@ -42,6 +42,18 @@ ul {
   }
 }
 
+.input-container {
+  position: relative;
+  svg {
+    cursor: pointer;
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 .input-field {
   border: 2px solid #dddfe2;
   padding: 10px 12px;

@@ -43,18 +43,6 @@
       }
     }
 
-    .input-container {
-      position: relative;
-      svg {
-        cursor: pointer;
-        width: 30px;
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-
     .login-button {
       width: 100%;
       background-color: #1877f2;

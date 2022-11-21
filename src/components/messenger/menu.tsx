@@ -1,12 +1,10 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import useWidth from "../../hooks/useWith";
 import SingleChat from "./singChat";
 
 const MessengerMenu = () => {
   const ref = useRef<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const width = useWidth();
 
   useEffect(() => {
     ref.current?.addEventListener("scroll", function (e: any) {
@@ -100,11 +98,7 @@ const MessengerMenu = () => {
             .fill("")
             .map((conversation, idx) => (
               <Link
-                to={`${
-                  width < 768
-                    ? `/messenger/mobile/conversation/${idx + 1}`
-                    : `/messenger/${idx + 1}`
-                }`}
+                to={`/messenger/${idx + 1}`}
                 key={idx + 1}
                 className="text-decoration-none"
               >

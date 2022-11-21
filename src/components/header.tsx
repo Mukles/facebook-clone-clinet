@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../App/store";
+import useWidth from "../hooks/useWith";
 import LaptopMenu from "./laptopMenu";
 import MobileMenu from "./mobileMenu";
 import Settings from "./settings/settings";
@@ -10,6 +11,7 @@ import Settings from "./settings/settings";
 
 const Header = () => {
   const { loading } = useSelector<RootState, any>((state) => state.auth);
+  const width = useWidth();
   const [isOpen, setOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
   const ref = useRef<HTMLElement>(null);
@@ -27,10 +29,7 @@ const Header = () => {
   const shadow = pathname === "/messenger" ? "shadow-bottom" : "";
   const display =
     pathname === "/account/login" ||
-    pathname === "/messenger/mobile/conversation/[id]" ||
-    pathname === "/messenger/mobile/conversation"
-      ? "mobile-nav"
-      : "";
+   (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length && width < 576 )? "mobile-nav" : "";
 
   return (
     <>

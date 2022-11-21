@@ -6,6 +6,7 @@ import {
   authRequestHandler,
   signUpWithPassword,
 } from "../../service/authService";
+import Password from "../../utilities/password";
 import { registerSchema } from "../../validation/loginValidition";
 
 const Register = ({ setShow }: any) => {
@@ -99,20 +100,7 @@ const Register = ({ setShow }: any) => {
                 </div>
 
                 <div className="form-group">
-                  <FastField name="password">
-                    {({ field, meta }: any) => {
-                      return (
-                        <input
-                          {...field}
-                          type="password"
-                          className={`form-control input-field ${
-                            meta.touched && meta.error && "input-error"
-                          }`}
-                          placeholder="Password"
-                        />
-                      );
-                    }}
-                  </FastField>
+                  <Password values={values.values} />
                 </div>
                 <div className="form-group">
                   <FastField name="dateOfBrith">

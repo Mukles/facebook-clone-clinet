@@ -9,8 +9,9 @@ import NotificationSvg from "../assets/Header/notificationSvg";
 import VideoSvg from "../assets/Header/videsSvg";
 
 const MobileMenu = () => {
+
   return (
-    <div className="d-block d-sm-none mobile-nav pb-1">
+    <div className={`d-block d-sm-none mobile-nav pb-1`}>
       {/* top-header */}
       <div className="d-flex align-items-center justify-content-between">
         {/* logo */}

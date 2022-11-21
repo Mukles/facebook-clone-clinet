@@ -20,19 +20,28 @@ export const loginWithGoogle = async () => {
 export const onAuthChanged = (dispatch: any) => {
   onAuthStateChanged(auth, async (userCredential) => {
     if (userCredential) {
-      const data: any = store.getState().auth.formData;
-      const token = await userCredential.getIdToken();
-      const user = {
-        email: userCredential.email,
-        userName: userCredential.displayName,
-        provider: userCredential.providerId,
-      };
-      const dbUser = await signInAndSignUp(
-        { user: { ...user, ...data }, token },
-        dispatch
-      );
-      console.log("dbUser", dbUser);
-      dispatchSucess(dbUser?.user, token, dispatch);
+      try {
+        const data: any = store.getState().auth.formData;
+        const token = await userCredential.getIdToken();
+        const user = {
+          email: userCredential.email,
+          userName: userCredential.displayName,
+          provider: userCredential.providerId,
+        };
+        const result = await signInAndSignUp(
+          { user: { ...user, ...data }, token },
+          dispatch
+        );
+        if (result.user) {
+          dispatchSucess(result?.user, token, dispatch);
+        } else {
+          console.log(result);
+        }
+      } catch (error) {
+        dispatch(
+          userLogin({ user: null, token: null, loading: false, error: null })
+        );
+      }
     } else {
       dispatch(
         userLogin({ user: null, token: null, loading: false, error: null })

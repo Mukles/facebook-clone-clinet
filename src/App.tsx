@@ -128,22 +128,6 @@ function App() {
             </RequiredAuth>
           }
         />
-        <Route
-          path="/messenger/mobile/conversation"
-          element={
-            <RequiredAuth>
-              <MobileConversation />
-            </RequiredAuth>
-          }
-        />
-        <Route
-          path="/messenger/mobile/conversation/:id"
-          element={
-            <RequiredAuth>
-              <MobileSpecificConversation />
-            </RequiredAuth>
-          }
-        />
         <Route path="/profile/:id" element={<h1>Hellow form profile</h1>} />
       </Routes>
     </>
