@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect } from "react";
-
+import { AnimatePresence } from "framer-motion";
+import { cloneElement, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useRoutes } from "react-router-dom";
 import Header from "./components/header";
 import useWidth from "./hooks/useWidth";
 import Home from "./pages";
@@ -21,20 +21,75 @@ import RequiredAuth from "./utilities/requireAuth";
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     onAuthChanged(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const element: any = useRoutes([
+    {
+      path: "/",
+      element: (
+        <RequiredAuth>
+          <Home />
+        </RequiredAuth>
+      ),
+    },
+    {
+      path: "/account/login",
+      element: (
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      ),
+    },
+    {
+      path: "/account/register",
+      element: (
+        <PublicRoute>
+          <Register />
+        </PublicRoute>
+      ),
+    },
+    {
+      path: "/videos",
+      element: (
+        <RequiredAuth>
+          <Video />
+        </RequiredAuth>
+      ),
+    },
+    {
+      path: "/messenger",
+      element: (
+        <RequiredAuth>
+          <Messenger />
+        </RequiredAuth>
+      ),
+    },
+    {
+      path: "/messenger/:id",
+      element: (
+        <RequiredAuth>
+          <SpecificConversation />
+        </RequiredAuth>
+      ),
+    },
+    {
+      path: "/profile/:id",
+      element: <h1>Hellow form profile</h1>,
+    },
+  ]);
+
   const width = useWidth();
-  console.log(width);
 
   if (width < 576) {
     return (
-      <>
+      <AnimatePresence mode="wait" initial={false}>
         <Header />
-        <Routes>
+        <Routes location={location} key={location.pathname}>
           <Route
             path="/"
             element={
@@ -79,59 +134,15 @@ function App() {
           />
           <Route path="/profile/:id" element={<h1>Hellow form profile</h1>} />
         </Routes>
-      </>
+      </AnimatePresence>
     );
   }
 
   return (
-    <>
+    <AnimatePresence mode="wait" initial={false}>
+      {cloneElement(element, { key: location.pathname })}
       <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RequiredAuth>
-              <Home />
-            </RequiredAuth>
-          }
-        />
-
-        <Route
-          path="/account/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route path="/account/register" element={<Register />} />
-        <Route
-          path="/videos"
-          element={
-            <RequiredAuth>
-              <Video />
-            </RequiredAuth>
-          }
-        />
-        <Route
-          path="/messenger"
-          element={
-            <RequiredAuth>
-              <Messenger />
-            </RequiredAuth>
-          }
-        />
-        <Route
-          path="/messenger/:id"
-          element={
-            <RequiredAuth>
-              <SpecificConversation />
-            </RequiredAuth>
-          }
-        />
-        <Route path="/profile/:id" element={<h1>Hellow form profile</h1>} />
-      </Routes>
-    </>
+    </AnimatePresence>
   );
 }
 

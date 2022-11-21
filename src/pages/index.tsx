@@ -3,10 +3,12 @@ import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
 import RightSide from "../components/story/right-side";
 import Story from "../components/story/story";
+import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Home = () => {
   return (
     <div className="container-fluid nav-top">
+      <PrivacyScreen />
       <div className="row justify-content-between">
         <div className="col-3 d-none d-xl-block">
           <LeftSide />

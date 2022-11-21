@@ -1,9 +1,11 @@
 import Video from "../components/video/videos";
+import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Videos = () => {
   return (
-    <div className="container-folid mt-5 mt-5">
-      <div className="row mt-5 pt-4">
+    <div className="container-folid nav-top">
+      <PrivacyScreen />
+      <div className="row pt-2">
         <div className="col-3 bg-primary d-none d-md-block">
           <h1>Hellow</h1>
         </div>

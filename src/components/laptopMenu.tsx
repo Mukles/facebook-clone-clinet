@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BarSvg from "../assets/Header/barSvg";
 import LogoSvg from "../assets/Header/logoSvg";
 import MenuSvg from "../assets/Header/MenuSvg";
@@ -16,7 +16,6 @@ interface Props {
 
 const LaptopMenu = ({ setOpen }: Props) => {
   const [show, setShow] = useState(false);
-  const { pathname } = useLocation();
 
   return (
     <div className="nav-bar align-items-center justify-content-between d-none d-sm-flex">

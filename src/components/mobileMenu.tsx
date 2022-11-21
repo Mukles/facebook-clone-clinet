@@ -9,7 +9,6 @@ import NotificationSvg from "../assets/Header/notificationSvg";
 import VideoSvg from "../assets/Header/videsSvg";
 
 const MobileMenu = () => {
-
   return (
     <div className={`d-block d-sm-none mobile-nav pb-1`}>
       {/* top-header */}
@@ -58,7 +57,7 @@ const MobileMenu = () => {
 
         <li className="nav-item">
           <NavLink
-            to="/video"
+            to="/videos"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <VideoSvg />

@@ -7,7 +7,6 @@ import useWidth from "../hooks/useWidth";
 import LaptopMenu from "./laptopMenu";
 import MobileMenu from "./mobileMenu";
 import Settings from "./settings/settings";
-//import MobileMenu from "./mobileMenu";
 
 const Header = () => {
   const { loading } = useSelector<RootState, any>((state) => state.auth);
@@ -33,8 +32,6 @@ const Header = () => {
       width < 576)
       ? "mobile-nav"
       : "";
-
-  console.log("display", display);
 
   return (
     <>

@@ -1,5 +1,4 @@
 import Menu from "../../../components/messenger/menu";
-
 const MobileConversation = () => {
   return (
     <div className="container-fluid bg-white px-0">
