@@ -1,14 +1,13 @@
+import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { setIndex } from "../App/features/auth/authSlice";
 import logo from "../assets/Header/Facebook-Logo.png";
-import GammingSvg from "../assets/Header/GammingSvg";
-import GroupSvg from "../assets/Header/GroupSvg";
-import HomeSvg from "../assets/Header/homeSvg";
-import MarketPlaceSvg from "../assets/Header/marketPlaceSvg";
 import MessengerSvg from "../assets/Header/messagerSvg";
-import NotificationSvg from "../assets/Header/notificationSvg";
-import VideoSvg from "../assets/Header/videsSvg";
+import { header } from "../data/settings/header";
 
 const MobileMenu = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className={`d-block d-sm-none mobile-nav pb-1`}>
       {/* top-header */}
@@ -37,7 +36,11 @@ const MobileMenu = () => {
               />
             </svg>
           </div>
-          <Link to={"/messenger"} className="messenger-icon">
+          <Link
+            to={"/messenger"}
+            className="messenger-icon"
+            onClick={() => dispatch(setIndex(7))}
+          >
             <MessengerSvg />
           </Link>
         </div>
@@ -45,60 +48,23 @@ const MobileMenu = () => {
 
       {/* nav-items */}
       <ul className="nav-items pt-1 d-flex justify-content-between mobile-nav">
-        <li className="nav-item">
-          <NavLink
-            end
-            to="/"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <HomeSvg />
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to="/videos"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <VideoSvg />
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to={"/market-place"}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <MarketPlaceSvg />
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to={"/group"}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <GroupSvg />
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to={"/notification"}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <NotificationSvg color={"#fff"} />
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
-          <NavLink
-            to={"/gamming"}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <GammingSvg />
-          </NavLink>
-        </li>
+        {header.small.map((item) => {
+          return (
+            <li
+              className="nav-item"
+              key={item.id}
+              onClick={() => dispatch(setIndex(item.id))}
+            >
+              <NavLink
+                end
+                to={item.url}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                {item.icon}
+              </NavLink>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

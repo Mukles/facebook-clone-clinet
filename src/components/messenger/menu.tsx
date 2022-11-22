@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { setIndex } from "../../App/features/auth/authSlice";
 import SingleChat from "./singChat";
 
 const MessengerMenu = () => {
   const ref = useRef<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     ref.current?.addEventListener("scroll", function (e: any) {
@@ -101,6 +104,7 @@ const MessengerMenu = () => {
                 to={`/messenger/${idx + 1}`}
                 key={idx + 1}
                 className="text-decoration-none"
+                onClick={() => dispatch(setIndex(8))}
               >
                 <SingleChat />
               </Link>

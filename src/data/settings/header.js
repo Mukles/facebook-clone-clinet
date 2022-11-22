@@ -3,6 +3,7 @@ import GammingSvg from "../../assets/Header/GammingSvg";
 import GroupSvg from "../../assets/Header/GroupSvg";
 import HomeSvg from "../../assets/Header/homeSvg";
 import MarketPlaceSvg from "../../assets/Header/marketPlaceSvg";
+import NotificationSvg from "../../assets/Header/notificationSvg";
 import VideoSvg from "../../assets/Header/videsSvg";
 
 export const header = {
@@ -39,6 +40,38 @@ export const header = {
       Icon: GammingSvg,
       url: "/gamming",
       cls: "nav-item d-none d-xl-block",
+    },
+  ],
+  small: [
+    {
+      id: 1,
+      url: "/",
+      icon: <HomeSvg />,
+    },
+    {
+      id: 2,
+      url: "/videos",
+      icon: <VideoSvg />,
+    },
+    {
+      id: 3,
+      url: "/market-place",
+      icon: <MarketPlaceSvg />,
+    },
+    {
+      id: 4,
+      url: "/group",
+      icon: <GroupSvg />,
+    },
+    {
+      id: 5,
+      url: "/notification",
+      icon: <NotificationSvg />,
+    },
+    {
+      id: 6,
+      url: "/gamming",
+      icon: <GammingSvg />,
     },
   ],
 };

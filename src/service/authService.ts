@@ -32,10 +32,9 @@ export const onAuthChanged = (dispatch: any) => {
           { user: { ...user, ...data }, token },
           dispatch
         );
-        if (result.user) {
+
+        if (result) {
           dispatchSucess(result?.user, token, dispatch);
-        } else {
-          console.log(result);
         }
       } catch (error) {
         dispatch(
@@ -44,7 +43,12 @@ export const onAuthChanged = (dispatch: any) => {
       }
     } else {
       dispatch(
-        userLogin({ user: null, token: null, loading: false, error: null })
+        userLogin({
+          user: null,
+          token: null,
+          loading: false,
+          error: { messsage: "Something went worng" },
+        })
       );
     }
   });
@@ -79,7 +83,13 @@ const signInAndSignUp = async (data: any, dispatch: any) => {
     const result = await dispatch(
       authApi.endpoints.signInAndSignUp.initiate(data)
     );
-    return result.data;
+
+    if (result?.data) {
+      console.log("data exits");
+      return result.data;
+    }
+    //throw error if any error occure
+    throw new Error(result?.error?.data?.message || "Something went wrong");
   } catch (error) {
     dispatchError(error, dispatch);
   }
@@ -113,9 +123,8 @@ export const authRequestHandler = async (
   cb: any
 ) => {
   try {
-    const userCredential = await cb(userData);
-  } catch (error: any) {
-    console.log(error.message);
+    await cb(userData);
+  } catch (error) {
     dispatchError(error, dispatch);
   }
 };

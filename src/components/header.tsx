@@ -10,6 +10,7 @@ import Settings from "./settings/settings";
 
 const Header = () => {
   const { loading } = useSelector<RootState, any>((state) => state.auth);
+  console.log("header", loading);
   const width = useWidth();
   const [isOpen, setOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
@@ -23,7 +24,7 @@ const Header = () => {
         ref.current?.classList.remove("shadow-bottom");
       }
     });
-  }, [pathname, width]);
+  }, []);
 
   const shadow = pathname === "/messenger" ? "shadow-bottom" : "";
   const display =

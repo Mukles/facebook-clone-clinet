@@ -15,7 +15,7 @@ const PrivacyScreen = () => {
         transition: { duration: 0.5, ease: "circIn" },
       }}
       style={{ originX: isPresent ? 0 : 1 }}
-      className="privacy-screen"
+      className="privacy-screen d-none d-sm-block"
     />
   );
 };

@@ -1,17 +1,15 @@
 import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userLogin } from "../App/features/auth/authSlice";
-import { RootState } from "../App/store";
 
 const ErrorModal = ({ Error }: { Error: any }) => {
   const dispatch = useDispatch();
-  const error = useSelector<RootState>((state) => state.auth.error);
 
   return (
     <motion.div
       className="overlay"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: 1, transition: { delay: 0.5 } }}
       exit={{ opacity: 0 }}
     >
       <motion.div
