@@ -47,7 +47,6 @@ export const onAuthChanged = (dispatch: any) => {
           user: null,
           token: null,
           loading: false,
-          error: { messsage: "Something went worng" },
         })
       );
     }
@@ -85,7 +84,6 @@ const signInAndSignUp = async (data: any, dispatch: any) => {
     );
 
     if (result?.data) {
-      console.log("data exits");
       return result.data;
     }
     //throw error if any error occure

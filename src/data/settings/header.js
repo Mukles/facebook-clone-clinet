@@ -21,7 +21,7 @@ export const header = {
     {
       id: 3,
       Icon: MarketPlaceSvg,
-      url: "/marketplace",
+      url: "/market-place",
     },
     {
       id: 4,

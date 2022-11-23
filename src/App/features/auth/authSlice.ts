@@ -9,6 +9,7 @@ export const authSlice = createSlice({
     loading: true,
     formData: null,
     index: 1,
+    direction: -1,
   },
   reducers: {
     userLogin: (state, { payload }) => ({
@@ -18,12 +19,25 @@ export const authSlice = createSlice({
       token: payload.token,
       error: payload.error,
     }),
-    setIndex: (state, { payload }) => ({ ...state, index: payload }),
+
     setFormData: (state, { payload }) => ({
       ...state,
       formData: { ...payload },
     }),
+
+    setIndex: (state, { payload }) => {
+      let prev = state.index;
+      let direction = prev > payload ? -1 : 1;
+      return {
+        ...state,
+        prev,
+        direction,
+        index: payload,
+      };
+    },
+    setDirection: (state, { payload }) => ({ ...state, direction: payload }),
   },
 });
 
-export const { userLogin, setFormData, setIndex } = authSlice.actions;
+export const { userLogin, setFormData, setIndex, setDirection } =
+  authSlice.actions;

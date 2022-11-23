@@ -8,7 +8,7 @@ import PrivacyScreen from "../utilities/PrivacyScreen";
 const Home = () => {
   return (
     <div className="container-fluid nav-top">
-      <PrivacyScreen />
+      <PrivacyScreen key={"index"} />
       <div className="row justify-content-between">
         <div className="col-3 d-none d-xl-block">
           <LeftSide />

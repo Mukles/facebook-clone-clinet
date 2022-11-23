@@ -6,8 +6,7 @@ const RequiredAuth = ({ children }: { children: any }) => {
   const { loading, user, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
-  console.log(error);
-  console.log("isloading", loading);
+
   const location = useLocation();
 
   if (loading) {

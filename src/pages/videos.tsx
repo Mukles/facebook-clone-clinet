@@ -3,7 +3,7 @@ import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Videos = () => {
   return (
-    <div className="container-folid nav-top">
+    <div className="container-fluid nav-top">
       <PrivacyScreen />
       <div className="row pt-2">
         <div className="col-3 bg-primary d-none d-md-block">
