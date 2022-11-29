@@ -112,11 +112,18 @@
   .post-button {
     @include reset-button;
     margin-top: 10px;
+    padding: 11px;
     background: #1771e6;
     display: block;
     font-size: 14px;
     color: #fff;
     font-weight: 600;
+
+    &.disabled {
+      opacity: 0.5;
+      background: #e4e6eb;
+      color: $color-semibalck;
+    }
   }
 
   .profile img {

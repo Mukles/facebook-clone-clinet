@@ -10,6 +10,7 @@ export const postApi = apiSlice.injectEndpoints({
         headers: {
           "Content-Type": "multipart/form-data;",
         },
+        
       }),
     }),
   }),

@@ -1,33 +1,28 @@
-import { Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useAddMutation } from "../../App/features/post/postApi";
-import { setValues } from "../../App/features/post/postSlice";
-import { RootState } from "../../App/store";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
 import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import Upload from "../../utilities/upload";
 import { postSchema } from "../../validation/postValidation";
 
-let prev: string = "";
-
 const PostModal = ({ setShow }: any) => {
   const limit = 500;
   let prevText = "";
-  const dispatch = useDispatch();
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
   const [addPost, { isLoading, isError, isSuccess, data }] = useAddMutation();
-  const { caption } = useSelector<RootState, any>((state) => state.post);
 
-  function onTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  function onTextChange(
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    from: any
+  ) {
     const textarea = event.target;
     const text = textarea.value;
     const name = textarea.name;
-    dispatch(setValues({ name: text }));
+    from.form.setFieldValue(name, text);
     adjustHeight(text, textarea);
     adjustFont(text, textarea);
-    // font increase based on height;
   }
 
   function adjustHeight(value: string, textarea: HTMLTextAreaElement) {
@@ -66,7 +61,12 @@ const PostModal = ({ setShow }: any) => {
             image: null,
           }}
           validationSchema={postSchema}
-          onSubmit={() => {}}
+          onSubmit={({ image, caption }) => {
+            const formData = new FormData();
+            formData.append("img", image || "");
+            formData.append("caption", caption);
+            addPost(formData);
+          }}
         >
           {({ values, setValues, setFieldValue }) => {
             return (
@@ -93,13 +93,19 @@ const PostModal = ({ setShow }: any) => {
                 </div>
 
                 <div className="post-body px-3">
-                  <textarea
-                    name="caption"
-                    value={values.caption}
-                    onChange={onTextChange}
-                    className="w-100"
-                    placeholder={`What's on your mind, Mukles`}
-                  />
+                  <FastField name="caption">
+                    {(from: any) => {
+                      return (
+                        <textarea
+                          className="w-100"
+                          {...from.field}
+                          onChange={(event) => onTextChange(event, from)}
+                          placeholder={`What's on your mind, Mukles`}
+                        />
+                      );
+                    }}
+                  </FastField>
+
                   <AnimatePresence>
                     {isShowImgUploader && (
                       <Upload values={values} setFieldValue={setFieldValue} />
@@ -180,8 +186,11 @@ const PostModal = ({ setShow }: any) => {
                 </div>
                 <div className="mx-3">
                   <motion.button
+                    disabled={isLoading}
                     whileTap={{ scale: 0.9 }}
-                    className="post-button w-100 d-block rounded py-3"
+                    className={`post-button w-100 d-block rounded ${
+                      !(values.caption || values.image) && " disabled"
+                    }`}
                   >
                     Post
                   </motion.button>
