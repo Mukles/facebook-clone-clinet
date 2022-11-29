@@ -1,18 +1,26 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../App/store";
 import profile from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
 import { leftSide } from "../data/sidebar/leftside";
 
 const LeftSide = () => {
+  const { _id } = useSelector<RootState, any>((state) => state.auth.user);
   return (
     <div className="left-side">
       {/* left-side-icons-wrapper */}
       <ul className="d-flex flex-column gap-2">
         {/* icon */}
-        <li className="d-flex align-items-center gap-2">
-          <div className="profile d-flex align-items-center">
-            <img width={35} height={35} src={profile} alt="profile" />
-          </div>
-          <p className="m-0">Mukles Ali</p>
+        <li>
+          <Link
+            to={`/profile/${_id}`}
+            className="d-flex align-items-center gap-2"
+          >
+            <div className="profile d-flex align-items-center">
+              <img width={35} height={35} src={profile} alt="profile" />
+            </div>
+            <p className="m-0">Mukles Ali</p>
+          </Link>
         </li>
         {/* icon */}
         {leftSide.map((item) => (

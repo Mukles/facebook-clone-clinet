@@ -1,7 +1,9 @@
 import { FastField, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useAddMutation } from "../../App/features/post/postApi";
+import { RootState } from "../../App/store";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
 import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import Upload from "../../utilities/upload";
@@ -12,6 +14,7 @@ const PostModal = ({ setShow }: any) => {
   let prevText = "";
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
   const [addPost, { isLoading, isError, isSuccess, data }] = useAddMutation();
+  const { email } = useSelector<RootState, any>((state) => state.auth.user);
 
   function onTextChange(
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -63,6 +66,7 @@ const PostModal = ({ setShow }: any) => {
           validationSchema={postSchema}
           onSubmit={({ image, caption }) => {
             const formData = new FormData();
+            formData.append("email", email);
             formData.append("img", image || "");
             formData.append("caption", caption);
             addPost(formData);
@@ -116,12 +120,15 @@ const PostModal = ({ setShow }: any) => {
                   <h6 className="ps-3 mb-0">Add to your post</h6>
                   <ul className="post-footer-icons d-flex pe-3">
                     <li>
-                      <button onClick={() => setShowImgUploader(true)}>
+                      <button
+                        type="button"
+                        onClick={() => setShowImgUploader(true)}
+                      >
                         <SelectImgSvg />
                       </button>
                     </li>
                     <li>
-                      <button>
+                      <button type="button">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -133,7 +140,7 @@ const PostModal = ({ setShow }: any) => {
                       </button>
                     </li>
                     <li>
-                      <button>
+                      <button type="button">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -151,7 +158,7 @@ const PostModal = ({ setShow }: any) => {
                       </button>
                     </li>
                     <li>
-                      <button>
+                      <button type="button">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
