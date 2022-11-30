@@ -6,6 +6,7 @@ import Messenger from "../../pages/messenger/index";
 import MobileConversation from "../../pages/messenger/mobile/conversation";
 import MobileSpecificConversation from "../../pages/messenger/mobile/[id]";
 import SpecificConversation from "../../pages/messenger/[id]";
+import Profile from "../../pages/profile";
 import Videos from "../../pages/videos.tsx";
 import Animated from "../../utilities/Animate";
 import PublicRoute from "../../utilities/publicRoute";
@@ -70,7 +71,11 @@ export const largeDevicesRoutes = [
   },
   {
     path: "/profile/:id",
-    element: <h1>Hellow form profile</h1>,
+    element: (
+      <RequiredAuth>
+        <Profile />
+      </RequiredAuth>
+    ),
   },
   {
     path: "*",
@@ -135,9 +140,14 @@ export const smallDevicesRoutes = [
       </RequiredAuth>
     ),
   },
+  {},
   {
     path: "/profile/:id",
-    element: <h1>Hellow form profile</h1>,
+    element: (
+      <RequiredAuth>
+        <Profile />
+      </RequiredAuth>
+    ),
   },
   {
     path: "*",

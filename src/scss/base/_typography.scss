@@ -25,6 +25,10 @@ body {
   background-color: $semiWhite-color;
 }
 
+img {
+  max-width: 100%;
+}
+
 ul {
   @include reset-ul;
   list-style: none;

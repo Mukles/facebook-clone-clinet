@@ -25,7 +25,9 @@ const Header = () => {
     });
   }, []);
 
-  const shadow = pathname === "/messenger" ? "shadow-bottom" : "";
+  const shadow = pathname.match(/\/messenger|profile/gi)?.length
+    ? "shadow-bottom"
+    : "";
   const display =
     pathname === "/account/login" ||
     (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length &&
