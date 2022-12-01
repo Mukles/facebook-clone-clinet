@@ -41,7 +41,7 @@ const Post = () => {
           tai, sobai dowa korben amader jonno.
         </p>
         {/* image */}
-        <img src={img} alt="post" />
+        <img className="w-100" src={img} alt="post" />
       </div>
       {/* post-footer */}
       <div className="post-footer">

@@ -43,4 +43,9 @@
       font-weight: 500;
     }
   }
+
+  .post-body img {
+    max-height: 600px;
+    object-fit: cover;
+  }
 }
