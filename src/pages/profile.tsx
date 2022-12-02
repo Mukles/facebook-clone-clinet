@@ -1,9 +1,22 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useGetPostsQuery } from "../App/features/post/postApi";
+import { RootState } from "../App/store";
 import Image from "../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
+import WithFileUpload from "../HOC/withFileUpload";
 
 const Profile = () => {
+  const {
+    _id: userId,
+    email,
+    userName,
+  } = useSelector<RootState, any>((state) => state.auth.user);
+
+  const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
+  console.log(posts);
+
   return (
     <section id="profile">
       <div className="background-color">
@@ -43,7 +56,7 @@ const Profile = () => {
                   src="https://scontent.fdac1-1.fna.fbcdn.net/v/t1.6435-9/103130336_751185818958781_7428316446390233982_n.jpg?stp=dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGmuAezhvbpdQTfuPNWMkd19UcG3qxQ8b_1RwberFDxv_wX0tlVzL5QP49cMPqoZjI50_pweGk2U737ICX1Kzh9&_nc_ohc=zgEcGBTO8KsAX-eu-z-&_nc_ht=scontent.fdac1-1.fna&oh=00_AfB50SUWSAGBtMita2MFwh-L3Yd7iwP9UHqY7As01wAXfg&oe=63AE7B1F"
                   alt="conver-photo"
                 />
-                <butotn className="profile-change">
+                <button className="profile-change">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -57,12 +70,12 @@ const Profile = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                </butotn>
+                </button>
               </div>
 
               <div className="profile-details-wrapper">
                 <div>
-                  <h2>Your Name</h2>
+                  <h2>{userName}</h2>
                   <span className="mutual-frd">782 friends</span>
                   <ul className="friend-list">
                     <li>
@@ -196,8 +209,14 @@ const Profile = () => {
             </div>
             <div className="col">
               <CreatePost />
-              <Post />
-              <Post />
+              {posts?.map((post: any, index: number) => (
+                <Post
+                  key={index}
+                  caption={post.caption}
+                  img={post.img}
+                  id={post._id}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -206,4 +225,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default WithFileUpload(Profile);

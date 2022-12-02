@@ -9,7 +9,23 @@ export const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    getPosts: build.query({
+      query: (data) => ({
+        url: "/post",
+        method: "GET",
+        params: data,
+      }),
+    }),
+    deltePost: build.mutation({
+      query: (data) => ({
+        url: `/post/${data.id}`,
+        method: "DELETE",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useAddMutation } = postApi;
+export const { useAddMutation, useGetPostsQuery, useDeltePostMutation } =
+  postApi;

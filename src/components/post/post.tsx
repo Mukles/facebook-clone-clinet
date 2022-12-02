@@ -1,3 +1,5 @@
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import angery from "../../assets/post/angery.svg";
 import care from "../../assets/post/care.svg";
 import love from "../../assets/post/download.svg";
@@ -5,16 +7,45 @@ import haha from "../../assets/post/haha.svg";
 import like from "../../assets/post/like.svg";
 import sad from "../../assets/post/sad.svg";
 import wow from "../../assets/post/wow.svg";
-import img from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
+import DeleteConfirmation from "../../utilities/deleteConfirmation";
 import Profile from "../../utilities/profile";
+import Option from "./option";
 
-const Post = () => {
+interface Props {
+  caption?: string;
+  img?: string;
+  id?: string;
+}
+
+const Post = ({ caption, img, id }: Props) => {
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const [delteReq, setDeleteReq] = useState<boolean>(false);
+
   return (
-    <div className="single-post mt-4 py-4 rounded">
+    <div
+      className="single-post mt-4 py-4 rounded"
+      onClick={() => {
+        if (isOpen) {
+          setOpen(false);
+        }
+      }}
+    >
+      {/* option */}
+      <AnimatePresence initial>
+        {isOpen && <Option setDeleteReq={setDeleteReq} />}
+        {delteReq && (
+          <DeleteConfirmation
+            key="delete"
+            setDeleteReq={setDeleteReq}
+            id={id}
+          />
+        )}
+      </AnimatePresence>
+
       {/* header */}
       <div className="profile-details d-flex align-items-center justify-content-between px-2">
         <Profile />
-        <div className="ellipsis-horizontal">
+        <button className="ellipsis-horizontal" onClick={() => setOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -29,17 +60,12 @@ const Post = () => {
               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
             />
           </svg>
-        </div>
+        </button>
       </div>
       {/* post-body */}
       <div className="post-body mt-2">
         {/* title */}
-        <p className="post-title px-2">
-          Amar husbandc amk kaje onek sahajjo kore😍😍😍. gram theke mehoman
-          asbe , tar abar office er new time Friday te office ase ajonno se
-          piyaj ada rosun kete dissilo .asole amar choto baby ase eka parbona
-          tai, sobai dowa korben amader jonno.
-        </p>
+        <p className="post-title px-2">{caption}</p>
         {/* image */}
         <img className="w-100" src={img} alt="post" />
       </div>

@@ -1,0 +1,71 @@
+.delete {
+  max-width: 600px;
+  width: 100%;
+  background: #fff;
+  margin: auto;
+  padding: 20px;
+  position: relative;
+
+  h2 {
+    font-weight: 700;
+    line-height: 24px;
+    font-size: 20px;
+    color: $color-semibalck;
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $color-gray;
+  }
+
+  .close {
+    position: absolute;
+    right: 16px;
+    top: 21px;
+    background-color: $color-gray;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: calc(100% - 10px);
+      height: calc(100% - 10px);
+      stroke-width: 3px;
+      border-radius: 50%;
+    }
+  }
+
+  .delete-body {
+    font-size: 14px;
+    line-height: 19px;
+    color: $color-semibalck;
+    font-weight: 400;
+  }
+
+  .delete-fotter {
+    text-align: right;
+
+    button:first-child {
+      margin-right: 10px;
+      background-color: transparent;
+      color: $brand-color;
+      padding: 13px;
+
+      &:hover {
+        background-color: $color-gray;
+      }
+    }
+
+    button {
+      @include reset-button;
+      background-color: $brand-color;
+      padding: 10px;
+      font-size: 16px;
+      line-height: 12px;
+      font-weight: 400;
+      padding: 12px 30px;
+      color: $color-white;
+    }
+  }
+}

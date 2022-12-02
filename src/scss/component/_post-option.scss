@@ -1,0 +1,36 @@
+.post-option {
+  background-color: $color-white;
+  position: absolute;
+  right: 16px;
+  top: 70px;
+  border-radius: 8px;
+  padding: 20px 20px;
+  z-index: 10;
+
+  ul li {
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    button {
+      @include reset-button;
+      background-color: transparent;
+      display: flex;
+      color: $color-semibalck;
+      font-size: 14px;
+      line-height: 19px;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span:not(:last-child) {
+        margin-right: 10px;
+      }
+
+      svg {
+        width: 25px;
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ const CreatePost = () => {
   const { _id } = useSelector<RootState, any>((state) => state.auth.user);
 
   return (
-    <LayoutGroup>
+    <LayoutGroup inherit={false}>
       <motion.div layoutId="post-modal" className="create-post mt-3">
         <AnimatePresence initial={false}>
           {show && <PostModal setShow={setShow} />}
