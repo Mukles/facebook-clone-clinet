@@ -10,16 +10,18 @@ import wow from "../../assets/post/wow.svg";
 import DeleteConfirmation from "../../utilities/deleteConfirmation";
 import Profile from "../../utilities/profile";
 import Option from "./option";
+import PostModal from "./postModal";
 
 interface Props {
-  caption?: string;
-  img?: string;
-  id?: string;
+  post?: any;
 }
 
-const Post = ({ caption, img, id }: Props) => {
+const Post = ({ post }: Props) => {
+  const { img, caption, _id: id }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
+  const [isEditAble, setEditAble] = useState<boolean>(false);
+  console.log("post types", typeof img);
 
   return (
     <div
@@ -32,7 +34,9 @@ const Post = ({ caption, img, id }: Props) => {
     >
       {/* option */}
       <AnimatePresence initial>
-        {isOpen && <Option setDeleteReq={setDeleteReq} />}
+        {isOpen && (
+          <Option setDeleteReq={setDeleteReq} setEditAble={setEditAble} />
+        )}
         {delteReq && (
           <DeleteConfirmation
             key="delete"
@@ -40,6 +44,7 @@ const Post = ({ caption, img, id }: Props) => {
             id={id}
           />
         )}
+        {isEditAble && <PostModal post={post} setShow={setEditAble} />}
       </AnimatePresence>
 
       {/* header */}
@@ -67,7 +72,7 @@ const Post = ({ caption, img, id }: Props) => {
         {/* title */}
         <p className="post-title px-2">{caption}</p>
         {/* image */}
-        <img className="w-100" src={img} alt="post" />
+        {img && <img className="w-100" src={img} alt="post" />}
       </div>
       {/* post-footer */}
       <div className="post-footer">

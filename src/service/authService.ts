@@ -23,6 +23,7 @@ export const onAuthChanged = (dispatch: any) => {
       try {
         const data: any = store.getState().auth.formData;
         const token = await userCredential.getIdToken();
+        console.log("token", token);
         const user = {
           email: userCredential.email,
           userName: userCredential.displayName,

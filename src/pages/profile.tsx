@@ -13,9 +13,7 @@ const Profile = () => {
     email,
     userName,
   } = useSelector<RootState, any>((state) => state.auth.user);
-
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
-  console.log(posts);
 
   return (
     <section id="profile">
@@ -210,12 +208,7 @@ const Profile = () => {
             <div className="col">
               <CreatePost />
               {posts?.map((post: any, index: number) => (
-                <Post
-                  key={index}
-                  caption={post.caption}
-                  img={post.img}
-                  id={post._id}
-                />
+                <Post key={index} post={post} />
               ))}
             </div>
           </div>

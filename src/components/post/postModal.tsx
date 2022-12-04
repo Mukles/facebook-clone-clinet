@@ -2,18 +2,42 @@ import { FastField, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useAddMutation } from "../../App/features/post/postApi";
+import {
+  useAddMutation,
+  useEditPostMutation,
+} from "../../App/features/post/postApi";
 import { RootState } from "../../App/store";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
 import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
+import { userTypes } from "../../types/userTypes";
 import Upload from "../../utilities/upload";
 import { postSchema } from "../../validation/postValidation";
 
-const PostModal = ({ setShow }: any) => {
+interface Props {
+  setShow: any;
+  post?: any;
+}
+
+const PostModal = ({ setShow, post }: Props) => {
   const limit = 500;
   let prevText = "";
+  const { caption, img, _id } = post || {};
+
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
+  const { _id: userId } = useSelector<RootState, userTypes | any>(
+    (state) => state.auth.user
+  );
   const [addPost, { isLoading, isError, isSuccess, data }] = useAddMutation();
+  const [
+    editPost,
+    {
+      isLoading: isEditLoading,
+      isError: isEditError,
+      isSuccess: isEditSuccess,
+      data: editData,
+    },
+  ] = useEditPostMutation();
+
   const { email } = useSelector<RootState, any>((state) => state.auth.user);
 
   function onTextChange(
@@ -42,8 +66,11 @@ const PostModal = ({ setShow }: any) => {
   }
 
   return (
-    <motion.div className="overlay py-5">
+    <motion.div className="overlay py-5" onClick={() => setShow(false)}>
       <motion.div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
         className="post-modal shadow-lg py-2"
         initial={{ opacity: 0, y: "100%" }}
         animate={{ opacity: 1, y: 0 }}
@@ -60,16 +87,26 @@ const PostModal = ({ setShow }: any) => {
       >
         <Formik
           initialValues={{
-            caption: "",
-            image: null,
+            caption: caption || "",
+            image: img || null,
           }}
           validationSchema={postSchema}
           onSubmit={({ image, caption }) => {
+            console.log("I am here", image);
             const formData = new FormData();
             formData.append("email", email);
-            formData.append("img", image || "");
+            formData.append("img", image);
             formData.append("caption", caption);
-            addPost(formData);
+            formData.append("postId", _id);
+            formData.append("userId", userId);
+
+            console.log(formData.get("img"));
+
+            if (_id) {
+              editPost(formData);
+            } else {
+              addPost(formData);
+            }
           }}
         >
           {({ values, setValues, setFieldValue }) => {
@@ -84,7 +121,11 @@ const PostModal = ({ setShow }: any) => {
                 <hr className="m-0" />
                 <div className="user-post-header d-flex gap-2 px-3 pt-3">
                   <div className="profile border-0 d-inline">
-                    <img className="rounded-full" src={profile} alt={"user"} />
+                    <img
+                      className="rounded-circle"
+                      src={profile}
+                      alt={"user"}
+                    />
                   </div>
                   <div className="user-info">
                     <p className="m-0">Mukles Ali</p>
@@ -111,7 +152,7 @@ const PostModal = ({ setShow }: any) => {
                   </FastField>
 
                   <AnimatePresence>
-                    {isShowImgUploader && (
+                    {(isShowImgUploader || img) && (
                       <Upload values={values} setFieldValue={setFieldValue} />
                     )}
                   </AnimatePresence>
@@ -199,7 +240,7 @@ const PostModal = ({ setShow }: any) => {
                       !(values.caption || values.image) && " disabled"
                     }`}
                   >
-                    Post
+                    {_id ? "Save" : "Post"}
                   </motion.button>
                 </div>
               </Form>

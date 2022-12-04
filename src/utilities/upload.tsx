@@ -41,9 +41,13 @@ const Upload = ({ values, setFieldValue }: props) => {
           name="file-upload"
           type={"file"}
         />
-        {preview && (
+        {(preview || values.image) && (
           <>
-            <img className="preview-image" src={preview} alt={preview?.name} />
+            <img
+              className="preview-image"
+              src={preview || values.image}
+              alt={preview?.name}
+            />
             <button type="button" className="close" onClick={onPreviewHide}>
               <i className="fa fa-times"></i>
             </button>

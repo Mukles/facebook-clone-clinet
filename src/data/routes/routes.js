@@ -1,4 +1,5 @@
 import Home from "../../pages";
+import NotFound from "../../pages/404";
 import Login from "../../pages/account/login";
 import Register from "../../pages/account/register";
 import MarketPlace from "../../pages/market-place";
@@ -79,7 +80,7 @@ export const largeDevicesRoutes = [
   },
   {
     path: "*",
-    element: <h1 className="nav-top">I am form not found</h1>,
+    element: <NotFound />,
   },
 ];
 

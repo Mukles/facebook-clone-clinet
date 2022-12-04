@@ -1,3 +1,5 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { Bars } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { RootState } from "../App/store";
@@ -8,7 +10,26 @@ const PublicRoute = ({ children }: Props): React.ReactElement => {
   const { loading, user } = useSelector<RootState, any>((state) => state.auth);
 
   if (loading && !user) {
-    return <h1>Loading....</h1>;
+    return (
+      <AnimatePresence>
+        <motion.div
+          className="loader"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Bars
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="bars-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </motion.div>
+      </AnimatePresence>
+    );
   }
 
   if (!loading && user) {

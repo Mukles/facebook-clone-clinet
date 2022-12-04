@@ -17,6 +17,7 @@ export const postApi = apiSlice.injectEndpoints({
         params: data,
       }),
     }),
+
     deltePost: build.mutation({
       query: (data) => ({
         url: `/post/${data.id}`,
@@ -24,8 +25,29 @@ export const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    editPost: build.mutation({
+      query: (formData: any) => {
+        const id: string = formData.get("postId");
+        const img = formData.get("img");
+
+        const method = !img?.type ? "PUT" : "PATCH";
+
+        console.log(method);
+
+        return {
+          url: `post/${id}`,
+          method,
+          body: formData,
+        };
+      },
+    }),
   }),
 });
 
-export const { useAddMutation, useGetPostsQuery, useDeltePostMutation } =
-  postApi;
+export const {
+  useAddMutation,
+  useGetPostsQuery,
+  useEditPostMutation,
+  useDeltePostMutation,
+} = postApi;
