@@ -30,10 +30,7 @@ export const postApi = apiSlice.injectEndpoints({
       query: (formData: any) => {
         const id: string = formData.get("postId");
         const img = formData.get("img");
-
         const method = !img?.type ? "PUT" : "PATCH";
-
-        console.log(method);
 
         return {
           url: `post/${id}`,
