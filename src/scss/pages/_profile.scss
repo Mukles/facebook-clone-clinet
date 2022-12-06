@@ -61,7 +61,7 @@
   margin: auto;
 
   .cover-photo {
-    img {
+    & > img {
       height: 50vw;
       max-height: 350px;
       width: 100%;
@@ -72,7 +72,7 @@
 
     position: relative;
 
-    button {
+    & > button {
       @include reset-button;
       position: absolute;
       right: 12px;

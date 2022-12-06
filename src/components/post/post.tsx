@@ -22,16 +22,16 @@ const Post = ({ post }: Props) => {
   const [delteReq, setDeleteReq] = useState<boolean>(false);
   const [isEditAble, setEditAble] = useState<boolean>(false);
   console.log("post types", typeof img);
-
   return (
-    <div
-      className="single-post mt-4 py-4 rounded"
-      onClick={() => {
-        if (isOpen) {
-          setOpen(false);
-        }
-      }}
-    >
+    <div className="single-post mt-4 py-4 rounded">
+      {isOpen && (
+        <div
+          className="w-100 h-100 position-fixed  top-0 start-0"
+          onClick={() => {
+            setOpen(false);
+          }}
+        ></div>
+      )}
       {/* option */}
       <AnimatePresence initial>
         {isOpen && (
