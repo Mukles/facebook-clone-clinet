@@ -3,9 +3,14 @@ import { motion } from "framer-motion";
 interface Props {
   setOpen: any;
   setSlectedPhtosOpen: any;
+  isProfileChange: boolean;
 }
 
-const AvaterChanged = ({ setOpen, setSlectedPhtosOpen }: Props) => {
+const AvaterChanged = ({
+  setOpen,
+  setSlectedPhtosOpen,
+  isProfileChange,
+}: Props) => {
   return (
     <>
       <div
@@ -20,7 +25,9 @@ const AvaterChanged = ({ setOpen, setSlectedPhtosOpen }: Props) => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.2 } }}
-        className="avater-dropdown rounded shadow-lg"
+        className={`avater-dropdown rounded shadow-lg ${
+          isProfileChange ? "profile" : ""
+        }`}
       >
         <li>
           <button onClick={() => setSlectedPhtosOpen(true)}>

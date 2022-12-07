@@ -21,7 +21,7 @@ const Post = ({ post }: Props) => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
   const [isEditAble, setEditAble] = useState<boolean>(false);
-  console.log("post types", typeof img);
+
   return (
     <div className="single-post mt-4 py-4 rounded">
       {isOpen && (
@@ -44,7 +44,9 @@ const Post = ({ post }: Props) => {
             id={id}
           />
         )}
-        {isEditAble && <PostModal post={post} setShow={setEditAble} />}
+        {isEditAble && (
+          <PostModal key={"post"} post={post} setShow={setEditAble} />
+        )}
       </AnimatePresence>
 
       {/* header */}

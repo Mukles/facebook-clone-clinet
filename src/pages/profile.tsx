@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
@@ -20,6 +20,13 @@ const Profile = () => {
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isSlectedPhtosOpen, setSlectedPhtosOpen] = useState<boolean>(false);
+  const [isProfileChange, setProfileChange] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isSlectedPhtosOpen) {
+      setOpen(false);
+    }
+  }, [isSlectedPhtosOpen, setOpen]);
 
   return (
     <section id="profile">
@@ -34,7 +41,10 @@ const Profile = () => {
               <button
                 type="button"
                 className="edit-cover"
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                  setProfileChange(false);
+                  setOpen(true);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +68,9 @@ const Profile = () => {
                 <span> Edit conver photo</span>
               </button>
               <AnimatePresence>
-                {(isOpen && !isSlectedPhtosOpen) && (
+                {isOpen && !isSlectedPhtosOpen && (
                   <AvaterChanged
+                    isProfileChange={isProfileChange}
                     setOpen={setOpen}
                     setSlectedPhtosOpen={setSlectedPhtosOpen}
                   />
@@ -75,7 +86,13 @@ const Profile = () => {
                   src="https://scontent.fdac1-1.fna.fbcdn.net/v/t1.6435-9/103130336_751185818958781_7428316446390233982_n.jpg?stp=dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGmuAezhvbpdQTfuPNWMkd19UcG3qxQ8b_1RwberFDxv_wX0tlVzL5QP49cMPqoZjI50_pweGk2U737ICX1Kzh9&_nc_ohc=zgEcGBTO8KsAX-eu-z-&_nc_ht=scontent.fdac1-1.fna&oh=00_AfB50SUWSAGBtMita2MFwh-L3Yd7iwP9UHqY7As01wAXfg&oe=63AE7B1F"
                   alt="conver-photo"
                 />
-                <button className="profile-change">
+                <button
+                  className="profile-change"
+                  onClick={() => {
+                    setProfileChange(true);
+                    setOpen(true);
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

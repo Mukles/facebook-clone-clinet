@@ -129,7 +129,7 @@ const PostModal = ({ setShow, post }: Props) => {
                   </div>
                   <div className="user-info">
                     <p className="m-0">Mukles Ali</p>
-                    <button className="btn">
+                    <button type="button" className="btn">
                       <i className="fas fa-globe-americas"></i>
                       <span className="mx-1">Public</span>
                       <i className="fas fa-caret-down"></i>

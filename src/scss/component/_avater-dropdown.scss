@@ -10,6 +10,18 @@
   overflow: hidden;
   background-color: $color-white;
 
+  &.profile {
+    left: 21%;
+    bottom: -276px;
+    top: initial;
+    right: initial;
+
+    @media (max-width: $sm) {
+      bottom: -276px;
+      top: initial;
+    }
+  }
+
   li:not(:last-child) {
     margin-bottom: 15px;
   }
