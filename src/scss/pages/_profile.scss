@@ -1,6 +1,59 @@
 .background-color {
   background-color: $color-white;
 
+  .conver-photo-change {
+    position: absolute;
+    top: 65px;
+    padding: 10px;
+    background: rgba($color: $color-semibalck, $alpha: 0.75);
+    width: 100%;
+    z-index: 99;
+
+    i {
+      font-size: 23px;
+    }
+
+    p {
+      margin: 0;
+      margin-left: 12px;
+      font-size: 14px;
+      line-height: 19px;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    button {
+      @include reset-button;
+      font-weight: 600;
+      line-height: 19px;
+      font-size: 14px;
+      padding: 10px;
+      padding-inline: 40px;
+      border-radius: 8px;
+
+      &:first-child {
+        background-color: rgba($color: $color-white, $alpha: 0.2);
+        margin-right: 12px;
+
+        &:hover {
+          background-color: rgba($color: $color-white, $alpha: 0.3);
+        }
+      }
+
+      &:last-child {
+        background-color: rgba($color: $brand-color, $alpha: 0.85);
+
+        &:hover {
+          background-color: rgba($color: $brand-color, $alpha: 1);
+        }
+      }
+    }
+
+    * {
+      color: $color-white;
+    }
+  }
+
   .nav-bottom {
     position: relative;
     margin-top: -20px;
@@ -192,6 +245,7 @@
 
       @media (max-width: $sm) {
         margin-bottom: 10px;
+        justify-content: center;
       }
 
       li {

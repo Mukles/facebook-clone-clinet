@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 interface Props {
   setOpen: any;
   setSlectedPhtosOpen: any;
+  setCoverPhotoPreview: any;
+  setConverPhoto: any;
   isProfileChange: boolean;
 }
 
@@ -10,7 +12,19 @@ const AvaterChanged = ({
   setOpen,
   setSlectedPhtosOpen,
   isProfileChange,
+  setCoverPhotoPreview,
+  setConverPhoto,
 }: Props) => {
+  function onFileLoad(event: React.SyntheticEvent<HTMLInputElement>) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList?.length && fileList != null) {
+      const fileinfo: File | null = fileList.length ? fileList[0] : null;
+      setConverPhoto(fileinfo);
+      setCoverPhotoPreview(URL.createObjectURL(fileinfo as any));
+    }
+  }
+
   return (
     <>
       <div
@@ -66,6 +80,7 @@ const AvaterChanged = ({
             </svg>
             <span>Upload Photos</span>
             <input
+              onChange={onFileLoad}
               title=""
               className="position-absolute top-0 start-0 opacity-0 cursor-pointer"
               type={"file"}

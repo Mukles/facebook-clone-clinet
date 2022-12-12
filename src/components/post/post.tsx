@@ -51,7 +51,7 @@ const Post = ({ post }: Props) => {
 
       {/* header */}
       <div className="profile-details d-flex align-items-center justify-content-between px-2">
-        <Profile />
+        <Profile title={post?.title} createdAt={post?.createdAt} />
         <button className="ellipsis-horizontal" onClick={() => setOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

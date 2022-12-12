@@ -77,6 +77,12 @@ export const largeDevicesRoutes = [
         <Profile />
       </RequiredAuth>
     ),
+    children: [
+      {
+        path: "about",
+        element: <h1> I am form about</h1>,
+      },
+    ],
   },
   {
     path: "*",

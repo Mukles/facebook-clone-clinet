@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   useAddMutation,
-  useEditPostMutation,
+  useEditPostMutation
 } from "../../App/features/post/postApi";
 import { RootState } from "../../App/store";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
@@ -114,7 +114,7 @@ const PostModal = ({ setShow, post }: Props) => {
               <Form>
                 <div className="post-header px-3 position-relative py-2">
                   <h3 className="text-cetner">Create Post</h3>
-                  <button className="close" onClick={() => setShow(false)}>
+                  <button type='button' className="close" onClick={() => setShow(false)}>
                     <i className="fa fa-times"></i>
                   </button>
                 </div>

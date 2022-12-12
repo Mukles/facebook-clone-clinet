@@ -1,16 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type User = {
+  _id: string | null;
+  userName: string | null;
+  email: string | null;
+  profilePicture: string | null;
+  converPicture: string | null;
+};
+
+const user: User = {
+  _id: null,
+  userName: null,
+  email: null,
+  profilePicture: null,
+  converPicture: null,
+};
+
+const initialState = {
+  error: null,
+  user,
+  token: null,
+  loading: true,
+  formData: null,
+  index: 1,
+  direction: -1,
+};
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    error: null,
-    user: null,
-    token: null,
-    loading: true,
-    formData: null,
-    index: 1,
-    direction: -1,
-  },
+  initialState,
   reducers: {
     userLogin: (state, { payload }) => ({
       ...state,
@@ -24,6 +42,9 @@ export const authSlice = createSlice({
       ...state,
       formData: { ...payload },
     }),
+
+    setCoverPicture: (state, { payload }) =>
+      (state.user.converPicture = payload),
 
     setIndex: (state, { payload }) => {
       let prev = state.index;

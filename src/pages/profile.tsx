@@ -1,8 +1,9 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
+import { useCoverChangeMutation } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 import Image from "../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import CreatePost from "../components/post/createPost";
@@ -21,6 +22,28 @@ const Profile = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isSlectedPhtosOpen, setSlectedPhtosOpen] = useState<boolean>(false);
   const [isProfileChange, setProfileChange] = useState<boolean>(false);
+  const [converPhotoPreview, setCoverPhotoPreview] = useState<any | null>();
+  const [coverPhoto, setConverPhoto] = useState<any | null>();
+  const userDetails = useSelector<RootState, any>((state) => state.auth.user);
+
+  console.log(posts);
+
+  const [
+    coverChange,
+    {
+      isLoading: coverLoading,
+      isError: isCoverError,
+      error: coverError,
+      data: coverData,
+    },
+  ] = useCoverChangeMutation();
+
+  const onCoverPhotoSave = () => {
+    const formdata = new FormData();
+    formdata.append("coverPhoto", coverPhoto);
+    formdata.append("email", userDetails?.email);
+    coverChange(formdata);
+  };
 
   useEffect(() => {
     if (!isSlectedPhtosOpen) {
@@ -31,12 +54,42 @@ const Profile = () => {
   return (
     <section id="profile">
       <div className="background-color">
+        {/* save change coverphot */}
+        <AnimatePresence>
+          {converPhotoPreview && (
+            <motion.div
+              initial={{ opacity: 0, y: -100 }}
+              exit={{ opacity: 0, y: -100 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="conver-photo-change d-flex justify-content-between align-items-center"
+            >
+              <div className="icon">
+                <i className="fas fa-globe-americas"></i>
+                <p>Your cover photo is public.</p>
+              </div>
+              <div className="button-group">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCoverPhotoPreview(null);
+                    setConverPhoto(null);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button type="button" onClick={onCoverPhotoSave}>
+                  Save Changes
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className="container-fluid nav-top p-0">
           <div className="profile-container">
             <div className="cover-photo">
               <img
-                src="https://scontent.fdac1-1.fna.fbcdn.net/v/t1.6435-9/103130336_751185818958781_7428316446390233982_n.jpg?stp=dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGmuAezhvbpdQTfuPNWMkd19UcG3qxQ8b_1RwberFDxv_wX0tlVzL5QP49cMPqoZjI50_pweGk2U737ICX1Kzh9&_nc_ohc=zgEcGBTO8KsAX-eu-z-&_nc_ht=scontent.fdac1-1.fna&oh=00_AfB50SUWSAGBtMita2MFwh-L3Yd7iwP9UHqY7As01wAXfg&oe=63AE7B1F"
-                alt="conver-photo"
+                src={converPhotoPreview || userDetails?.converPicture}
+                alt="conver"
               />
               <button
                 type="button"
@@ -72,6 +125,8 @@ const Profile = () => {
                   <AvaterChanged
                     isProfileChange={isProfileChange}
                     setOpen={setOpen}
+                    setCoverPhotoPreview={setCoverPhotoPreview}
+                    setConverPhoto={setConverPhoto}
                     setSlectedPhtosOpen={setSlectedPhtosOpen}
                   />
                 )}
