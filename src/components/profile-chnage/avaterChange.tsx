@@ -5,13 +5,11 @@ interface Props {
   setSlectedPhtosOpen: any;
   setCoverPhotoPreview: any;
   setConverPhoto: any;
-  isProfileChange: boolean;
 }
 
 const AvaterChanged = ({
   setOpen,
   setSlectedPhtosOpen,
-  isProfileChange,
   setCoverPhotoPreview,
   setConverPhoto,
 }: Props) => {
@@ -39,9 +37,7 @@ const AvaterChanged = ({
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.2 } }}
-        className={`avater-dropdown rounded shadow-lg ${
-          isProfileChange ? "profile" : ""
-        }`}
+        className="avater-dropdown rounded shadow-lg"
       >
         <li>
           <button onClick={() => setSlectedPhtosOpen(true)}>

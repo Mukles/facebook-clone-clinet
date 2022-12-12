@@ -60,5 +60,10 @@ export const authSlice = createSlice({
   },
 });
 
-export const { userLogin, setFormData, setIndex, setDirection } =
-  authSlice.actions;
+export const {
+  userLogin,
+  setFormData,
+  setIndex,
+  setDirection,
+  setCoverPicture,
+} = authSlice.actions;

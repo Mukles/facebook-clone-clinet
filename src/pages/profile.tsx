@@ -9,6 +9,8 @@ import Image from "../assets/story/309455177_5413268065451119_346845499347874328
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
 import AvaterChanged from "../components/profile-chnage/avaterChange";
+import ProfileChanged from "../components/profile-chnage/profileChange";
+import ProifleUpload from "../components/profile-chnage/profileUpload";
 import SelectPhotos from "../components/profile-chnage/selectPhotos";
 import WithFileUpload from "../HOC/withFileUpload";
 
@@ -21,12 +23,15 @@ const Profile = () => {
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isSlectedPhtosOpen, setSlectedPhtosOpen] = useState<boolean>(false);
-  const [isProfileChange, setProfileChange] = useState<boolean>(false);
-  const [converPhotoPreview, setCoverPhotoPreview] = useState<any | null>();
-  const [coverPhoto, setConverPhoto] = useState<any | null>();
+  const [converPhotoPreview, setCoverPhotoPreview] = useState<any | null>(null);
+  const [coverPhoto, setConverPhoto] = useState<any | null>(null);
+  const [isProfileModalOpen, setProfileModalOpen] = useState<boolean>(false);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState<any | null>(
+    null
+  );
   const userDetails = useSelector<RootState, any>((state) => state.auth.user);
 
-  console.log(posts);
+  console.log(profilePhotoPreview);
 
   const [
     coverChange,
@@ -83,6 +88,18 @@ const Profile = () => {
               </div>
             </motion.div>
           )}
+          {isProfileModalOpen && !profilePhotoPreview && (
+            <ProfileChanged
+              setProfileModalOpen={setProfileModalOpen}
+              setProfilePhotoPreview={setProfilePhotoPreview}
+            />
+          )}
+          {profilePhotoPreview && (
+            <ProifleUpload
+              setProfilePhotoPreview={setProfilePhotoPreview}
+              setProfileModalOpen={setProfileModalOpen}
+            />
+          )}
         </AnimatePresence>
         <div className="container-fluid nav-top p-0">
           <div className="profile-container">
@@ -95,7 +112,6 @@ const Profile = () => {
                 type="button"
                 className="edit-cover"
                 onClick={() => {
-                  setProfileChange(false);
                   setOpen(true);
                 }}
               >
@@ -123,7 +139,6 @@ const Profile = () => {
               <AnimatePresence>
                 {isOpen && !isSlectedPhtosOpen && (
                   <AvaterChanged
-                    isProfileChange={isProfileChange}
                     setOpen={setOpen}
                     setCoverPhotoPreview={setCoverPhotoPreview}
                     setConverPhoto={setConverPhoto}
@@ -139,14 +154,11 @@ const Profile = () => {
               <div className="avater">
                 <img
                   src="https://scontent.fdac1-1.fna.fbcdn.net/v/t1.6435-9/103130336_751185818958781_7428316446390233982_n.jpg?stp=dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGmuAezhvbpdQTfuPNWMkd19UcG3qxQ8b_1RwberFDxv_wX0tlVzL5QP49cMPqoZjI50_pweGk2U737ICX1Kzh9&_nc_ohc=zgEcGBTO8KsAX-eu-z-&_nc_ht=scontent.fdac1-1.fna&oh=00_AfB50SUWSAGBtMita2MFwh-L3Yd7iwP9UHqY7As01wAXfg&oe=63AE7B1F"
-                  alt="conver-photo"
+                  alt="user-profile"
                 />
                 <button
                   className="profile-change"
-                  onClick={() => {
-                    setProfileChange(true);
-                    setOpen(true);
-                  }}
+                  onClick={() => setProfileModalOpen(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

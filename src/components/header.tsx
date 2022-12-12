@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <>
-      {!loading && (
+      {!loading && !display && (
         <header ref={ref} className={`py-2 fixed-top ${shadow} ${display}`}>
           <div className="container-fluid">
             <LaptopMenu setOpen={setOpen} />
