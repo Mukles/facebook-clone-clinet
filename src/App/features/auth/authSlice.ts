@@ -43,8 +43,10 @@ export const authSlice = createSlice({
       formData: { ...payload },
     }),
 
-    setCoverPicture: (state, { payload }) =>
-      (state.user.converPicture = payload),
+    setPicture: (state, { payload }) => ({
+      ...state,
+      user: { ...state.user, ...payload },
+    }),
 
     setIndex: (state, { payload }) => {
       let prev = state.index;
@@ -60,10 +62,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const {
-  userLogin,
-  setFormData,
-  setIndex,
-  setDirection,
-  setCoverPicture,
-} = authSlice.actions;
+export const { userLogin, setFormData, setIndex, setDirection, setPicture } =
+  authSlice.actions;

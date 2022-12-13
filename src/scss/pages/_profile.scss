@@ -9,6 +9,10 @@
     width: 100%;
     z-index: 99;
 
+    @media (max-width: $xsm) {
+      top: 126px;
+    }
+
     i {
       font-size: 23px;
     }
@@ -30,6 +34,10 @@
       padding: 10px;
       padding-inline: 40px;
       border-radius: 8px;
+
+      @media (max-width: $xsm) {
+        padding-inline: 20px;
+      }
 
       &:first-child {
         background-color: rgba($color: $color-white, $alpha: 0.2);
@@ -120,6 +128,49 @@
             background-color: rgba($color: $color-gray, $alpha: 0.8);
           }
         }
+      }
+    }
+
+    .btn-group {
+      display: block;
+      text-align: right;
+      margin-top: 12px;
+
+      button {
+        @include reset-button;
+        padding: 6px 20px;
+        border-radius: 6px;
+        color: $brand-color;
+        font-weight: 500;
+
+        &:hover {
+          background-color: $color-gray;
+        }
+      }
+
+      button:last-child {
+        margin-left: 10px;
+        background-color: $brand-color;
+        color: $color-white;
+
+        &:hover {
+          background-color: rgba($color: $brand-color, $alpha: 0.85);
+        }
+      }
+    }
+
+    textarea {
+      padding: 10px;
+      resize: none;
+      border: 1.5px solid $color-gray;
+      outline-offset: 4px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      min-height: 80px;
+
+      &:focus {
+        border-color: $color-semibalck;
+        outline: 1.5px solid $brand-color;
       }
     }
   }

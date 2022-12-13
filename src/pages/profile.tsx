@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
 import { useCoverChangeMutation } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
+import defaultCover from "../assets/default/cover.jpg";
+import defaultProfile from "../assets/default/profile.png";
 import Image from "../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
@@ -19,19 +21,19 @@ const Profile = () => {
     _id: userId,
     email,
     userName,
+    profilePicture,
   } = useSelector<RootState, any>((state) => state.auth.user);
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isSlectedPhtosOpen, setSlectedPhtosOpen] = useState<boolean>(false);
   const [converPhotoPreview, setCoverPhotoPreview] = useState<any | null>(null);
   const [coverPhoto, setConverPhoto] = useState<any | null>(null);
-  const [isProfileModalOpen, setProfileModalOpen] = useState<boolean>(false);
+  const [profilePhoto, setProfilePhoto] = useState<any | null>(null);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState<any | null>(
     null
   );
+  const [isProfileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const userDetails = useSelector<RootState, any>((state) => state.auth.user);
-
-  console.log(profilePhotoPreview);
 
   const [
     coverChange,
@@ -48,13 +50,15 @@ const Profile = () => {
     formdata.append("coverPhoto", coverPhoto);
     formdata.append("email", userDetails?.email);
     coverChange(formdata);
+    setCoverPhotoPreview(null);
+    setConverPhoto(null);
   };
 
   useEffect(() => {
-    if (!isSlectedPhtosOpen) {
+    if (converPhotoPreview) {
       setOpen(false);
     }
-  }, [isSlectedPhtosOpen, setOpen]);
+  }, [converPhotoPreview, setOpen]);
 
   return (
     <section id="profile">
@@ -92,12 +96,15 @@ const Profile = () => {
             <ProfileChanged
               setProfileModalOpen={setProfileModalOpen}
               setProfilePhotoPreview={setProfilePhotoPreview}
+              setProfilePhoto={setProfilePhoto}
             />
           )}
           {profilePhotoPreview && (
             <ProifleUpload
               setProfilePhotoPreview={setProfilePhotoPreview}
               setProfileModalOpen={setProfileModalOpen}
+              profilePhotoPreview={profilePhotoPreview}
+              profilePhoto={profilePhoto}
             />
           )}
         </AnimatePresence>
@@ -105,7 +112,11 @@ const Profile = () => {
           <div className="profile-container">
             <div className="cover-photo">
               <img
-                src={converPhotoPreview || userDetails?.converPicture}
+                src={
+                  converPhotoPreview ||
+                  userDetails?.converPicture ||
+                  defaultCover
+                }
                 alt="conver"
               />
               <button
@@ -153,7 +164,7 @@ const Profile = () => {
             <div className="profile-photo">
               <div className="avater">
                 <img
-                  src="https://scontent.fdac1-1.fna.fbcdn.net/v/t1.6435-9/103130336_751185818958781_7428316446390233982_n.jpg?stp=dst-jpg_p180x540&_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGmuAezhvbpdQTfuPNWMkd19UcG3qxQ8b_1RwberFDxv_wX0tlVzL5QP49cMPqoZjI50_pweGk2U737ICX1Kzh9&_nc_ohc=zgEcGBTO8KsAX-eu-z-&_nc_ht=scontent.fdac1-1.fna&oh=00_AfB50SUWSAGBtMita2MFwh-L3Yd7iwP9UHqY7As01wAXfg&oe=63AE7B1F"
+                  src={profilePicture || defaultProfile}
                   alt="user-profile"
                 />
                 <button

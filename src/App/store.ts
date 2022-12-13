@@ -13,9 +13,7 @@ export const configStore = () =>
 
     devTools: true,
     middleware: (getDefaultMiddlewares) =>
-      getDefaultMiddlewares({ serializableCheck: false }).concat(
-        apiSlice.middleware
-      ),
+      getDefaultMiddlewares().concat(apiSlice.middleware),
   });
 
 export const store = configStore();

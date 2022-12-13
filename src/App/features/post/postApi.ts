@@ -1,3 +1,4 @@
+import { RootState } from "../../store";
 import { apiSlice } from "../api/apiSlice";
 
 export const postApi = apiSlice.injectEndpoints({
@@ -9,6 +10,19 @@ export const postApi = apiSlice.injectEndpoints({
           method: "POST",
           body: data,
         };
+      },
+      async onQueryStarted(args, { queryFulfilled, dispatch, getState }) {
+        const result = await queryFulfilled;
+        const { _id, email } = (getState() as RootState).auth.user || {};
+        dispatch(
+          apiSlice.util.updateQueryData(
+            "getPosts" as never,
+            { userId: _id, email } as never,
+            (draft) => {
+              console.log(JSON.parse(JSON.stringify(draft)));
+            }
+          )
+        );
       },
     }),
 

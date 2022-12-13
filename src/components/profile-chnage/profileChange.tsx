@@ -3,17 +3,20 @@ import { motion } from "framer-motion";
 interface Props {
   setProfileModalOpen: any;
   setProfilePhotoPreview: any;
+  setProfilePhoto: any;
 }
 
 const ProfileChanged = ({
   setProfileModalOpen,
   setProfilePhotoPreview,
+  setProfilePhoto,
 }: Props) => {
   function onFileLoad(event: React.SyntheticEvent<HTMLInputElement>) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList?.length && fileList != null) {
       const fileinfo: File | null = fileList.length ? fileList[0] : null;
+      setProfilePhoto(fileinfo);
       setProfilePhotoPreview(URL.createObjectURL(fileinfo as any));
     }
   }

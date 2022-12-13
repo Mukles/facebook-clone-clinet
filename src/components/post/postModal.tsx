@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   useAddMutation,
-  useEditPostMutation
+  useEditPostMutation,
 } from "../../App/features/post/postApi";
 import { RootState } from "../../App/store";
+import defaultProfile from "../../assets/default/profile.png";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
-import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import { userTypes } from "../../types/userTypes";
 import Upload from "../../utilities/upload";
 import { postSchema } from "../../validation/postValidation";
@@ -24,9 +24,11 @@ const PostModal = ({ setShow, post }: Props) => {
   const { caption, img, _id } = post || {};
 
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
-  const { _id: userId } = useSelector<RootState, userTypes | any>(
-    (state) => state.auth.user
-  );
+  const {
+    _id: userId,
+    userName,
+    profilePicture,
+  } = useSelector<RootState, userTypes | any>((state) => state.auth.user);
   const [addPost, { isLoading, isError, isSuccess, data }] = useAddMutation();
   const [
     editPost,
@@ -92,15 +94,12 @@ const PostModal = ({ setShow, post }: Props) => {
           }}
           validationSchema={postSchema}
           onSubmit={({ image, caption }) => {
-            console.log("I am here", image);
             const formData = new FormData();
             formData.append("email", email);
             formData.append("img", image);
             formData.append("caption", caption);
             formData.append("postId", _id);
             formData.append("userId", userId);
-
-            console.log(formData.get("img"));
 
             if (_id) {
               editPost(formData);
@@ -114,7 +113,11 @@ const PostModal = ({ setShow, post }: Props) => {
               <Form>
                 <div className="post-header px-3 position-relative py-2">
                   <h3 className="text-cetner">Create Post</h3>
-                  <button type='button' className="close" onClick={() => setShow(false)}>
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={() => setShow(false)}
+                  >
                     <i className="fa fa-times"></i>
                   </button>
                 </div>
@@ -123,12 +126,12 @@ const PostModal = ({ setShow, post }: Props) => {
                   <div className="profile border-0 d-inline">
                     <img
                       className="rounded-circle"
-                      src={profile}
+                      src={profilePicture || defaultProfile}
                       alt={"user"}
                     />
                   </div>
                   <div className="user-info">
-                    <p className="m-0">Mukles Ali</p>
+                    <p className="m-0">{userName}</p>
                     <button type="button" className="btn">
                       <i className="fas fa-globe-americas"></i>
                       <span className="mx-1">Public</span>
@@ -145,7 +148,7 @@ const PostModal = ({ setShow, post }: Props) => {
                           className="w-100"
                           {...from.field}
                           onChange={(event) => onTextChange(event, from)}
-                          placeholder={`What's on your mind, Mukles`}
+                          placeholder={`What's on your mind, ${userName}`}
                         />
                       );
                     }}
