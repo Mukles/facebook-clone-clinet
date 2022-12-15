@@ -1,5 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addToast } from "../../App/features/toast/toastSlice";
 import angery from "../../assets/post/angery.svg";
 import care from "../../assets/post/care.svg";
 import love from "../../assets/post/download.svg";
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const Post = ({ post }: Props) => {
+  const dispatch = useDispatch();
   const { img, caption, _id: id }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
@@ -40,6 +43,7 @@ const Post = ({ post }: Props) => {
         {delteReq && (
           <DeleteConfirmation
             key="delete"
+            setOpen={setOpen}
             setDeleteReq={setDeleteReq}
             id={id}
           />
@@ -146,7 +150,12 @@ const Post = ({ post }: Props) => {
             </svg>
             <span>Comment</span>
           </li>
-          <li className="share-icon cursor-pointer flex-fill">
+          <li
+            className="share-icon cursor-pointer flex-fill"
+            onClick={() =>
+              dispatch(addToast({ id: "", message: "Post added", type: "add" }))
+            }
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

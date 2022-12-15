@@ -1,6 +1,6 @@
 import { FastField, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   useAddMutation,
@@ -22,7 +22,6 @@ const PostModal = ({ setShow, post }: Props) => {
   const limit = 500;
   let prevText = "";
   const { caption, img, _id } = post || {};
-
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
   const {
     _id: userId,
@@ -39,6 +38,12 @@ const PostModal = ({ setShow, post }: Props) => {
       data: editData,
     },
   ] = useEditPostMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShow(false);
+    }
+  }, [setShow, isSuccess]);
 
   const { email } = useSelector<RootState, any>((state) => state.auth.user);
 

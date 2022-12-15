@@ -1,0 +1,17 @@
+#toasts-portal {
+  background: red;
+  position: fixed;
+  bottom: 12px;
+  left: 0;
+}
+
+.toast {
+  display: block !important;
+  max-width: 300px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 6px;
+  background-color: $color-white;
+  will-change: transform, opacity;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+}

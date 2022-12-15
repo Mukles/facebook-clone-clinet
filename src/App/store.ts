@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import { authSlice } from "./features/auth/authSlice";
 import { postSlice } from "./features/post/postSlice";
+import { toastSlice } from "./features/toast/toastSlice";
 
 export const configStore = () =>
   configureStore({
@@ -9,6 +10,7 @@ export const configStore = () =>
       [apiSlice.reducerPath]: apiSlice.reducer,
       [authSlice.name]: authSlice.reducer,
       [postSlice.name]: postSlice.reducer,
+      [toastSlice.name]: toastSlice.reducer,
     },
 
     devTools: true,

@@ -8,9 +8,10 @@ import { userTypes } from "../types/userTypes";
 interface Props {
   setDeleteReq: any;
   id?: string;
+  setOpen: any;
 }
 
-const DeleteConfirmation = ({ setDeleteReq, id }: Props) => {
+const DeleteConfirmation = ({ setDeleteReq, id, setOpen }: Props) => {
   const [deletePost, { isSuccess, isLoading, isError, error }] =
     useDeltePostMutation();
 
@@ -21,8 +22,9 @@ const DeleteConfirmation = ({ setDeleteReq, id }: Props) => {
   useEffect(() => {
     if (isSuccess || isError) {
       setDeleteReq(false);
+      setOpen(false);
     }
-  }, [isSuccess, isError, setDeleteReq]);
+  }, [isSuccess, isError, setDeleteReq, setOpen]);
 
   return (
     <motion.div

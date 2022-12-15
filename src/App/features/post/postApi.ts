@@ -14,12 +14,14 @@ export const postApi = apiSlice.injectEndpoints({
       async onQueryStarted(args, { queryFulfilled, dispatch, getState }) {
         const result = await queryFulfilled;
         const { _id, email } = (getState() as RootState).auth.user || {};
+        const { post, user } = result.data || {};
+
         dispatch(
           apiSlice.util.updateQueryData(
             "getPosts" as never,
             { userId: _id, email } as never,
-            (draft) => {
-              console.log(JSON.parse(JSON.stringify(draft)));
+            (draftPosts: any) => {
+              draftPosts.unshift({ ...post, user });
             }
           )
         );
@@ -40,6 +42,26 @@ export const postApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: data,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
+        const result = await queryFulfilled;
+        console.log("delted", args);
+        const { _id, email } = (getState() as RootState).auth.user || {};
+        if (result.data) {
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "getPosts" as never,
+              { userId: _id, email } as never,
+              (draftPosts: any) => {
+                const filterdPost: any = draftPosts.filter(
+                  (post: any) => post._id !== args.id
+                );
+                draftPosts = [...filterdPost];
+                return draftPosts;
+              }
+            )
+          );
+        }
+      },
     }),
 
     editPost: build.mutation({
@@ -47,12 +69,38 @@ export const postApi = apiSlice.injectEndpoints({
         const id: string = formData.get("postId");
         const img = formData.get("img");
         const method = !img?.type ? "PUT" : "PATCH";
-
         return {
           url: `post/${id}`,
           method,
           body: formData,
         };
+      },
+      async onQueryStarted(args, { dispatch, getState, queryFulfilled }) {
+        const result = await queryFulfilled;
+        const { _id, email } = (getState() as RootState).auth.user || {};
+        const id: string = args.get("postId");
+
+        if (result.data) {
+          console.log(result);
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "getPosts" as never,
+              { userId: _id, email } as never,
+              (draftPosts: any) => {
+                const index = draftPosts.findIndex(
+                  (post: any) => post._id === id
+                );
+                draftPosts[index] = {
+                  ...draftPosts[index],
+                  ...result.data.post,
+                };
+                console.log(JSON.parse(JSON.stringify(draftPosts[index])));
+
+                console.log(JSON.parse(JSON.stringify(draftPosts)));
+              }
+            )
+          );
+        }
       },
     }),
   }),
