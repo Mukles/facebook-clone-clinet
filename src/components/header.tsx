@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../App/store";
@@ -13,23 +13,13 @@ const Header = () => {
   const width = useWidth();
   const [isOpen, setOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    window.addEventListener("scroll", function (e) {
-      if (this.window.scrollY > 100) {
-        ref.current?.classList.add("shadow-bottom");
-      } else {
-        ref.current?.classList.remove("shadow-bottom");
-      }
-    });
-  }, []);
 
   const shadow = pathname.match(/\/messenger|profile/gi)?.length
-    ? "shadow-bottom"
-    : "";
+    ? ""
+    : "shadow-sm";
+
   const display =
-    pathname === "/account/login" ||
+    pathname === ("/account/login" || "/account/register") ||
     (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length &&
       width < 576)
       ? "mobile-nav"
@@ -38,7 +28,7 @@ const Header = () => {
   return (
     <>
       {!loading && !display && (
-        <header ref={ref} className={`py-2 fixed-top ${shadow} ${display}`}>
+        <header className={`py-2 fixed-top ${shadow} ${display}`}>
           <div className="container-fluid">
             <LaptopMenu setOpen={setOpen} />
             <MobileMenu />

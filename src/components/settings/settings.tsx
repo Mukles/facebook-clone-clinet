@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
+import { RootState } from "../../App/store";
+import defaultProfile from "../../assets/default/profile.png";
 import { settings } from "../../data/settings/setting";
+import { IUser } from "../../types/userTypes";
 
 interface Props {
   setOpen: any;
@@ -19,6 +21,11 @@ const Settings = ({ setOpen }: Props) => {
   const [selectedIndex, setIndex] = useState<number | null>(null);
   const index = selectedIndex && selectedIndex - 1;
   const dispatch = useDispatch();
+  const {
+    profilePicture,
+    userName,
+    _id: userId,
+  } = useSelector<RootState, IUser>((state) => state.auth.user) || {};
 
   return (
     <>
@@ -44,11 +51,11 @@ const Settings = ({ setOpen }: Props) => {
             >
               <motion.div className="profile-card-thum">
                 <Link to={"/profile"} className="profile-dsc">
-                  <img src={profile} alt="profile" />
-                  <span>Mukles Ali</span>
+                  <img src={profilePicture || defaultProfile} alt="profile" />
+                  <span>{userName}</span>
                 </Link>
 
-                <Link to="/profile" className="see-profile">
+                <Link to={`/profile/${userId}`} className="see-profile">
                   See all Profile
                 </Link>
               </motion.div>

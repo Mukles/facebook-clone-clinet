@@ -1,6 +1,9 @@
-export interface userTypes {
-  _id: string;
-  userName: string;
-  email: string;
-  token: string;
+export interface IUser {
+  _id?: string;
+  userName?: string;
+  email?: string;
+  profilePicture?: string;
+  converPicture?: string;
+  gender?: string;
+  dateOfBrith?: string;
 }

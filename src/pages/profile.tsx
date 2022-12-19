@@ -72,7 +72,7 @@ const Profile = () => {
               animate={{ opacity: 1, y: 0 }}
               className="conver-photo-change d-flex justify-content-between align-items-center"
             >
-              <div className="icon">
+              <div className="icon d-none d-md-flex">
                 <i className="fas fa-globe-americas"></i>
                 <p>Your cover photo is public.</p>
               </div>

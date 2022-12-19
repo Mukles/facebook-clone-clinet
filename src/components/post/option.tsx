@@ -3,9 +3,10 @@ import { motion } from "framer-motion";
 interface Props {
   setDeleteReq: any;
   setEditAble: any;
+  setOpen: any;
 }
 
-const Option = ({ setDeleteReq, setEditAble }: Props) => {
+const Option = ({ setDeleteReq, setEditAble, setOpen }: Props) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0, y: 100 }}
@@ -36,7 +37,12 @@ const Option = ({ setDeleteReq, setEditAble }: Props) => {
           </button>
         </li>
         <li>
-          <button onClick={() => setEditAble(true)}>
+          <button
+            onClick={() => {
+              setOpen(false);
+              setEditAble(true);
+            }}
+          >
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

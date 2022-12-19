@@ -1,7 +1,8 @@
+import FriendLayout from "../../layout/friends/friendLayout";
 import Home from "../../pages";
 import NotFound from "../../pages/404";
 import Login from "../../pages/account/login";
-import Register from "../../pages/account/register";
+import Friends from "../../pages/friend/index";
 import MarketPlace from "../../pages/market-place";
 import Messenger from "../../pages/messenger/index";
 import MobileConversation from "../../pages/messenger/mobile/conversation";
@@ -34,7 +35,7 @@ export const largeDevicesRoutes = [
     path: "/account/register",
     element: (
       <PublicRoute>
-        <Register />
+        <Login />
       </PublicRoute>
     ),
   },
@@ -85,6 +86,16 @@ export const largeDevicesRoutes = [
     ],
   },
   {
+    path: "friends",
+    element: (
+      <RequiredAuth>
+        <FriendLayout>
+          <Friends />
+        </FriendLayout>
+      </RequiredAuth>
+    ),
+  },
+  {
     path: "*",
     element: <NotFound />,
   },
@@ -113,7 +124,7 @@ export const smallDevicesRoutes = [
     path: "/account/register",
     element: (
       <PublicRoute>
-        <Register />
+        <Login />
       </PublicRoute>
     ),
   },
@@ -147,7 +158,6 @@ export const smallDevicesRoutes = [
       </RequiredAuth>
     ),
   },
-  {},
   {
     path: "/profile/:id",
     element: (

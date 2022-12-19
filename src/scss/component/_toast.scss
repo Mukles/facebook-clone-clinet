@@ -1,17 +1,73 @@
-#toasts-portal {
-  background: red;
+.toast-container {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   bottom: 12px;
-  left: 0;
+  left: 15px;
+  width: 280px;
+  height: 100px;
+
+  & > div {
+    position: absolute;
+    transform-origin: top center;
+
+    will-change: transform, opacity;
+  }
+
+  & > :not(:last-child) {
+    margin-bottom: 3px;
+  }
 }
 
 .toast {
-  display: block !important;
-  max-width: 300px;
-  width: 100%;
-  padding: 16px;
-  border-radius: 6px;
-  background-color: $color-white;
-  will-change: transform, opacity;
+  display: flex !important;
+  align-items: center;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  border: 2px solid $color-white;
+  justify-content: space-between;
+  width: 250px;
+  padding: 10px;
+  background-color: $color-semibalck;
+
+  &.success svg {
+    stroke: #00f700;
+  }
+
+  &.info svg {
+    stroke: #008140;
+  }
+
+  &.warning svg {
+    stroke: #e8bd08;
+  }
+
+  &.error svg {
+    stroke: #f60002;
+  }
+
+  & > div {
+    margin-right: 5px;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  p {
+    font-weight: 400;
+    color: $color-white;
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  .close {
+    @include reset-button;
+    background-color: $color-gray;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 }

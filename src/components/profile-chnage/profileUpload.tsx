@@ -1,7 +1,9 @@
 import { FastField, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useProfileChangeMutation } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
+import { toastRise } from "../../hooks/toastRise";
 
 interface Props {
   setProfilePhotoPreview: any;
@@ -30,6 +32,11 @@ const ProifleUpload = ({
     adjustHeight(text, textarea);
   }
 
+  const onClose = useCallback(() => {
+    setProfilePhotoPreview(null);
+    setProfileModalOpen(false);
+  }, [setProfilePhotoPreview, setProfileModalOpen]);
+
   function adjustHeight(value: string, textarea: HTMLTextAreaElement) {
     if (value.length > prevText.length) {
       textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
@@ -38,26 +45,30 @@ const ProifleUpload = ({
     }
     prevText = value;
   }
-
-  const [changeProfile, { isLoading, isError, error, data, isSuccess }] =
+  const dispatch = useDispatch();
+  const [changeProfile, { isLoading, isError, error, isSuccess }] =
     useProfileChangeMutation();
   const { email, userName } = useSelector<RootState, any>(
     (state) => state.auth.user
   );
+
+  useEffect(() => {
+    toastRise(
+      isSuccess,
+      isError,
+      (error as any)?.message,
+      "Profile added successfully.!",
+      dispatch,
+      onClose
+    );
+  }, [isError, isSuccess, onClose, dispatch, error]);
 
   return (
     <div className="overlay">
       <div className="profile-changed-modal shadow rounded">
         <div className="profile-change-top">
           <h3>Update profile picture</h3>
-          <button
-            type="button"
-            className="close"
-            onClick={() => {
-              setProfilePhotoPreview(null);
-              setProfileModalOpen(false);
-            }}
-          >
+          <button type="button" className="close" onClick={onClose}>
             <i className="fa fa-times"></i>
           </button>
         </div>

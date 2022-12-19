@@ -19,11 +19,11 @@ interface Props {
 }
 
 const Post = ({ post }: Props) => {
-  const dispatch = useDispatch();
   const { img, caption, _id: id }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
   const [isEditAble, setEditAble] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   return (
     <div className="single-post mt-4 py-4 rounded">
@@ -38,7 +38,11 @@ const Post = ({ post }: Props) => {
       {/* option */}
       <AnimatePresence initial>
         {isOpen && (
-          <Option setDeleteReq={setDeleteReq} setEditAble={setEditAble} />
+          <Option
+            setDeleteReq={setDeleteReq}
+            setEditAble={setEditAble}
+            setOpen={setOpen}
+          />
         )}
         {delteReq && (
           <DeleteConfirmation
@@ -152,9 +156,16 @@ const Post = ({ post }: Props) => {
           </li>
           <li
             className="share-icon cursor-pointer flex-fill"
-            onClick={() =>
-              dispatch(addToast({ id: "", message: "Post added", type: "add" }))
-            }
+            onClick={() => {
+              dispatch(
+                addToast({
+                  type: "success",
+                  message:
+                    "jflsdj alfajfla fjklaflkaflkajf aklfalf" +
+                    Math.random() * 10,
+                })
+              );
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

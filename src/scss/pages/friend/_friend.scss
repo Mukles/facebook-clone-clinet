@@ -1,0 +1,160 @@
+.friend-sidebar {
+  max-width: 350px;
+  left: 0;
+  top: 57px;
+  width: 100%;
+  background-color: $color-white;
+  height: 100%;
+  position: fixed;
+
+  .sidebar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 24px;
+      line-height: 28px;
+      color: $color-semibalck;
+      font-weight: 700;
+    }
+
+    .icon {
+      @include reset-button;
+      background-color: $color-gray;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 25px;
+      }
+    }
+  }
+}
+
+.friend-right-side {
+  margin-left: 370px;
+}
+
+ul.sidebar-menu {
+  padding: 8px;
+
+  li a {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    line-height: 19px;
+    color: $color-semibalck;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 7px 10px;
+
+    &:hover,
+    &.active {
+      background-color: rgba($color: $color-gray, $alpha: 0.5);
+    }
+
+    &.active {
+      & > span:first-child {
+        background-color: rgba($color: $brand-color, $alpha: 0.85);
+        color: $color-white;
+      }
+    }
+
+    & > span:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      background-color: $color-gray;
+      border-radius: 50%;
+      line-height: 19px;
+      font-size: 20px;
+    }
+
+    & > span:last-child {
+      display: block;
+      svg {
+        width: 25px;
+      }
+    }
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.friend-group-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    color: $color-semibalck;
+    font-weight: 700;
+  }
+
+  button {
+    @include reset-button;
+    color: $brand-color;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
+
+.friend {
+  background-color: $color-white;
+  & > img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .friend-body {
+    padding: 10px;
+
+    & > a {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      color: $color-semibalck;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: $color-semibalck;
+      }
+    }
+
+    & > .mutual-friends img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    & > button {
+      @include reset-button;
+      width: 100%;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-semibalck;
+      background-color: $brand-color;
+      margin-top: 10px;
+      color: $color-white;
+    }
+
+    & > button:last-child {
+      background-color: $color-gray;
+      color: $color-semibalck;
+    }
+  }
+}

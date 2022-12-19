@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDeltePostMutation } from "../App/features/post/postApi";
 import { RootState } from "../App/store";
-import { userTypes } from "../types/userTypes";
+import { IUser } from "../types/userTypes";
 
 interface Props {
   setDeleteReq: any;
@@ -15,7 +15,7 @@ const DeleteConfirmation = ({ setDeleteReq, id, setOpen }: Props) => {
   const [deletePost, { isSuccess, isLoading, isError, error }] =
     useDeltePostMutation();
 
-  const { _id: userId, email } = useSelector<RootState, userTypes | any>(
+  const { _id: userId, email } = useSelector<RootState, IUser>(
     (state) => state.auth.user
   );
 

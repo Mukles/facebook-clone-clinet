@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../App/store";
+import defaultProfile from "../assets/default/profile.png";
 import BarSvg from "../assets/Header/barSvg";
 import LogoSvg from "../assets/Header/logoSvg";
 import MenuSvg from "../assets/Header/MenuSvg";
 import MessengerSvg from "../assets/Header/messagerSvg";
 import NotificationSvg from "../assets/Header/notificationSvg";
-import profile from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
 import { header } from "../data/settings/header";
 import CustomeNav from "../utilities/navLink";
 
@@ -16,6 +18,9 @@ interface Props {
 
 const LaptopMenu = ({ setOpen }: Props) => {
   const [show, setShow] = useState(false);
+  const profilePicture = useSelector<RootState, string | undefined>(
+    (state) => state.auth.user?.profilePicture
+  );
 
   return (
     <div className="nav-bar align-items-center justify-content-between d-none d-sm-flex">
@@ -105,7 +110,7 @@ const LaptopMenu = ({ setOpen }: Props) => {
             >
               <img
                 className="rounded-circle"
-                src={profile}
+                src={profilePicture || defaultProfile}
                 width={40}
                 height={40}
                 alt={"profile"}

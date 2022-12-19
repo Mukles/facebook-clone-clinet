@@ -15,9 +15,17 @@ export const loginSchema = yup.object().shape({
     ),
 });
 
-export const registerSchema = yup.object().shape({
+const commonSchema = {
   firstName: yup.string().required("This field is requried"),
   lastName: yup.string().required("This field is requried"),
+  gender: yup.string().required("This feild is required"),
+  dateOfBrith: yup.string().required("This field is required"),
+};
+
+export const updateUserSchema = yup.object().shape(commonSchema);
+
+export const registerSchema = yup.object().shape({
+  ...commonSchema,
   email: yup
     .string()
     .email("Must be a valid email")
@@ -30,7 +38,4 @@ export const registerSchema = yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
-  gender: yup.string().required("This feild is required"),
-
-  dateOfBrith: yup.string().required("This field is required"),
 });

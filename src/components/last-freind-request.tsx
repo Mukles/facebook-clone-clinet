@@ -10,7 +10,7 @@ const LastFriendRequest = () => {
         </div>
 
         <div className="mt-3 d-flex gap-3 wrapper p-2 overflow-hidden rounded">
-          <div className="request-profile">
+          <div className="request-profile flex-shrink-0">
             <img src={img} width={50} height={50} alt="profile" />
           </div>
 

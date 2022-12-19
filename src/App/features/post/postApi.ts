@@ -94,9 +94,6 @@ export const postApi = apiSlice.injectEndpoints({
                   ...draftPosts[index],
                   ...result.data.post,
                 };
-                console.log(JSON.parse(JSON.stringify(draftPosts[index])));
-
-                console.log(JSON.parse(JSON.stringify(draftPosts)));
               }
             )
           );

@@ -1,7 +1,7 @@
 import { FastField, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useAddMutation,
   useEditPostMutation,
@@ -9,7 +9,8 @@ import {
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
-import { userTypes } from "../../types/userTypes";
+import { toastRise } from "../../hooks/toastRise";
+import { IUser } from "../../types/userTypes";
 import Upload from "../../utilities/upload";
 import { postSchema } from "../../validation/postValidation";
 
@@ -21,29 +22,52 @@ interface Props {
 const PostModal = ({ setShow, post }: Props) => {
   const limit = 500;
   let prevText = "";
+  const dispatch = useDispatch();
   const { caption, img, _id } = post || {};
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
   const {
     _id: userId,
     userName,
     profilePicture,
-  } = useSelector<RootState, userTypes | any>((state) => state.auth.user);
-  const [addPost, { isLoading, isError, isSuccess, data }] = useAddMutation();
+  } = useSelector<RootState, IUser>((state) => state.auth.user);
+  const [addPost, { isLoading, isError, isSuccess, error }] = useAddMutation();
   const [
     editPost,
     {
       isLoading: isEditLoading,
       isError: isEditError,
       isSuccess: isEditSuccess,
-      data: editData,
+      error: editError,
     },
   ] = useEditPostMutation();
 
   useEffect(() => {
-    if (isSuccess) {
-      setShow(false);
-    }
-  }, [setShow, isSuccess]);
+    toastRise(
+      isSuccess,
+      isError,
+      (error as any)?.message,
+      "Post added successfully.!",
+      dispatch,
+      setShow
+    );
+    toastRise(
+      isEditSuccess,
+      isEditError,
+      (editError as any)?.message,
+      "Post edited successfully.!",
+      dispatch,
+      setShow
+    );
+  }, [
+    setShow,
+    isSuccess,
+    isEditSuccess,
+    dispatch,
+    editError,
+    isEditError,
+    isError,
+    error,
+  ]);
 
   const { email } = useSelector<RootState, any>((state) => state.auth.user);
 
@@ -104,7 +128,7 @@ const PostModal = ({ setShow, post }: Props) => {
             formData.append("img", image);
             formData.append("caption", caption);
             formData.append("postId", _id);
-            formData.append("userId", userId);
+            formData.append("userId", userId as string);
 
             if (_id) {
               editPost(formData);

@@ -1,20 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IUser } from "../../../types/userTypes";
 
-type User = {
-  _id: string | null;
-  userName: string | null;
-  email: string | null;
-  profilePicture: string | null;
-  converPicture: string | null;
-};
-
-const user: User = {
-  _id: null,
-  userName: null,
-  email: null,
-  profilePicture: null,
-  converPicture: null,
-};
+const user: IUser = {};
 
 const initialState = {
   error: null,

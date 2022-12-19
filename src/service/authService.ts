@@ -1,3 +1,4 @@
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -6,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+
 import { authApi } from "../App/features/auth/authApi";
 import { userLogin } from "../App/features/auth/authSlice";
 import { store } from "../App/store";
@@ -20,6 +22,7 @@ export const loginWithGoogle = async () => {
 export const onAuthChanged = (dispatch: any) => {
   onAuthStateChanged(auth, async (userCredential) => {
     if (userCredential) {
+      console.log("userCredential", userCredential);
       try {
         const data: any = store.getState().auth.formData;
         const token = await userCredential.getIdToken();
@@ -29,7 +32,7 @@ export const onAuthChanged = (dispatch: any) => {
           provider: userCredential.providerId,
         };
         const result = await signInAndSignUp(
-          { user: { ...user, ...data }, token },
+          { user: { ...data, ...user }, token },
           dispatch
         );
 
@@ -93,7 +96,7 @@ const signInAndSignUp = async (data: any, dispatch: any) => {
   }
 };
 
-const dispatchError = (error: any, dispatch: any) => {
+const dispatchError = (error: any, dispatch: Dispatch<AnyAction>) => {
   dispatch(
     userLogin({
       user: null,

@@ -1,7 +1,8 @@
 import { Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { RootState } from "../../App/store";
 import logo from "../../assets/account/facebook.svg";
 import {
@@ -22,6 +23,14 @@ const Login = () => {
   const { user, loading, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname === "/account/register") {
+      setShow(true);
+    }
+  }, [pathname]);
 
   return (
     <section className="login-container py-5 px-0 mx-0">
