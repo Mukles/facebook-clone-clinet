@@ -4,10 +4,12 @@ const Frined = () => {
   return (
     <div className="col-lg-4 col-md-6 col-xl-3">
       <div className="friend shadow rounded mx-auto">
-        <img src={profile} alt="user" className="rounded" />
+        <div className="ratio ratio-1x1">
+          <img src={profile} alt="user" className="rounded" />
+        </div>
         <div className="friend-body">
           <Link to="/">Mukles Hoosen</Link>
-          <div className="mutual-friends mt-2">
+          <div className="mutual-friends mt-2 ">
             <img src={profile} alt="user" />
             <span>2 mutual friends</span>
           </div>

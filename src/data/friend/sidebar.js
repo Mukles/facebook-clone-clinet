@@ -3,11 +3,13 @@ export const sidebarData = [
     id: 1,
     text: "Home",
     icon: <i className="fa-solid fa-user-group"></i>,
+    url: "/friends/",
   },
   {
     id: 2,
     text: "Friend Requests",
     icon: <i className="fa-solid fa-people-arrows"></i>,
+    url: "/friends/requests",
     nested: {
       icon: (
         <svg
@@ -31,6 +33,7 @@ export const sidebarData = [
     id: 3,
     text: "Suggestions",
     icon: <i className="fa-solid fa-user-plus"></i>,
+    url: "/friends/suggestions",
     nested: {
       icon: (
         <svg

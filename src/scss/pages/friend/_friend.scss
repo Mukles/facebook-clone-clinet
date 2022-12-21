@@ -1,16 +1,19 @@
 .friend-sidebar {
   max-width: 350px;
   left: 0;
-  top: 57px;
+  top: 67px;
   width: 100%;
   background-color: $color-white;
-  height: 100%;
+  height: calc(100% - 67px);
   position: fixed;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   .sidebar-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     h2 {
       font-size: 24px;
       line-height: 28px;
@@ -30,6 +33,158 @@
 
       svg {
         width: 25px;
+      }
+    }
+  }
+
+  .friend-request-top {
+    display: flex;
+    padding-block: 8px;
+    margin-inline: 10px;
+    border-bottom: 1px solid $color-gray;
+    align-items: center;
+
+    & > a {
+      @include reset-button;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      transition: background-color 0.5s ease;
+
+      &:hover {
+        background-color: $color-gray;
+      }
+
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    & > div {
+      margin-left: 12px;
+    }
+
+    a {
+      font-size: 14px;
+      line-height: 15px;
+      color: #65676b;
+      font-weight: 400;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+      line-height: 28px;
+      color: $color-semibalck;
+      font-weight: 700;
+    }
+  }
+
+  .friend-request-container {
+    margin-inline: 10px;
+
+    h4 {
+      font-size: 16px;
+      line-height: 19px;
+      font-weight: 600;
+      color: $color-semibalck;
+    }
+
+    & > button {
+      @include reset-button;
+      color: $brand-color;
+      font-size: 12px;
+      line-height: 15px;
+      font-weight: 400;
+      background-color: transparent;
+    }
+
+    .friend-request-item {
+      display: flex;
+      padding: 12px 10px;
+      margin-block: 6px;
+      border-radius: 6px;
+      transform: background-color 0.5s ease;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-gray;
+      }
+
+      & > div {
+        margin-left: 10px;
+      }
+
+      & > div > * {
+        margin-top: 7px;
+      }
+
+      & > img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      & > div p.name {
+        font-weight: 600;
+        font-size: 14px;
+        color: $color-semibalck;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      & > div .mutual-frd {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: $color-semibalck;
+        display: flex;
+        align-items: center;
+
+        p {
+          margin: 0;
+          margin-left: 10px;
+        }
+
+        & > .frd-imgs {
+          display: flex;
+          img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+          }
+        }
+      }
+
+      & > div .friend-buttons {
+        display: flex;
+        align-items: center;
+
+        button {
+          flex: 1;
+          padding: 10px;
+          border-radius: 6px;
+          background-color: $brand-color;
+          color: 14px;
+          font-weight: 600;
+          line-height: 19px;
+          color: $color-white;
+          border: none;
+
+          &:last-child {
+            margin-left: 10px;
+          }
+        }
       }
     }
   }
@@ -68,12 +223,12 @@ ul.sidebar-menu {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       background-color: $color-gray;
       border-radius: 50%;
       line-height: 19px;
-      font-size: 20px;
+      font-size: 15px;
     }
 
     & > span:last-child {
@@ -156,5 +311,30 @@ ul.sidebar-menu {
       background-color: $color-gray;
       color: $color-semibalck;
     }
+  }
+}
+
+.no-proile-selected {
+  position: absolute;
+  top: 67px;
+  right: 0;
+  width: calc(100% - 350px);
+  height: calc(100vh - 67px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+
+  img {
+    max-width: 120px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 20px;
+    line-height: 24px;
+    color: $color-semibalck;
+    font-weight: 700;
   }
 }

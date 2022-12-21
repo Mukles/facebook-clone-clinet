@@ -22,7 +22,6 @@ export const loginWithGoogle = async () => {
 export const onAuthChanged = (dispatch: any) => {
   onAuthStateChanged(auth, async (userCredential) => {
     if (userCredential) {
-      console.log("userCredential", userCredential);
       try {
         const data: any = store.getState().auth.formData;
         const token = await userCredential.getIdToken();

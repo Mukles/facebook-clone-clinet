@@ -1,8 +1,9 @@
+import ProfilePreview from "../../components/friends/profilePreview";
+import RequestGrid from "../../components/friends/requesGrid";
 import FriendLayout from "../../layout/friends/friendLayout";
 import Home from "../../pages";
 import NotFound from "../../pages/404";
 import Login from "../../pages/account/login";
-import Friends from "../../pages/friend/index";
 import MarketPlace from "../../pages/market-place";
 import Messenger from "../../pages/messenger/index";
 import MobileConversation from "../../pages/messenger/mobile/conversation";
@@ -14,7 +15,7 @@ import Animated from "../../utilities/Animate";
 import PublicRoute from "../../utilities/publicRoute";
 import RequiredAuth from "../../utilities/requireAuth";
 
-export const largeDevicesRoutes = [
+const mutualRoutes = [
   {
     path: "/",
     element: (
@@ -48,22 +49,6 @@ export const largeDevicesRoutes = [
     ),
   },
   {
-    path: "/messenger",
-    element: (
-      <RequiredAuth>
-        <Messenger />
-      </RequiredAuth>
-    ),
-  },
-  {
-    path: "/messenger/:id",
-    element: (
-      <RequiredAuth>
-        <SpecificConversation />
-      </RequiredAuth>
-    ),
-  },
-  {
     path: "/market-place",
     element: (
       <RequiredAuth>
@@ -73,27 +58,69 @@ export const largeDevicesRoutes = [
   },
   {
     path: "/profile/:id",
-    element: (
-      <RequiredAuth>
-        <Profile />
-      </RequiredAuth>
-    ),
     children: [
+      {
+        index: true,
+        element: (
+          <RequiredAuth>
+            <Profile />
+          </RequiredAuth>
+        ),
+      },
       {
         path: "about",
         element: <h1> I am form about</h1>,
       },
     ],
   },
+];
+
+export const largeDevicesRoutes = [
+  ...mutualRoutes,
   {
-    path: "friends",
+    path: "/messenger",
+    children: [
+      {
+        index: true,
+        element: (
+          <RequiredAuth>
+            <Messenger />
+          </RequiredAuth>
+        ),
+      },
+      {
+        path: ":id",
+        element: (
+          <RequiredAuth>
+            <SpecificConversation />
+          </RequiredAuth>
+        ),
+      },
+    ],
+  },
+
+  {
+    path: "/friends",
     element: (
       <RequiredAuth>
-        <FriendLayout>
-          <Friends />
-        </FriendLayout>
+        <FriendLayout />
       </RequiredAuth>
     ),
+
+    children: [
+      {
+        index: true,
+        element: <RequestGrid />,
+      },
+      {
+        path: "requests",
+        element: <ProfilePreview />,
+      },
+      {
+        path: "suggestions",
+        element: <ProfilePreview />,
+      },
+    ],
   },
   {
     path: "*",
@@ -102,42 +129,7 @@ export const largeDevicesRoutes = [
 ];
 
 export const smallDevicesRoutes = [
-  {
-    path: "/",
-    element: (
-      <RequiredAuth>
-        <Animated>
-          <Home />
-        </Animated>
-      </RequiredAuth>
-    ),
-  },
-  {
-    path: "/account/login",
-    element: (
-      <PublicRoute>
-        <Login />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: "/account/register",
-    element: (
-      <PublicRoute>
-        <Login />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: "/videos",
-    element: (
-      <RequiredAuth>
-        <Animated>
-          <Videos />
-        </Animated>
-      </RequiredAuth>
-    ),
-  },
+  ...mutualRoutes,
   {
     path: "/messenger",
     element: (

@@ -25,23 +25,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const largeRoutes: any = useRoutes(
-    largeDevicesRoutes.map((routes) => {
-      return {
-        path: routes.path,
-        element: routes.element,
-      };
-    })
-  );
-
-  const smallRoutes: any = useRoutes(
-    smallDevicesRoutes.map((routes) => {
-      return {
-        path: routes.path,
-        element: routes.element,
-      };
-    })
-  );
+  const largeRoutes: any = useRoutes([...largeDevicesRoutes]);
+  const smallRoutes: any = useRoutes(smallDevicesRoutes);
 
   if (width < 576) {
     return (
