@@ -10,6 +10,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
       async onQueryStarted(arg, { queryFulfilled, dispatch, getState }) {
         const result = await queryFulfilled;
         const { _id, email } = (getState() as RootState).auth.user || {};
@@ -62,17 +63,36 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     updateUser: build.mutation({
-      query: (data: any) => ({
-        url: `/user/${data._id}`,
-        method: "PUT",
-        body: data,
-      }),
+      query: (data) => {
+        console.log(data);
+        return {
+          url: `/user/${data._id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
       async onQueryStarted(args, { queryFulfilled, getState, dispatch }) {
         const result = await queryFulfilled;
         if (result.data) {
           dispatch(userLogin({ user: result.data.user, loading: false }));
         }
       },
+    }),
+
+    getReqUser: build.query({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "GET",
+        body: id,
+      }),
+    }),
+
+    getSuggestionFrieds: build.query({
+      query: (userId) => ({
+        url: "/user/suggestions",
+        method: "GET",
+        params: { userId },
+      }),
     }),
   }),
 });
@@ -81,4 +101,5 @@ export const {
   useCoverChangeMutation,
   useProfileChangeMutation,
   useUpdateUserMutation,
+  useGetSuggestionFriedsQuery,
 } = userApi;

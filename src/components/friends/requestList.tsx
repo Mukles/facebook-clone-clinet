@@ -1,18 +1,30 @@
 import { Link } from "react-router-dom";
+import defaultProfile from "../../assets/default/profile.png";
 import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 
 type props = {
   url: "request" | "suggestion";
 };
 
-const FriendRequesItem = () => {
+interface Props {
+  type?: string;
+  friend?: any;
+}
+
+export const FriendRequesItem = ({ type, friend }: Props) => {
+  const { userName, profilePicture, _id: userId } = friend;
   return (
-    <div className="friend-request-item">
-      <img src={profile} alt="profile" />
+    <Link
+      to={
+        !type ? `/friends/requests/${userId}` : `/friends/suggestions/${userId}`
+      }
+      className={`friend-request-item ${type}`}
+    >
+      <img src={profilePicture || defaultProfile} alt="profile" />
       <div className="flex-fill">
         <div className="d-flex justify-content-between mt-0">
-          <p className="name">Mukles Ali..</p>
-          <p className="name">43y</p>
+          <p className="name">{userName}</p>
+          <p className="name time">43y</p>
         </div>
 
         <div className="mutual-frd">
@@ -24,18 +36,27 @@ const FriendRequesItem = () => {
         </div>
 
         <div className="friend-buttons">
-          <button className="friend confirm">Confirm</button>
-          <button className="friend delete">Delete</button>
+          {!type ? (
+            <>
+              <button className="friend confirm">Confirm</button>
+              <button className="friend delete">Delete</button>
+            </>
+          ) : (
+            <>
+              <button className="friend confirm">Add Friend</button>
+              <button className="friend delete">Delete</button>
+            </>
+          )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
 const RequestList = ({ url }: props) => {
   return (
     <>
-      <div className="friend-request-top">
+      <div className={`friend-request-top`}>
         <Link to={"/friends"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -73,6 +73,38 @@ const mutualRoutes = [
       },
     ],
   },
+
+  {
+    path: "/friends",
+    element: (
+      <RequiredAuth>
+        <FriendLayout />
+      </RequiredAuth>
+    ),
+
+    children: [
+      {
+        index: true,
+        element: <RequestGrid />,
+      },
+      {
+        path: "requests",
+        element: <ProfilePreview />,
+      },
+      {
+        path: "requests/:selectedId",
+        element: <ProfilePreview />,
+      },
+      {
+        path: "suggestions",
+        element: <ProfilePreview />,
+      },
+      {
+        path: "suggestions/:selectedId",
+        element: <ProfilePreview />,
+      },
+    ],
+  },
 ];
 
 export const largeDevicesRoutes = [
@@ -99,29 +131,6 @@ export const largeDevicesRoutes = [
     ],
   },
 
-  {
-    path: "/friends",
-    element: (
-      <RequiredAuth>
-        <FriendLayout />
-      </RequiredAuth>
-    ),
-
-    children: [
-      {
-        index: true,
-        element: <RequestGrid />,
-      },
-      {
-        path: "requests",
-        element: <ProfilePreview />,
-      },
-      {
-        path: "suggestions",
-        element: <ProfilePreview />,
-      },
-    ],
-  },
   {
     path: "*",
     element: <NotFound />,

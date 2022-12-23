@@ -20,7 +20,7 @@ const CompleteRegister = () => {
 
   return (
     <AnimatePresence>
-      {!gender && !auth.loading && email && userName && (
+      {!auth.loading && !gender && email && userName && (
         <Register user={{ ...auth.user, ...user }} />
       )}
     </AnimatePresence>

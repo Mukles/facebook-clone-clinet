@@ -1,3 +1,14 @@
+@media (hover: none) {
+  .friend-sidebar {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
 .friend-sidebar {
   max-width: 350px;
   left: 0;
@@ -8,6 +19,32 @@
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
+  z-index: 1;
+
+  @media (max-width: $sm) {
+    top: 57px;
+
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 0px;
+    }
+
+    &:hover {
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  @media (max-width: $xsm) {
+    top: 121px;
+    width: 100%;
+  }
 
   .sidebar-top {
     display: flex;
@@ -115,6 +152,11 @@
       border-radius: 6px;
       transform: background-color 0.5s ease;
       cursor: pointer;
+      text-decoration: none;
+
+      &.suggestions .time {
+        display: none;
+      }
 
       &:hover {
         background-color: $color-gray;
@@ -192,6 +234,16 @@
 
 .friend-right-side {
   margin-left: 370px;
+
+  @media (max-width: $sm) {
+    margin-left: 0;
+    z-index: 999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: $color-white;
+  }
 }
 
 ul.sidebar-menu {
@@ -256,12 +308,19 @@ ul.sidebar-menu {
     font-weight: 700;
   }
 
-  button {
+  a {
     @include reset-button;
     color: $brand-color;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $color-gray;
+    }
   }
 }
 

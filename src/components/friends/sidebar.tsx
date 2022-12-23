@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { sidebarData } from "../../data/friend/sidebar";
 import RequestList from "./requestList";
+import SuggestionList from "./suggestionList";
 
 const requstedObject = {
   requests: <RequestList url="request" />,
-  suggestions: <RequestList url="suggestion" />,
+  suggestions: <SuggestionList url="suggestion" />,
 };
 
 export type Url = "requests" | "suggestions";
@@ -12,9 +13,7 @@ export type Url = "requests" | "suggestions";
 const SideBar = () => {
   const { pathname } = useLocation();
   const urlSplit = pathname.split("/");
-  const url: Url = urlSplit[urlSplit.length - 1] as Url;
-
-  console.log(requstedObject.requests);
+  const url: Url = urlSplit[2] as Url;
 
   return (
     <div className="friend-sidebar shadow-sm">

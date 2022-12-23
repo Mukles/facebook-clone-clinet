@@ -81,7 +81,6 @@ const Register = ({ setShow, user }: Props) => {
                     <div className="form-group col-md-6">
                       <FastField name="firstName">
                         {({ field, meta }: any) => {
-                          console.log(field);
                           return (
                             <input
                               {...field}
