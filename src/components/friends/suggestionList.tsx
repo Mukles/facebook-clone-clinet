@@ -20,8 +20,6 @@ const SuggestionList = ({ url }: Props) => {
     error,
   } = useGetSuggestionFriedsQuery(userId);
 
-  console.log("suggestionFriends", suggestionFriends);
-
   return (
     <>
       <div className="friend-request-top">
@@ -54,6 +52,7 @@ const SuggestionList = ({ url }: Props) => {
           (friend: any, index: number) => (
             <FriendRequesItem
               friend={friend}
+              userId={userId}
               type={"suggestions"}
               key={index}
             />

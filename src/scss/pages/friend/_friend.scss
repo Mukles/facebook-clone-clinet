@@ -147,6 +147,7 @@
 
     .friend-request-item {
       display: flex;
+      align-items: center;
       padding: 12px 10px;
       margin-block: 6px;
       border-radius: 6px;
@@ -158,12 +159,23 @@
         display: none;
       }
 
+      &.request-sent {
+        .name {
+          width: 100px;
+        }
+
+        .friend-buttons {
+          margin-top: 0;
+        }
+      }
+
       &:hover {
         background-color: $color-gray;
       }
 
       & > div {
         margin-left: 10px;
+        max-width: 80%;
       }
 
       & > div > * {
@@ -182,6 +194,16 @@
         font-size: 14px;
         color: $color-semibalck;
         line-height: 19px;
+        margin: 0;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      & > div p.request-sent {
+        font-size: 12px;
+        line-height: 15px;
         margin: 0;
       }
 
@@ -217,7 +239,7 @@
           padding: 10px;
           border-radius: 6px;
           background-color: $brand-color;
-          color: 14px;
+          font-size: 14px;
           font-weight: 600;
           line-height: 19px;
           color: $color-white;

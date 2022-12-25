@@ -6,7 +6,6 @@ interface Props {
 
 const FriendLayout = () => {
   const { selectedId } = useParams();
-  console.log("selectedId", selectedId);
 
   return (
     <div className="container-fluid nav-top">

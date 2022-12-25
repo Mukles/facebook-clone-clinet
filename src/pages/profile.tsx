@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
-import { useCoverChangeMutation } from "../App/features/user/userApi";
+import {
+  useCoverChangeMutation,
+  useGetReqUserQuery,
+} from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 import defaultCover from "../assets/default/cover.jpg";
 import defaultProfile from "../assets/default/profile.png";
@@ -20,10 +23,17 @@ interface Props {
 }
 
 const Profile = ({ selectedId }: Props) => {
-  const { _id, email, userName, profilePicture } = useSelector<RootState, any>(
-    (state) => state.auth.user
-  );
+  const { _id, email, userName, profilePicture, converPicture } = useSelector<
+    RootState,
+    any
+  >((state) => state.auth.user);
   const userId = selectedId ?? _id;
+
+  const { data: friendDetails } = useGetReqUserQuery(selectedId, {
+    skip: !selectedId,
+  });
+
+  console.log(friendDetails);
 
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -50,7 +60,7 @@ const Profile = ({ selectedId }: Props) => {
   const onCoverPhotoSave = () => {
     const formdata = new FormData();
     formdata.append("coverPhoto", coverPhoto);
-    formdata.append("email", userDetails?.email);
+    formdata.append("email", email);
     coverChange(formdata);
     setCoverPhotoPreview(null);
     setConverPhoto(null);
@@ -116,7 +126,8 @@ const Profile = ({ selectedId }: Props) => {
               <img
                 src={
                   converPhotoPreview ||
-                  userDetails?.converPicture ||
+                  friendDetails?.converPicture ||
+                  converPicture ||
                   defaultCover
                 }
                 alt="conver"
@@ -168,7 +179,11 @@ const Profile = ({ selectedId }: Props) => {
             <div className="profile-photo">
               <div className="avater">
                 <img
-                  src={profilePicture || defaultProfile}
+                  src={
+                    friendDetails?.profilePicture ||
+                    profilePicture ||
+                    defaultProfile
+                  }
                   alt="user-profile"
                 />
                 {!selectedId && (
@@ -195,7 +210,7 @@ const Profile = ({ selectedId }: Props) => {
 
               <div className="profile-details-wrapper">
                 <div>
-                  <h2>{userName}</h2>
+                  <h2>{friendDetails?.userName || userName}</h2>
                   <span className="mutual-frd">782 friends</span>
                   <ul className="friend-list">
                     <li>

@@ -83,7 +83,6 @@ export const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/user/${id}`,
         method: "GET",
-        body: id,
       }),
     }),
 
@@ -94,6 +93,35 @@ export const userApi = apiSlice.injectEndpoints({
         params: { userId },
       }),
     }),
+
+    sentFriendRequest: build.mutation({
+      query: ({ friendId, userId }) => ({
+        url: `/user/request/friend/${friendId}`,
+        method: "POST",
+        body: { userId },
+      }),
+    }),
+
+    cancelFriendRequest: build.mutation({
+      query: (requestId) => ({
+        url: `/user/cancel/friend/${requestId}`,
+        method: "PUT",
+      }),
+    }),
+
+    getFriendRequestList: build.query({
+      query: (currentUserId) => ({
+        url: `/user/requestlist/${currentUserId}`,
+        method: "GET",
+      }),
+    }),
+
+    accpetFriendRequest: build.mutation({
+      query: (requestId) => ({
+        url: `/user/request/accept/${requestId}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -102,4 +130,9 @@ export const {
   useProfileChangeMutation,
   useUpdateUserMutation,
   useGetSuggestionFriedsQuery,
+  useGetReqUserQuery,
+  useSentFriendRequestMutation,
+  useCancelFriendRequestMutation,
+  useGetFriendRequestListQuery,
+  useAccpetFriendRequestMutation,
 } = userApi;
