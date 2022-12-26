@@ -20,6 +20,7 @@ interface Props {
 }
 
 const Register = ({ setShow, user }: Props) => {
+  console.log(user);
   const dispatch = useDispatch();
   const onClose = () => {
     setShow && setShow(false);

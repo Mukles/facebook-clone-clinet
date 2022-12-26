@@ -5,6 +5,7 @@ import { format } from "timeago.js";
 import {
   useAccpetFriendRequestMutation,
   useCancelFriendRequestMutation,
+  useDeleteFriendRequestMutation,
   useGetFriendRequestListQuery,
   useSentFriendRequestMutation,
 } from "../../App/features/user/userApi";
@@ -62,6 +63,17 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
     },
   ] = useAccpetFriendRequestMutation();
 
+  const [
+    deleteFriendRequest,
+    {
+      isLoading: isDeleteLoading,
+      isSuccess: isDeleteSuccess,
+      isError: isDeleteError,
+      data: deleteData,
+      error: deleteError,
+    },
+  ] = useDeleteFriendRequestMutation();
+
   const [isCancel, setCancel] = useState(false);
 
   const sentFriendRequest: React.MouseEventHandler<HTMLButtonElement> = (
@@ -76,12 +88,17 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
   > = async (event) => {
     const requestId = requestData.newRequest._id;
     event.preventDefault();
-    cancelRequest(requestId);
+    cancelRequest({ requestId, userId });
   };
 
   const onAccept: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
-    accpetFriendRequest(requestId);
+    accpetFriendRequest({ userId, requestId });
+  };
+
+  const onDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    deleteFriendRequest({ userId, requestId });
   };
 
   useEffect(() => {
@@ -113,20 +130,20 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
       >
         <div
           className={`d-flex justify-content-between mt-0 ${
-            isCancel || isAccpetSuccess ? "flex-column" : ""
+            isCancel || isAccpetSuccess || isDeleteSuccess ? "flex-column" : ""
           }`}
         >
           <p className="name">{userName}</p>
-          {(isCancel || isAccpetSuccess) && (
+          {(isCancel || isAccpetSuccess || isDeleteSuccess) && (
             <p className="request-sent mt-1">
-              {accpetData?.message || "Request sent"}
+              {accpetData?.message || deleteData?.message || "Request sent"}
             </p>
           )}
-          {!isAccpetSuccess && (
+          {!isAccpetSuccess && !isDeleteSuccess && (
             <p className="name time text-end">{format(createdAt as string)}</p>
           )}
         </div>
-        {!isCancel && !isAccpetSuccess && (
+        {!isCancel && !isAccpetSuccess && !isDeleteSuccess && (
           <div className={`mutual-frd`}>
             <div className="frd-imgs">
               <img src={profile} alt="profile" />
@@ -139,16 +156,22 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
         <div className="friend-buttons">
           {!type ? (
             <>
-              {!isAccpetSuccess && (
+              {!isAccpetSuccess && !isDeleteSuccess && (
                 <>
                   <button
                     onClick={onAccept}
-                    disabled={isAccpetLoading}
+                    disabled={isAccpetLoading || isDeleteLoading}
                     className={`friend confirm`}
                   >
                     Confirm
                   </button>
-                  <button className="friend delete">Delete</button>
+                  <button
+                    onClick={onDelete}
+                    disabled={isAccpetLoading || isDeleteLoading}
+                    className="friend delete"
+                  >
+                    Delete
+                  </button>
                 </>
               )}
             </>
@@ -191,6 +214,7 @@ const RequestList = ({ url }: props) => {
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
+
   const { isLoading, isSuccess, isError, error, data } =
     useGetFriendRequestListQuery(userId);
 
@@ -225,6 +249,7 @@ const RequestList = ({ url }: props) => {
           return (
             <FriendRequesItem
               key={index}
+              userId={userId}
               friend={{ ...friend.user_details[0], requestId: friend._id }}
             />
           );

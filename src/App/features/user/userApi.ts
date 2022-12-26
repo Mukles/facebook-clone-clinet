@@ -103,9 +103,10 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     cancelFriendRequest: build.mutation({
-      query: (requestId) => ({
+      query: ({ requestId, userId }) => ({
         url: `/user/cancel/friend/${requestId}`,
         method: "PUT",
+        body: { userId },
       }),
     }),
 
@@ -117,9 +118,18 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     accpetFriendRequest: build.mutation({
-      query: (requestId) => ({
+      query: ({ userId, requestId }) => ({
         url: `/user/request/accept/${requestId}`,
         method: "PUT",
+        body: { userId },
+      }),
+    }),
+
+    deleteFriendRequest: build.mutation({
+      query: ({ requestId, userId }) => ({
+        url: `/user/request/delete/${requestId}`,
+        method: "DELETE",
+        body: { userId },
       }),
     }),
   }),
@@ -135,4 +145,5 @@ export const {
   useCancelFriendRequestMutation,
   useGetFriendRequestListQuery,
   useAccpetFriendRequestMutation,
+  useDeleteFriendRequestMutation,
 } = userApi;
