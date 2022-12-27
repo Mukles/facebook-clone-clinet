@@ -51,7 +51,7 @@ const SuggestionList = ({ url }: Props) => {
         {(suggestionFriends as Array<any>)?.map(
           (friend: any, index: number) => (
             <FriendRequesItem
-              friend={friend}
+              friend={{ sender_details: { ...friend } }}
               userId={userId}
               type={"suggestions"}
               key={index}

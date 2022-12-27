@@ -132,6 +132,14 @@ export const userApi = apiSlice.injectEndpoints({
         body: { userId },
       }),
     }),
+
+    checkRequestStatus: build.mutation({
+      query: ({ sender, recipient }) => ({
+        url: "/user/request/status",
+        method: "GET",
+        params: { sender, recipient },
+      }),
+    }),
   }),
 });
 

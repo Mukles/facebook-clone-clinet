@@ -21,8 +21,8 @@ const RequestGrid = () => {
           <Link to="requests">See all</Link>
         </div>
         <div className="row g-3">
-          {data?.map((friend: any, index: any) => (
-            <Frined user={friend} key={index} />
+          {data?.map((sender: any, index: any) => (
+            <Frined sender={sender} userId={userId as string} key={index} />
           ))}
         </div>
       </div>

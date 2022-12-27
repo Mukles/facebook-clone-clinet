@@ -24,13 +24,12 @@ interface Props {
 }
 
 export const FriendRequesItem = ({ type, friend, userId }: Props) => {
+  const { _id: requestId, createdAt } = friend || {};
   const {
     userName,
     profilePicture,
     _id: friendId,
-    createdAt,
-    requestId,
-  } = friend || {};
+  } = friend.sender_details || {};
 
   const [
     sendRequest,
@@ -250,7 +249,7 @@ const RequestList = ({ url }: props) => {
             <FriendRequesItem
               key={index}
               userId={userId}
-              friend={{ ...friend.user_details[0], requestId: friend._id }}
+              friend={{ ...friend, requestId: friend._id }}
             />
           );
         })}

@@ -10,6 +10,7 @@ import {
 import { RootState } from "../App/store";
 import defaultCover from "../assets/default/cover.jpg";
 import defaultProfile from "../assets/default/profile.png";
+import MessengerSvg from "../assets/Header/messagerSvg";
 import Image from "../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
@@ -32,8 +33,6 @@ const Profile = ({ selectedId }: Props) => {
   const { data: friendDetails } = useGetReqUserQuery(selectedId, {
     skip: !selectedId,
   });
-
-  console.log(friendDetails);
 
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -71,6 +70,9 @@ const Profile = ({ selectedId }: Props) => {
       setOpen(false);
     }
   }, [converPhotoPreview, setOpen]);
+
+  const cover = friendDetails ? friendDetails.converPicture : converPicture;
+  const avater = friendDetails ? friendDetails.profilePicture : profilePicture;
 
   return (
     <section id="profile">
@@ -124,12 +126,7 @@ const Profile = ({ selectedId }: Props) => {
           <div className="profile-container">
             <div className="cover-photo">
               <img
-                src={
-                  converPhotoPreview ||
-                  friendDetails?.converPicture ||
-                  converPicture ||
-                  defaultCover
-                }
+                src={converPhotoPreview || cover || defaultCover}
                 alt="conver"
               />
               {!selectedId && (
@@ -178,14 +175,7 @@ const Profile = ({ selectedId }: Props) => {
             </div>
             <div className="profile-photo">
               <div className="avater">
-                <img
-                  src={
-                    friendDetails?.profilePicture ||
-                    profilePicture ||
-                    defaultProfile
-                  }
-                  alt="user-profile"
-                />
+                <img src={avater || defaultProfile} alt="user-profile" />
                 {!selectedId && (
                   <button
                     className="profile-change"
@@ -245,45 +235,72 @@ const Profile = ({ selectedId }: Props) => {
                     </li>
                   </ul>
                 </div>
-                {!selectedId && (
-                  <div>
-                    <button className="add-story profile-button">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <span>Add to profile</span>
-                    </button>
-                    <button className="edit-profile profile-button">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                        />
-                      </svg>
+                <div>
+                  {!selectedId ? (
+                    <>
+                      <button className="add-story profile-button">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span>Add to profile</span>
+                      </button>
+                      <button className="edit-profile profile-button">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                          />
+                        </svg>
 
-                      <span>Edit profile</span>
-                    </button>
-                  </div>
-                )}
+                        <span>Edit profile</span>
+                      </button>{" "}
+                    </>
+                  ) : (
+                    <>
+                      <button className="add-story profile-button">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span>Add Friend</span>
+                      </button>
+                      <button className="edit-profile profile-button">
+                        <MessengerSvg />
+
+                        <span>Message</span>
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
             <div className="nav-bottom mx-3 d-flex justify-content-between align-items-center">
