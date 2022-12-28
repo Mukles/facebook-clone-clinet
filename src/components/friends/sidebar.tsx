@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { sidebarData } from "../../data/friend/sidebar";
+import List from "./list";
 import RequestList from "./requestList";
 import SuggestionList from "./suggestionList";
 
 const requstedObject = {
-  requests: <RequestList url="request" />,
-  suggestions: <SuggestionList url="suggestion" />,
+  requests: <RequestList />,
+  suggestions: <SuggestionList />,
+  list: <List />,
 };
 
 export type Url = "requests" | "suggestions";

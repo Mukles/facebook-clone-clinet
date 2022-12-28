@@ -12,10 +12,7 @@ import {
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";
 import profile from "../../assets/story/309455177_5413268065451119_346845499347874328_n.jpg";
-
-type props = {
-  url: "request" | "suggestion";
-};
+import SideBarTop from "./sidebarTop";
 
 interface Props {
   type?: string;
@@ -209,7 +206,7 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
   );
 };
 
-const RequestList = ({ url }: props) => {
+const RequestList = () => {
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
@@ -219,28 +216,7 @@ const RequestList = ({ url }: props) => {
 
   return (
     <>
-      <div className={`friend-request-top`}>
-        <Link to={"/friends"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-            />
-          </svg>
-        </Link>
-        <div>
-          <Link to="/friends">Friends</Link>
-          <h1>Friend Requests</h1>
-        </div>
-      </div>
+      <SideBarTop text="Friend Requests" />
       <div className="friend-request-container">
         <h4 className="mt-2">52 Friend Requests</h4>
         <button>View sent request</button>

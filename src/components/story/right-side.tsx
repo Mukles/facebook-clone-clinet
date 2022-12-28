@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useGetFriendRequestListQuery } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
 import ContactList from "../contact-list";
@@ -13,14 +14,20 @@ const RightSide = () => {
 
   const lastRequest = (data && data[0]) || {};
 
-  console.log(lastRequest);
-
   return (
     <div className="right-side py-3">
-      <FriendRequesItem
-        userId={userId}
-        friend={{ ...lastRequest, requestId: lastRequest._id }}
-      />
+      {data?.length > 0 && (
+        <>
+          <div className="d-flex justify-content-between req-header">
+            <p className="mb-0 title">Friend requests</p>
+            <Link to="/friends/requests">See all</Link>
+          </div>
+          <FriendRequesItem
+            userId={userId}
+            friend={{ ...lastRequest, requestId: lastRequest._id }}
+          />
+        </>
+      )}
       <ContactList />
     </div>
   );

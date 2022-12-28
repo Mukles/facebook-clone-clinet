@@ -56,6 +56,7 @@ export const sidebarData = [
   {
     id: 4,
     text: "All Friends",
+    url: "/friends/list",
     icon: <i className="fa-solid fa-users-rays"></i>,
     nested: {
       icon: (

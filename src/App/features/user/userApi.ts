@@ -133,11 +133,25 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    checkRequestStatus: build.mutation({
+    checkRequestStatus: build.query({
       query: ({ sender, recipient }) => ({
         url: "/user/request/status",
         method: "GET",
         params: { sender, recipient },
+      }),
+    }),
+
+    getFriendList: build.query({
+      query: () => ({
+        url: "/user/friends",
+        method: "GET",
+      }),
+    }),
+
+    getNewsFeed: build.query({
+      query: (userId) => ({
+        url: `/user/newsfeed/${userId}`,
+        method: "GET",
       }),
     }),
   }),
@@ -154,4 +168,7 @@ export const {
   useGetFriendRequestListQuery,
   useAccpetFriendRequestMutation,
   useDeleteFriendRequestMutation,
+  useCheckRequestStatusQuery,
+  useGetFriendListQuery,
+  useGetNewsFeedQuery,
 } = userApi;

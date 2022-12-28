@@ -1,0 +1,51 @@
+.friend-top {
+  display: flex;
+  padding-block: 8px;
+  margin-inline: 10px;
+  border-bottom: 1px solid $color-gray;
+  align-items: center;
+
+  & > a {
+    @include reset-button;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    transition: background-color 0.5s ease;
+
+    &:hover {
+      background-color: $color-gray;
+    }
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  & > div {
+    margin-left: 12px;
+  }
+
+  a {
+    font-size: 14px;
+    line-height: 15px;
+    color: #65676b;
+    font-weight: 400;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  h1 {
+    font-size: 24px;
+    line-height: 28px;
+    color: $color-semibalck;
+    font-weight: 700;
+  }
+}

@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { useGetNewsFeedQuery } from "../App/features/user/userApi";
+import { RootState } from "../App/store";
 import LeftSide from "../components/leftSide";
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
@@ -6,6 +9,17 @@ import Story from "../components/story/story";
 import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Home = () => {
+  const userId = useSelector<RootState, string | undefined>(
+    (state) => state.auth.user._id
+  );
+
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    data: posts,
+  } = useGetNewsFeedQuery(userId);
   return (
     <div className="container-fluid nav-top">
       <PrivacyScreen key={"index"} />
@@ -25,6 +39,9 @@ const Home = () => {
           {/* create a new post */}
           <CreatePost />
           {/* posts */}
+          {posts?.map((post: any, index: number) => (
+            <Post key={index} />
+          ))}
           <Post />
           <Post />
         </div>

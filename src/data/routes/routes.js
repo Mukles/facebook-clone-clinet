@@ -103,6 +103,11 @@ const mutualRoutes = [
         path: "suggestions/:selectedId",
         element: <ProfilePreview />,
       },
+
+      {
+        path: "list",
+        element: <ProfilePreview />,
+      },
     ],
   },
 ];

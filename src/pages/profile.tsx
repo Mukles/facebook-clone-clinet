@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
 import {
+  useCheckRequestStatusQuery,
   useCoverChangeMutation,
   useGetReqUserQuery,
 } from "../App/features/user/userApi";
@@ -18,10 +19,59 @@ import AvaterChanged from "../components/profile-chnage/avaterChange";
 import ProfileChanged from "../components/profile-chnage/profileChange";
 import ProifleUpload from "../components/profile-chnage/profileUpload";
 import SelectPhotos from "../components/profile-chnage/selectPhotos";
+import RequestChecker from "../utilities/requestChecker";
 
 interface Props {
   selectedId?: string;
 }
+
+interface IButton {
+  pending: any;
+  accepted: any;
+}
+
+const statusButton: IButton = {
+  pending: (
+    <button className="add-story profile-button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>Cancel request</span>
+    </button>
+  ),
+  accepted: (
+    <button className="add-story profile-button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>Friend</span>
+    </button>
+  ),
+};
+
+type Status = "pending" | "accepted";
 
 const Profile = ({ selectedId }: Props) => {
   const { _id, email, userName, profilePicture, converPicture } = useSelector<
@@ -34,6 +84,11 @@ const Profile = ({ selectedId }: Props) => {
     skip: !selectedId,
   });
 
+  const { data: isFriend } = useCheckRequestStatusQuery(
+    { sender: _id, recipient: selectedId },
+    { skip: !selectedId }
+  );
+
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isSlectedPhtosOpen, setSlectedPhtosOpen] = useState<boolean>(false);
@@ -44,7 +99,6 @@ const Profile = ({ selectedId }: Props) => {
     null
   );
   const [isProfileModalOpen, setProfileModalOpen] = useState<boolean>(false);
-  const userDetails = useSelector<RootState, any>((state) => state.auth.user);
 
   const [
     coverChange,
@@ -73,6 +127,7 @@ const Profile = ({ selectedId }: Props) => {
 
   const cover = friendDetails ? friendDetails.converPicture : converPicture;
   const avater = friendDetails ? friendDetails.profilePicture : profilePicture;
+  const isFriendOrRequestsent = isFriend && isFriend[0];
 
   return (
     <section id="profile">
@@ -272,30 +327,17 @@ const Profile = ({ selectedId }: Props) => {
                         </svg>
 
                         <span>Edit profile</span>
-                      </button>{" "}
+                      </button>
                     </>
                   ) : (
                     <>
-                      <button className="add-story profile-button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        <span>Add Friend</span>
-                      </button>
+                      <RequestChecker
+                        sender={_id}
+                        recipient={selectedId}
+                        data={isFriendOrRequestsent}
+                      />
                       <button className="edit-profile profile-button">
                         <MessengerSvg />
-
                         <span>Message</span>
                       </button>
                     </>
