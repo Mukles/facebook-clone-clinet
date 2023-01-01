@@ -20,6 +20,8 @@ const Home = () => {
     error,
     data: posts,
   } = useGetNewsFeedQuery(userId);
+  // console.log(posts);
+
   return (
     <div className="container-fluid nav-top">
       <PrivacyScreen key={"index"} />
@@ -40,10 +42,8 @@ const Home = () => {
           <CreatePost />
           {/* posts */}
           {posts?.map((post: any, index: number) => (
-            <Post key={index} />
+            <Post key={index} post={post.friendsPosts} />
           ))}
-          <Post />
-          <Post />
         </div>
         <div className="col-lg-4 col-xl-3 d-none d-lg-block">
           <RightSide />

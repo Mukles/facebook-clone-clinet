@@ -5,9 +5,8 @@ interface Props {
 }
 
 export const RequestChecker = ({ sender, recipient, data }: Props) => {
-  console.log("data", data);
   switch (data?.status) {
-    case "accpeted":
+    case "accepted":
       return (
         <button className="add-story profile-button">
           <svg

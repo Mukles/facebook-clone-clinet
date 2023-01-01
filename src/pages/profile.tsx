@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetPostsQuery } from "../App/features/post/postApi";
 import {
   useCheckRequestStatusQuery,
@@ -25,68 +25,20 @@ interface Props {
   selectedId?: string;
 }
 
-interface IButton {
-  pending: any;
-  accepted: any;
-}
-
-const statusButton: IButton = {
-  pending: (
-    <button className="add-story profile-button">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <span>Cancel request</span>
-    </button>
-  ),
-  accepted: (
-    <button className="add-story profile-button">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <span>Friend</span>
-    </button>
-  ),
-};
-
-type Status = "pending" | "accepted";
-
 const Profile = ({ selectedId }: Props) => {
   const { _id, email, userName, profilePicture, converPicture } = useSelector<
     RootState,
     any
   >((state) => state.auth.user);
-  const userId = selectedId ?? _id;
-
-  const { data: friendDetails } = useGetReqUserQuery(selectedId, {
-    skip: !selectedId,
+  const { id } = useParams();
+  const userId = selectedId ?? id;
+  const { data: friendDetails } = useGetReqUserQuery(userId, {
+    skip: userId === _id,
   });
 
   const { data: isFriend } = useCheckRequestStatusQuery(
-    { sender: _id, recipient: selectedId },
-    { skip: !selectedId }
+    { sender: _id, recipient: userId },
+    { skip: userId === _id }
   );
 
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
@@ -98,6 +50,7 @@ const Profile = ({ selectedId }: Props) => {
   const [profilePhotoPreview, setProfilePhotoPreview] = useState<any | null>(
     null
   );
+
   const [isProfileModalOpen, setProfileModalOpen] = useState<boolean>(false);
 
   const [
@@ -128,6 +81,7 @@ const Profile = ({ selectedId }: Props) => {
   const cover = friendDetails ? friendDetails.converPicture : converPicture;
   const avater = friendDetails ? friendDetails.profilePicture : profilePicture;
   const isFriendOrRequestsent = isFriend && isFriend[0];
+  const isAdmin = userId === _id;
 
   return (
     <section id="profile">
@@ -184,13 +138,11 @@ const Profile = ({ selectedId }: Props) => {
                 src={converPhotoPreview || cover || defaultCover}
                 alt="conver"
               />
-              {!selectedId && (
+              {isAdmin && (
                 <button
                   type="button"
                   className="edit-cover"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
+                  onClick={() => setOpen(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +163,7 @@ const Profile = ({ selectedId }: Props) => {
                       d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
                     />
                   </svg>
-                  <span> Edit conver photo</span>
+                  <span>Edit conver photo</span>
                 </button>
               )}
               <AnimatePresence>
@@ -231,7 +183,7 @@ const Profile = ({ selectedId }: Props) => {
             <div className="profile-photo">
               <div className="avater">
                 <img src={avater || defaultProfile} alt="user-profile" />
-                {!selectedId && (
+                {isAdmin && (
                   <button
                     className="profile-change"
                     onClick={() => setProfileModalOpen(true)}
@@ -291,7 +243,7 @@ const Profile = ({ selectedId }: Props) => {
                   </ul>
                 </div>
                 <div>
-                  {!selectedId ? (
+                  {isAdmin ? (
                     <>
                       <button className="add-story profile-button">
                         <svg
@@ -308,7 +260,7 @@ const Profile = ({ selectedId }: Props) => {
                             d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                           />
                         </svg>
-                        <span>Add to profile</span>
+                        <span>Add Story</span>
                       </button>
                       <button className="edit-profile profile-button">
                         <svg
@@ -333,13 +285,16 @@ const Profile = ({ selectedId }: Props) => {
                     <>
                       <RequestChecker
                         sender={_id}
-                        recipient={selectedId}
+                        recipient={userId as string}
                         data={isFriendOrRequestsent}
                       />
-                      <button className="edit-profile profile-button">
+                      <Link
+                        to={`/messenger/${userId}`}
+                        className="edit-profile profile-button"
+                      >
                         <MessengerSvg />
                         <span>Message</span>
-                      </button>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -399,11 +354,11 @@ const Profile = ({ selectedId }: Props) => {
                   Be good and shall always see good in everything and everyone
                   and even in yourself.
                 </p>
-                {!selectedId && <button className="edit-bio">Edit bio</button>}
+                {isAdmin && <button className="edit-bio">Edit bio</button>}
               </div>
             </div>
             <div className="col">
-              {!selectedId && <CreatePost />}
+              {isAdmin && <CreatePost />}
               {posts?.map((post: any, index: number) => (
                 <Post key={index} post={post} />
               ))}

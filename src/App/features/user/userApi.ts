@@ -142,8 +142,8 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     getFriendList: build.query({
-      query: () => ({
-        url: "/user/friends",
+      query: (userId) => ({
+        url: `/user/friend-list/${userId}`,
         method: "GET",
       }),
     }),

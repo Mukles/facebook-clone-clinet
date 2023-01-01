@@ -14,9 +14,7 @@ const Header = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const { pathname } = useLocation();
 
-  const shadow = pathname.match(/\/messenger|profile/gi)?.length
-    ? ""
-    : "shadow-sm";
+  const shadow = pathname.match(/\/messenger/gi)?.length ? "" : "shadow-sm";
 
   const display =
     pathname === ("/account/login" || "/account/register") ||

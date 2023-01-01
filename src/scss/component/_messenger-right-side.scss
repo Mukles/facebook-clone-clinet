@@ -2,6 +2,22 @@
   height: 100%;
   width: 98.8%;
 
+  .user-details {
+    & > p {
+      font-size: 16px;
+      line-height: 19px;
+      color: $color-semibalck;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    & > p:not(:nth-child(2)) {
+      font-size: 12px;
+      line-height: 15px;
+      color: $color-semibalck;
+      font-weight: 400;
+    }
+  }
   .chathead {
     border-bottom: 2px solid #00000012;
   }
@@ -60,6 +76,13 @@
 
     .thums-up {
       flex-basis: 40px;
+
+      .submit-button {
+        background-color: transparent;
+        border: none;
+        color: $brand-color;
+      }
+
       svg {
         width: 32px;
         height: 32px;
