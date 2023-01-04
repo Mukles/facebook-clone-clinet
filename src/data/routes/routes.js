@@ -1,6 +1,10 @@
 import ProfilePreview from "../../components/friends/profilePreview";
 import RequestGrid from "../../components/friends/requesGrid";
+import PostWrapper from "../../components/post/postWrapper";
+import AboutLayout from "../../components/profile/aboutLayout";
+import OverView from "../../components/profile/overview";
 import FriendLayout from "../../layout/friends/friendLayout";
+import ProfileLayout from "../../layout/profileLayout";
 import Home from "../../pages";
 import NotFound from "../../pages/404";
 import Login from "../../pages/account/login";
@@ -58,18 +62,25 @@ const mutualRoutes = [
   },
   {
     path: "/profile/:id",
+    element: (
+      <RequiredAuth>
+        <ProfileLayout />
+      </RequiredAuth>
+    ),
     children: [
       {
         index: true,
-        element: (
-          <RequiredAuth>
-            <Profile />
-          </RequiredAuth>
-        ),
+        element: <PostWrapper />,
       },
       {
         path: "about",
-        element: <h1> I am form about</h1>,
+        element: <AboutLayout />,
+        children: [
+          {
+            index: true,
+            element: <OverView />,
+          },
+        ],
       },
     ],
   },

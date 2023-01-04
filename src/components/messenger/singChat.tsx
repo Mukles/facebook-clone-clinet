@@ -1,6 +1,14 @@
-import profile from "../../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
+import { format } from "timeago.js";
+import defaultProfile from "../../assets/default/profile.png";
+interface Props {
+  partnerInfo: any;
+  lastMessage: any;
+}
 
-const SingleChat = () => {
+const SingleChat = ({ partnerInfo, lastMessage }: Props) => {
+  const { userName, profilePicture } = partnerInfo || {};
+  const { message, createdAt } = lastMessage || {};
+
   return (
     <li className="chat-list d-flex align-items-center gap-3 rounded w-80">
       <div className="profile">
@@ -8,18 +16,17 @@ const SingleChat = () => {
           className="rounded-circle"
           width={55}
           height={55}
-          src={profile}
+          src={profilePicture || defaultProfile}
           alt="profile"
         />
       </div>
       <div className="user-deatils d-blcok d-md-none d-lg-block">
-        <p className="mb-2 user-name">Name</p>
-        <p className="mb-0 message">
-          Messagedsfkldasjf fkljdaslkfjdsakl fj dsaklfjdasklfjsda klfjsda
-          klfjsdaklfjkdlasf
-        </p>
+        <p className="mb-2 user-name">{userName}</p>
+        <p className="mb-0 message">{message}</p>
       </div>
-      <p className="pe-2 mb-0 d-blcok d-md-none d-lg-block">18m</p>
+      <p className="pe-2 mb-0 ms-auto  d-blcok d-md-none d-lg-block">
+        {format(createdAt)}
+      </p>
       <div className="overlay d-blcok d-md-none d-lg-flex">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,3 +48,5 @@ const SingleChat = () => {
 };
 
 export default SingleChat;
+
+const getParterInfo = () => {};

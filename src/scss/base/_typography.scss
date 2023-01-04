@@ -53,16 +53,16 @@ ul {
     width: 30px;
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 25px;
     transform: translateY(-50%);
   }
 }
 
 .input-field {
-  border: 2px solid #dddfe2;
-  padding: 10px 12px;
+  border: 1px solid $gray-100;
+  padding: 12px;
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 8px;
 
   &[name="password"] {
     padding-right: 43px;
@@ -70,6 +70,7 @@ ul {
 
   &.input-error {
     border-color: #e94235;
+    position: relative;
 
     &::placeholder {
       color: #e94235;
@@ -78,7 +79,7 @@ ul {
 
   &:focus {
     outline: none;
-    border: 2px solid #1877f2;
+    border: 1px solid #1877f2;
 
     &::placeholder {
       color: #1877f2;
@@ -101,4 +102,26 @@ ul {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.input-error-message {
+  position: relative;
+  width: 100%;
+  background: #b94a48;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13px;
+  padding: 15px 10px;
+  margin-top: 13px;
+
+  &::after {
+    position: absolute;
+    content: "";
+    left: 8px;
+    top: -10px;
+    border-top: none;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #b94a48;
+  }
 }

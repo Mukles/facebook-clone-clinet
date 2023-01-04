@@ -1,13 +1,28 @@
 import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setIndex } from "../../App/features/auth/authSlice";
+import { useGetConversationListQuery } from "../../App/features/conversation/conversationApi";
+import { RootState } from "../../App/store";
+import { IUser } from "../../types/userTypes";
 import SingleChat from "./singChat";
 
 const MessengerMenu = () => {
   const ref = useRef<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+
+  const sender = useSelector<RootState, string | undefined>(
+    (state) => state.auth.user._id
+  );
+
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+    data: convserationList,
+  } = useGetConversationListQuery({ sender });
 
   useEffect(() => {
     ref.current?.addEventListener("scroll", function (e: any) {
@@ -97,18 +112,25 @@ const MessengerMenu = () => {
           ref={ref}
           className="chat-lists d-flex flex-column mt-2 py-2 overflow-y-auto"
         >
-          {Array(10)
-            .fill("")
-            .map((conversation, idx) => (
+          {convserationList?.map((conversation: any, idx: number) => {
+            const partnerInfo = conversation?.user.find(
+              (user: IUser) => (user._id as string) !== sender
+            );
+
+            return (
               <Link
-                to={`/messenger/${idx + 1}`}
-                key={idx + 1}
+                to={`/messenger/${partnerInfo?._id}`}
+                key={idx}
                 className="text-decoration-none"
                 onClick={() => dispatch(setIndex(8))}
               >
-                <SingleChat />
+                <SingleChat
+                  partnerInfo={partnerInfo}
+                  lastMessage={conversation?.lastMessage}
+                />
               </Link>
-            ))}
+            );
+          })}
         </ul>
       }
     </>

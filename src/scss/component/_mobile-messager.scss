@@ -1,6 +1,5 @@
 .mobile-conversation.messenger {
   height: 100vh;
-  transition: all 0.5s;
 
   .chat-lists {
     height: calc(100% - 114px);
@@ -9,7 +8,7 @@
 
 .mobile-messenger {
   height: calc(100vh - 130px);
-  margin-top: 63px !important;
+  padding-top: 63px !important;
 
   .mobile-messenger-right {
     padding: 0;
@@ -25,7 +24,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    transition: all 0.5s;
+    z-index: 999999;
   }
 
   .messenger-form {

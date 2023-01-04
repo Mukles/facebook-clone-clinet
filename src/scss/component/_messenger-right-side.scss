@@ -27,8 +27,14 @@
     overflow: hidden;
     overflow-y: auto;
 
-    li:first-child {
-      margin-top: auto;
+    li {
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      &:nth-child(2) {
+        margin-top: auto;
+      }
     }
 
     .single-message > div {
@@ -36,7 +42,7 @@
       background-color: #0084ff;
       padding: 10px;
       color: #fff;
-      border-radius: 20px;
+      border-radius: 12px;
     }
 
     .single-message > div p {

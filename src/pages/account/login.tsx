@@ -15,16 +15,18 @@ import ErrorModal from "../../utilities/errorModal";
 import Password from "../../utilities/password";
 import { loginSchema } from "../../validation/loginValidition";
 import Register from "./register";
+const loginInfos = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [show, setShow] = useState<boolean>(false);
-  const [passwordShow, setPasswordShow] = useState(false);
   const { user, loading, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
-
-  const { pathname } = useLocation();
 
   useEffect(() => {
     if (pathname === "/account/register") {
@@ -54,10 +56,8 @@ const Login = () => {
           <div className="col-lg-6">
             <motion.div layoutId="register-modal">
               <Formik
-                initialValues={{
-                  email: "",
-                  password: "",
-                }}
+                enableReinitialize
+                initialValues={{ ...loginInfos }}
                 validationSchema={loginSchema}
                 onSubmit={(values, actions) =>
                   authRequestHandler(values, dispatch, loginWithPassword)
@@ -67,14 +67,14 @@ const Login = () => {
                   return (
                     <Form>
                       <div className="login-form d-flex flex-column justify-content-center rounded shadow-lg align-items-center gap-3">
-                        <div className="email w-100">
+                        <div className="email w-100 position-relative">
                           <CustomInput
                             type={"email"}
                             name="email"
                             placeholder="Email address or phone number"
                           />
                         </div>
-                        <div className="password w-100 input-container">
+                        <div className="password w-100 input-container position-relative">
                           <Password values={values} />
                         </div>
                         <button

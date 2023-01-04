@@ -20,7 +20,6 @@ const ChatHead = ({ user, userId }: Props) => {
           backgroundColor: ["#FFF", "#ddd"],
           transition: { duration: 0.5 },
         }}
-        animate={{ backgroundColor: "#FFF" }}
       >
         <Link
           className="d-flex align-items-center p-1 px-2 text-dark"

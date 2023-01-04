@@ -1,23 +1,30 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useGetConversationListQuery } from "../../App/features/conversation/conversationApi";
+import { useGetMessageListQuery } from "../../App/features/conversation/conversationApi";
 import { useGetReqUserQuery } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";
 import ChatHead from "./chatHead";
 import MessengerForm from "./messengeFrom";
+import SingleMessage from "./singleMessage";
 
 const MessengesBody = () => {
   const { id: userId } = useParams();
-  const { data: friendDetails } = useGetReqUserQuery(userId);
+  const { data: friendDetails } = useGetReqUserQuery(userId, { skip: !userId });
   const { profilePicture, userName } = friendDetails || {};
   const sender = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
-  const { data, isLoading, isSuccess, isError, error } =
-    useGetConversationListQuery({ sender, recipient: userId });
 
-  console.log("conversationList", data);
+  const {
+    data: messagesList,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetMessageListQuery({ sender, recipient: userId });
+
+  const { messages } = messagesList || {};
 
   return (
     <>
@@ -39,6 +46,13 @@ const MessengesBody = () => {
                 4 mutual friends including Md. Yousuf Miah and Mominul Islam
               </p>
             </div>
+            {messages?.map((message: any, idx: number) => {
+              const justify =
+                sender !== message.sender[0]._id ? "start" : "end";
+              return (
+                <SingleMessage key={idx} info={message} justify={justify} />
+              );
+            })}
           </ul>
           <MessengerForm recipient={userId} />
         </>

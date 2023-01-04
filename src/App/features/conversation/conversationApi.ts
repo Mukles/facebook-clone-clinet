@@ -9,14 +9,27 @@ export const conversationApi = apiSlice.injectEndpoints({
         body: { sender, recipient, message },
       }),
     }),
+
     getConversationList: build.query({
-      query: ({ sender, recipient }) => ({
-        url: "conversation/",
+      query: ({ sender }) => ({
+        url: "conversation/list",
         method: "GET",
+        params: { sender },
+      }),
+    }),
+
+    getMessageList: build.query({
+      query: ({ sender, recipient }) => ({
+        method: "GET",
+        url: "/conversation/messages",
         params: { sender, recipient },
       }),
     }),
   }),
 });
 
-export const { useAddConversationMutation, useGetConversationListQuery } = conversationApi;
+export const {
+  useAddConversationMutation,
+  useGetConversationListQuery,
+  useGetMessageListQuery,
+} = conversationApi;

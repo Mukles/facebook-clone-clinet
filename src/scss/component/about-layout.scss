@@ -1,0 +1,100 @@
+.about-sidebar {
+  position: relative;
+  padding-left: 10px;
+
+  &::after {
+    position: absolute;
+    content: "";
+    left: 100%;
+    top: -16px;
+    width: 1.2px;
+    height: calc(100% + 32px);
+    background-color: rgba($color: $color-semibalck, $alpha: 0.4);
+  }
+
+  h2 a {
+    font-size: 20px;
+    line-height: 24px;
+    color: $color-semibalck;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul {
+    li:not(:last-child) {
+      margin-bottom: 5px;
+    }
+
+    li a {
+      display: block;
+      padding: 5px 5px;
+      margin-right: 5px;
+      border-radius: 4px;
+      color: $gray-100;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 19px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: rgba($color: $color-gray, $alpha: 0.5);
+      }
+    }
+  }
+}
+
+.overview {
+  padding: 10px;
+  ul li {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    span {
+      color: $gray-100;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 19px;
+      color: $gray-100;
+      font-weight: 400;
+      margin: 0;
+      text-align: left;
+
+      &:last-child {
+        font-size: 13px;
+      }
+
+      b {
+        color: $color-semibalck;
+      }
+    }
+
+    button {
+      width: 35px;
+      height: 35px;
+      margin-left: 10px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: rgba($color: $color-gray, $alpha: 0.5);
+      border: none;
+
+      &:hover {
+        background-color: $color-gray;
+      }
+    }
+  }
+
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+}

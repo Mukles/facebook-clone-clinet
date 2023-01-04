@@ -1,4 +1,4 @@
-import { FastField, Field, Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import { motion } from "framer-motion";
 import { SetStateAction } from "react";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import {
   authRequestHandler,
   signUpWithPassword,
 } from "../../service/authService";
+import ErrorMessages from "../../utilities/errorMessage";
 import Password from "../../utilities/password";
 import {
   registerSchema,
@@ -19,8 +20,16 @@ interface Props {
   user?: {};
 }
 
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  dateOfBrith: "",
+  password: "",
+  gender: "",
+};
+
 const Register = ({ setShow, user }: Props) => {
-  console.log(user);
   const dispatch = useDispatch();
   const onClose = () => {
     setShow && setShow(false);
@@ -42,7 +51,7 @@ const Register = ({ setShow, user }: Props) => {
           className="register-modal rounded shadow"
         >
           <div className="register-header d-flex justify-content-between align-items-start">
-            <div className="">
+            <div>
               <h1>{setShow ? "Sing up" : "Please complete registation."}</h1>
               <span>It's quick and easy.</span>
             </div>
@@ -54,15 +63,7 @@ const Register = ({ setShow, user }: Props) => {
           </div>
           <hr />
           <Formik
-            initialValues={{
-              firstName: "",
-              lastName: "",
-              email: "",
-              dateOfBrith: "",
-              password: "",
-              gender: "",
-              ...user,
-            }}
+            initialValues={{ ...initialValues, ...user }}
             validationSchema={setShow ? registerSchema : updateUserSchema}
             onSubmit={(values, actions) => {
               dispatch(setFormData(values));
@@ -78,36 +79,48 @@ const Register = ({ setShow, user }: Props) => {
             {(values) => {
               return (
                 <Form className="d-flex flex-column gap-3">
-                  <div className="row g-3">
-                    <div className="form-group col-md-6">
+                  <div className="row g-3 ">
+                    <div className="form-group col-md-6 position-relative">
                       <FastField name="firstName">
                         {({ field, meta }: any) => {
                           return (
-                            <input
-                              {...field}
-                              type="text"
-                              className={`form-control input-field ${
-                                meta.touched && meta.error && "input-error"
-                              }`}
-                              placeholder="First Name"
-                              name="firstName"
-                            />
+                            <>
+                              <input
+                                {...field}
+                                type="text"
+                                className={`form-control input-field ${
+                                  meta.touched && meta.error && "input-error"
+                                }`}
+                                placeholder="First Name"
+                                name="firstName"
+                              />
+                              {meta.touched && meta.error && (
+                                <ErrorMessages name={"firstName"} />
+                              )}
+                            </>
                           );
                         }}
                       </FastField>
                     </div>
-                    <div className="form-group col-md-6">
+                    <div className="form-group col-md-6 position-relative">
                       <FastField name="lastName">
                         {({ field, meta }: any) => {
                           return (
-                            <input
-                              {...field}
-                              type="text"
-                              className={`form-control input-field ${
-                                meta.touched && meta.error ? "input-error" : ""
-                              }`}
-                              placeholder="Last Name"
-                            />
+                            <>
+                              <input
+                                {...field}
+                                type="text"
+                                className={`form-control input-field ${
+                                  meta.touched && meta.error
+                                    ? "input-error"
+                                    : ""
+                                }`}
+                                placeholder="Last Name"
+                              />
+                              {meta.touched && meta.error && (
+                                <ErrorMessages name={"lastName"} type="right" />
+                              )}
+                            </>
                           );
                         }}
                       </FastField>
@@ -119,14 +132,19 @@ const Register = ({ setShow, user }: Props) => {
                         <FastField name="email">
                           {({ field, meta }: any) => {
                             return (
-                              <input
-                                {...field}
-                                type="text"
-                                className={`form-control input-field ${
-                                  meta.touched && meta.error && "input-error"
-                                }`}
-                                placeholder="Phone number Email"
-                              />
+                              <>
+                                <input
+                                  {...field}
+                                  type="text"
+                                  className={`form-control input-field ${
+                                    meta.touched && meta.error && "input-error"
+                                  }`}
+                                  placeholder="Phone number Email"
+                                />
+                                {meta.touched && meta.error && (
+                                  <ErrorMessages name={"email"} />
+                                )}
+                              </>
                             );
                           }}
                         </FastField>
@@ -142,28 +160,36 @@ const Register = ({ setShow, user }: Props) => {
                     <FastField name="dateOfBrith">
                       {({ field, meta }: any) => {
                         return (
-                          <input
-                            name="dateOfBrith"
-                            {...field}
-                            className={`form-control input-field ${
-                              meta.touched && meta.error && "input-error"
-                            }`}
-                            type="date"
-                          />
+                          <>
+                            <input
+                              name="dateOfBrith"
+                              {...field}
+                              className={`form-control input-field ${
+                                meta.touched && meta.error && "input-error"
+                              }`}
+                              type="date"
+                            />
+                            {meta.touched && meta.error && (
+                              <ErrorMessages name={"dateOfBrith"} />
+                            )}
+                          </>
                         );
                       }}
                     </FastField>
                   </div>
 
-                  <div>
-                    <legend className="col-form-label col pt-0">Gender</legend>
-                    <div className="form-check form-check-inline">
-                      <label className="form-check-label" htmlFor="male">
-                        Male
-                      </label>
-                      <Field name="gender">
-                        {({ field, meta }: any) => {
-                          return (
+                  <FastField name="gender">
+                    {({ field, meta }: any) => {
+                      return (
+                        <div>
+                          <legend className="col-form-label col pt-0">
+                            Gender
+                          </legend>
+                          <div className="form-check form-check-inline">
+                            <label className="form-check-label" htmlFor="male">
+                              Male
+                            </label>
+
                             <input
                               {...field}
                               id="male"
@@ -173,19 +199,16 @@ const Register = ({ setShow, user }: Props) => {
                               type="radio"
                               value="male"
                             />
-                          );
-                        }}
-                      </Field>
-                    </div>
+                          </div>
 
-                    <div className="form-check form-check-inline">
-                      <label className="form-check-label" htmlFor="female">
-                        Female
-                      </label>
+                          <div className="form-check form-check-inline">
+                            <label
+                              className="form-check-label"
+                              htmlFor="female"
+                            >
+                              Female
+                            </label>
 
-                      <Field name="gender">
-                        {({ field, meta }: any) => {
-                          return (
                             <input
                               {...field}
                               id="female"
@@ -195,17 +218,12 @@ const Register = ({ setShow, user }: Props) => {
                               type="radio"
                               value="female"
                             />
-                          );
-                        }}
-                      </Field>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <label className="form-check-label" htmlFor="other">
-                        Others
-                      </label>
-                      <Field name="gender">
-                        {({ meta, field }: any) => {
-                          return (
+                          </div>
+                          <div className="form-check form-check-inline">
+                            <label className="form-check-label" htmlFor="other">
+                              Others
+                            </label>
+
                             <input
                               {...field}
                               id="other"
@@ -214,13 +232,16 @@ const Register = ({ setShow, user }: Props) => {
                               }`}
                               type="radio"
                               name="gender"
-                              value="O"
+                              value="other"
                             />
-                          );
-                        }}
-                      </Field>
-                    </div>
-                  </div>
+                          </div>
+                          {meta.touched && meta.error && (
+                            <ErrorMessages name={"gender"} />
+                          )}
+                        </div>
+                      );
+                    }}
+                  </FastField>
 
                   <button
                     type="submit"
