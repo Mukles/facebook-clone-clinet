@@ -80,6 +80,10 @@ const mutualRoutes = [
             index: true,
             element: <OverView />,
           },
+          {
+            path: "work_and_education",
+            element: <OverView />,
+          },
         ],
       },
     ],

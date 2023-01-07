@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import { aboutPaths } from "../../data/profile/aboutPath";
 
 const AboutLayout = () => {
   return (
@@ -11,18 +12,11 @@ const AboutLayout = () => {
                 <Link to={""}>About</Link>
               </h2>
               <ul>
-                <li>
-                  <Link to={""}>Overview</Link>
-                </li>
-                <li>
-                  <Link to={""}>Overview</Link>
-                </li>
-                <li>
-                  <Link to={""}>Overview</Link>
-                </li>
-                <li>
-                  <Link to={""}>Overview</Link>
-                </li>
+                {aboutPaths.map((path, i) => (
+                  <li key={i}>
+                    <Link to={path.href}>{path.text}</Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

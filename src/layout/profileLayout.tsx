@@ -292,7 +292,7 @@ const ProfileLayout = () => {
             <div className="nav-bottom mx-3 d-flex justify-content-between align-items-center">
               <ul className="d-flex">
                 {paths.map((path, idx) => (
-                  <li className={path?.className}>
+                  <li key={idx} className={path?.className}>
                     <NavLink
                       key={idx}
                       end={true}

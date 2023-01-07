@@ -24,6 +24,7 @@ export const onAuthChanged = (dispatch: any) => {
     if (userCredential) {
       try {
         const data: any = store.getState().auth.formData;
+        console.log("data", store.getState().auth);
         const token = await userCredential.getIdToken();
         const user = {
           email: userCredential.email,
@@ -102,6 +103,7 @@ const dispatchError = (error: any, dispatch: Dispatch<AnyAction>) => {
       error: { message: error.message || "internal error 404" },
       loading: false,
       token: null,
+      loginLoader: false,
     })
   );
 };
@@ -113,6 +115,17 @@ const dispatchSucess = (data: any, token: string, dispatch: any) => {
       error: null,
       loading: false,
       token: token,
+      loginLoader: false,
+    })
+  );
+};
+
+const dispatchLoading = (dispatch: any) => {
+  console.log("I am herer");
+  dispatch(
+    userLogin({
+      loginLoader: true,
+      loading: true,
     })
   );
 };
@@ -123,6 +136,8 @@ export const authRequestHandler = async (
   cb: any
 ) => {
   try {
+    console.log("bye byey sarte boos");
+    dispatchLoading(dispatch);
     await cb(userData);
   } catch (error) {
     dispatchError(error, dispatch);

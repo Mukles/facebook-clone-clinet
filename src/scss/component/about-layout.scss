@@ -2,16 +2,6 @@
   position: relative;
   padding-left: 10px;
 
-  &::after {
-    position: absolute;
-    content: "";
-    left: 100%;
-    top: -16px;
-    width: 1.2px;
-    height: calc(100% + 32px);
-    background-color: rgba($color: $color-semibalck, $alpha: 0.4);
-  }
-
   h2 a {
     font-size: 20px;
     line-height: 24px;
@@ -48,53 +38,204 @@
 }
 
 .overview {
-  padding: 10px;
-  ul li {
-    display: flex;
-    align-items: center;
+  padding: 12px 10px;
+  position: relative;
 
-    &:not(:last-child) {
-      margin-bottom: 8px;
-    }
-
-    span {
-      color: $gray-100;
-    }
-
-    p {
-      font-size: 14px;
-      line-height: 19px;
-      color: $gray-100;
-      font-weight: 400;
-      margin: 0;
-      text-align: left;
-
-      &:last-child {
-        font-size: 13px;
-      }
-
-      b {
-        color: $color-semibalck;
-      }
-    }
-
-    button {
-      width: 35px;
-      height: 35px;
-      margin-left: 10px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background-color: rgba($color: $color-gray, $alpha: 0.5);
-      border: none;
-
-      &:hover {
-        background-color: $color-gray;
-      }
-    }
+  &::after {
+    content: "";
+    background: rgba($color: $color-gray, $alpha: 1);
+    position: absolute;
+    top: 0;
+    left: -30px;
+    width: 1px;
+    height: 100%;
   }
+}
+
+.about-info-card {
+  display: flex;
+  align-items: center;
 
   svg {
     width: 25px;
     height: 25px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  span {
+    color: $gray-100;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 19px;
+    color: $gray-100;
+    font-weight: 400;
+    margin: 0;
+    text-align: left;
+
+    &:last-child {
+      font-size: 13px;
+    }
+
+    b {
+      color: $color-semibalck;
+    }
+  }
+
+  button {
+    width: 35px;
+    height: 35px;
+    margin-left: 10px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: rgba($color: $color-gray, $alpha: 0.5);
+    border: none;
+
+    &:hover {
+      background-color: $color-gray;
+    }
+  }
+}
+
+.about-info-add {
+  .button-group {
+    text-align: right;
+
+    button {
+      padding: 6px 16px;
+      border-radius: 4px;
+    }
+
+    button:first-child {
+      color: $color-semibalck;
+      margin-right: 10px;
+      background: $color-gray;
+    }
+
+    button:last-child {
+      background: $brand-color;
+      color: $color-white;
+    }
+  }
+
+  display: flex;
+  align-items: center;
+  color: $brand-color;
+
+  &:not(:last-child) {
+    margin-bottom: 25px;
+  }
+
+  &:hover p {
+    text-decoration: underline;
+    text-decoration-color: $brand-color;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    color: $brand-color;
+  }
+
+  p {
+    margin: 0;
+    font-size: 18px;
+    margin-left: 5px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.input-container {
+  position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: 14px;
+  }
+
+  input {
+    height: 50px;
+    width: 100%;
+    border: 1px solid $color-gray;
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 16px;
+    background-color: transparent;
+    transition: border 500ms ease;
+
+    &:hover {
+      border-color: rgba($color: $gray-100, $alpha: 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      border: 1 px solid $brand-color;
+
+      & + .label .text {
+        font-size: 12px;
+        transform: translate(0, -130%);
+        background-color: $color-white;
+        padding-left: 4px;
+        padding-right: 4px;
+        color: $brand-color;
+      }
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    color: $gray-100;
+
+    .text {
+      transition: all 0.15s ease-out;
+      &.exit {
+        font-size: 12px;
+        transform: translate(0, -130%);
+        background-color: $color-white;
+        padding-left: 4px;
+        padding-right: 4px;
+        color: $brand-color;
+      }
+    }
+  }
+}
+
+.year-list {
+  .year-select {
+    color: $color-semibalck;
+    font-weight: 600;
+    font-size: 18px;
+    background: $color-gray;
+    padding: 6px 18px;
+    border-radius: 6px;
+  }
+
+  &:not(:first-child) {
+    background: #fff;
+    border-radius: 6px;
+    height: 170px;
+    width: 245px;
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  & > div {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }

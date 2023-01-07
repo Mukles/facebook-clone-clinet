@@ -7,9 +7,11 @@ type Props = {
   children: React.ReactElement;
 };
 const PublicRoute = ({ children }: Props): React.ReactElement => {
-  const { loading, user } = useSelector<RootState, any>((state) => state.auth);
+  const { loading, user, loginLoader } = useSelector<RootState, any>(
+    (state) => state.auth
+  );
 
-  if (loading && !user) {
+  if (loading && !user && !loginLoader) {
     return (
       <AnimatePresence>
         <motion.div

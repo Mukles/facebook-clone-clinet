@@ -24,9 +24,11 @@ const Login = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [show, setShow] = useState<boolean>(false);
-  const { user, loading, error } = useSelector<RootState, any>(
+  const { loginLoader, loading, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
+
+  console.log("loginLoader: false", loginLoader);
 
   useEffect(() => {
     if (pathname === "/account/register") {
@@ -83,18 +85,15 @@ const Login = () => {
                           className="login-button login-button position-relative"
                         >
                           Log in
-                          <div className="d-flex justify-content-center loader">
-                            <div
-                              className={`spinner-border ${
-                                isSubmitting || loading ? "d-flex" : "d-none"
-                              }`}
-                              role="status"
-                            >
-                              <span className="visually-hidden">
-                                Loading...
-                              </span>
+                          {loginLoader && (
+                            <div className="loader">
+                              <span
+                                className="spinner-grow spinner-grow-sm"
+                                role="status"
+                                aria-hidden="true"
+                              ></span>
                             </div>
-                          </div>
+                          )}
                         </button>
                         <div className="divider gap-3 d-flex justify-content-center align-items-center align-self-stretch">
                           OR Contiune With
@@ -103,7 +102,7 @@ const Login = () => {
                           <li>
                             <button
                               type="button"
-                              disabled={loading}
+                              disabled={loginLoader}
                               onClick={() =>
                                 authRequestHandler(
                                   values,

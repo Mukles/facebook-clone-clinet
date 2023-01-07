@@ -8,6 +8,7 @@ const initialState = {
   user,
   token: null,
   loading: true,
+  loginLoader: false,
   formData: null,
   index: 1,
   direction: -1,
@@ -23,6 +24,7 @@ export const authSlice = createSlice({
       user: payload.user,
       token: payload.token,
       error: payload.error,
+      loginLoader: payload.loginLoader,
     }),
 
     setFormData: (state, { payload }) => ({
@@ -45,9 +47,20 @@ export const authSlice = createSlice({
         index: payload,
       };
     },
+
+    setDetails: (state, { payload }) => {
+      state.user.details = { ...payload };
+    },
+
     setDirection: (state, { payload }) => ({ ...state, direction: payload }),
   },
 });
 
-export const { userLogin, setFormData, setIndex, setDirection, setPicture } =
-  authSlice.actions;
+export const {
+  userLogin,
+  setFormData,
+  setIndex,
+  setDirection,
+  setPicture,
+  setDetails,
+} = authSlice.actions;
