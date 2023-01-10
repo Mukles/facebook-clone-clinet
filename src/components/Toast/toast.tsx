@@ -3,7 +3,7 @@ import {
   PanInfo,
   useAnimation,
   useMotionValue,
-  useTransform
+  useTransform,
 } from "framer-motion";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -153,7 +153,8 @@ const Toast = ({
     return () => {
       clearTimeout(autoclosed);
     };
-  }, [dispatch, id, timeout]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div

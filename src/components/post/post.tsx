@@ -11,6 +11,7 @@ import sad from "../../assets/post/sad.svg";
 import wow from "../../assets/post/wow.svg";
 import DeleteConfirmation from "../../utilities/deleteConfirmation";
 import Profile from "../../utilities/profile";
+import Comment from "../comment";
 import Option from "./option";
 import PostModal from "./postModal";
 
@@ -184,6 +185,7 @@ const Post = ({ post }: Props) => {
             <span>Share</span>
           </li>
         </ul>
+        <Comment postId={id} />
       </div>
     </div>
   );

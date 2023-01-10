@@ -1,4 +1,4 @@
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import defaultProfile from "../../assets/default/profile.png";
 import SelectImgSvg from "../../assets/post/selectImgSvg";
 import { toastRise } from "../../hooks/toastRise";
 import { IUser } from "../../types/userTypes";
+import TextArea from "../../utilities/textArea";
 import Upload from "../../utilities/upload";
 import { postSchema } from "../../validation/postValidation";
 
@@ -170,18 +171,12 @@ const PostModal = ({ setShow, post }: Props) => {
                 </div>
 
                 <div className="post-body px-3">
-                  <FastField name="caption">
-                    {(from: any) => {
-                      return (
-                        <textarea
-                          className="w-100"
-                          {...from.field}
-                          onChange={(event) => onTextChange(event, from)}
-                          placeholder={`What's on your mind, ${userName}`}
-                        />
-                      );
-                    }}
-                  </FastField>
+                  <TextArea
+                    setFieldValue={setFieldValue}
+                    type="post"
+                    name="caption"
+                    placeholder={`What's on your mind, ${userName}`}
+                  />
 
                   <AnimatePresence>
                     {(isShowImgUploader || img) && (

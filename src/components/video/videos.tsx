@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import Profile from "../../utilities/profile";
-import Comment from "../comment";
+import React from "../React";
 
 const Video = () => {
   const [show, setShow] = useState(false);
@@ -60,7 +60,7 @@ const Video = () => {
 
       {/* like share comment */}
 
-      <Comment />
+      <React />
     </div>
   );
 };
