@@ -15,7 +15,6 @@ const Comment = (details: Props) => {
   return (
     <CommentBody {...details} key={details._id}>
       {details.replies?.map((reply: any, index: number) => {
-        console.log({ reply });
         return <CommentBody key={index} {...reply} _id={details._id} />;
       })}
     </CommentBody>

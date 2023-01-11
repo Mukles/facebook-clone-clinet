@@ -18,7 +18,6 @@ interface Props {
 }
 
 const CommentForm = ({ postId, type, commentId }: Props) => {
-  console.log({ commentId, type });
   const [preview, setPreview] = useState<any | null>();
 
   const { _id: userId, profilePicture } = useSelector<RootState, IUser>(
@@ -57,7 +56,6 @@ const CommentForm = ({ postId, type, commentId }: Props) => {
     useAddCommentMutation();
   const [addReplay, { isLoading: replyLoading, data: replayComment }] =
     useReplyCommentMutation();
-  console.log({ replayComment });
   return (
     <Formik
       initialValues={{ comment: "", image: "" }}

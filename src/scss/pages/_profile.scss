@@ -474,6 +474,45 @@
     margin: auto;
     border-radius: 6px;
 
+    .button-group {
+      text-align: right;
+
+      button {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 16px;
+        color: $color-white;
+        padding: 10px;
+        border-radius: 6px;
+        outline: none;
+        border: none;
+        background-color: $brand-color;
+        margin-block: 8px;
+
+        &:not(:last-child) {
+          margin-right: 12px;
+          background-color: $color-gray;
+          color: $color-semibalck;
+        }
+      }
+    }
+
+    textarea {
+      border: none;
+      outline: 1px solid $brand-color;
+      padding: 10px;
+      resize: none;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 15px;
+      color: $color-semibalck;
+
+      &:hover {
+        background-color: rgba($color: $color-gray, $alpha: 0.34);
+      }
+    }
+
     h3 {
       font-weight: 700;
       font-size: 20px;

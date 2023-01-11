@@ -8,7 +8,6 @@ interface Props {
 
 const Commentlist = ({ postId }: Props) => {
   const { isLoading, data: comments } = useGetCommentListsQuery({ postId });
-  console.log({ comments });
 
   return (
     <>

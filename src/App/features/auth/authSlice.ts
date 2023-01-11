@@ -52,6 +52,10 @@ export const authSlice = createSlice({
       state.user.details = { ...payload };
     },
 
+    setBio: (state, { payload }) => {
+      state.user.bio = payload;
+    },
+
     setDirection: (state, { payload }) => ({ ...state, direction: payload }),
   },
 });
@@ -63,4 +67,5 @@ export const {
   setDirection,
   setPicture,
   setDetails,
+  setBio,
 } = authSlice.actions;

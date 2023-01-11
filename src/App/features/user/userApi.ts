@@ -1,6 +1,6 @@
 import { RootState } from "../../store";
 import { apiSlice } from "../api/apiSlice";
-import { setDetails, setPicture, userLogin } from "../auth/authSlice";
+import { setBio, setDetails, setPicture, userLogin } from "../auth/authSlice";
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -67,7 +67,6 @@ export const userApi = apiSlice.injectEndpoints({
 
     updateUser: build.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: `/user/${data._id}`,
           method: "PUT",
@@ -81,6 +80,25 @@ export const userApi = apiSlice.injectEndpoints({
             dispatch(userLogin({ user: result.data.user, loading: false }));
           }
         } catch (error) {}
+      },
+    }),
+
+    updateBio: build.mutation({
+      query: (data) => {
+        return {
+          url: `/user/bio/${data.userId}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      async onQueryStarted(args, { queryFulfilled, dispatch }) {
+        const result = await queryFulfilled;
+        const bio = result.data?.bio;
+        console.log({ bio });
+
+        if (bio) {
+          dispatch(setBio(bio));
+        }
       },
     }),
 
@@ -197,4 +215,5 @@ export const {
   useGetFriendListQuery,
   useGetNewsFeedQuery,
   useUpdaterUserDetailsMutation,
+  useUpdateBioMutation,
 } = userApi;
