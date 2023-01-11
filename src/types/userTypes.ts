@@ -35,6 +35,7 @@ export interface IUser {
   gender?: string;
   dateOfBrith?: string;
   details?: Details;
+  bio?: string;
 }
 
 export type Types =

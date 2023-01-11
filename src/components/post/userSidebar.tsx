@@ -1,21 +1,35 @@
 import { useState } from "react";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../App/store";
 
 interface Porps {
-    isAdmin : boolean
+  isAdmin: boolean;
 }
 
 const ProfileSidebar = ({ isAdmin }: Porps) => {
-  const [editDetails, setEditDetails] = useState(false);
+  const [editBio, setEditBio] = useState(false);
+  const bio = useSelector<RootState, string | undefined>(
+    (state) => state.auth.user.bio
+  );
+
+  const onEditeable = () => {
+    setEditBio(!editBio);
+  };
+
   return (
     <div className="col-lg-5 mt-3">
       <div className="user-card">
-        <h3>Intro</h3>
-        <p>
-          Be good and shall always see good in everything and everyone and even
-          in yourself.
-        </p>
-        {isAdmin && <button className="edit-bio">Edit bio</button>}
+        {bio && !editBio && (
+          <>
+            <h3>Intro</h3>
+            <p>
+              Be good and shall always see good in everything and everyone and
+              even in yourself.
+            </p>
+          </>
+        )}
+        {isAdmin && !bio && <button className="edit-bio">Add bio</button>}
+        {isAdmin && bio && <button className="edit-bio">Edit bio</button>}
         <div className="user-details">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +63,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
           </svg>
           <p>Student at Student</p>
         </div>
-        <button className="edit-bio mt-3" onClick={() => setEditDetails(true)}>
+        <button className="edit-bio mt-3" onClick={onEditeable}>
           Edit Details
         </button>
       </div>

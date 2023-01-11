@@ -9,9 +9,9 @@ import haha from "../../assets/post/haha.svg";
 import like from "../../assets/post/like.svg";
 import sad from "../../assets/post/sad.svg";
 import wow from "../../assets/post/wow.svg";
+import Commentlist from "../../utilities/comment/commentList";
 import DeleteConfirmation from "../../utilities/deleteConfirmation";
 import Profile from "../../utilities/profile";
-import Comment from "../comment";
 import Option from "./option";
 import PostModal from "./postModal";
 
@@ -27,7 +27,7 @@ const Post = ({ post }: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="single-post mt-4 py-4 rounded">
+    <div className="single-post mt-4 pt-1 rounded">
       {isOpen && (
         <div
           className="w-100 h-100 position-fixed  top-0 start-0"
@@ -185,7 +185,7 @@ const Post = ({ post }: Props) => {
             <span>Share</span>
           </li>
         </ul>
-        <Comment postId={id} />
+        <Commentlist postId={id} />
       </div>
     </div>
   );

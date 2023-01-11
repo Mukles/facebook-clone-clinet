@@ -51,6 +51,12 @@
 
   .comment-footer {
     padding: 3px 12px;
+
+    .comment {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
     button {
       border: none;
       font-size: 12px;
@@ -108,6 +114,33 @@
       flex: 1;
       background-color: $semiWhite-color;
       border-radius: 21px;
+
+      img {
+        margin: 10px;
+        width: 70px;
+        height: 120px;
+        border-radius: 5px;
+      }
+
+      .close {
+        border: 0;
+        outline: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: $color-gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+
+        &:hover {
+          background: $color-white;
+        }
+      }
     }
   }
 

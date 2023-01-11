@@ -3,12 +3,12 @@ import { apiSlice } from "../api/apiSlice";
 export const commentApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     addComment: build.mutation({
-      query: ({ content: comment, postId, userId, image }) => {
+      query: ({ content, postId, userId, image }) => {
         const formData = new FormData();
-        formData.append("content", comment);
+        formData.append("content", content);
         formData.append("postId", postId);
         formData.append("userId", userId as string);
-        formData.append("userId", image);
+        formData.append("img", image);
         return {
           url: "/comment/",
           method: "POST",
@@ -39,7 +39,25 @@ export const commentApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    replyComment: build.mutation({
+      query: ({ content, userId, image, commentId }) => {
+        console.log({ userId });
+        const formData = new FormData();
+        formData.append("content", content);
+        formData.append("userId", userId as string);
+        formData.append("img", image);
+        return {
+          url: `/comment/${commentId}`,
+          method: "PATCH",
+          body: formData,
+        };
+      },
+    }),
   }),
 });
 
-export const { useAddCommentMutation, useGetCommentListsQuery } = commentApi;
+export const {
+  useAddCommentMutation,
+  useGetCommentListsQuery,
+  useReplyCommentMutation,
+} = commentApi;
