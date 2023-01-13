@@ -12,7 +12,6 @@ const Commentlist = ({ postId }: Props) => {
   return (
     <>
       <CommentForm postId={postId} />
-
       <ul>
         {comments?.map((comment: any) => {
           return <Comment key={comment._id} {...comment} postId={postId} />;

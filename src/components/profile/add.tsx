@@ -8,6 +8,7 @@ import { Types } from "../../types/userTypes";
 interface Props {
   title: string;
   type: Types;
+  isOwner?: boolean;
 }
 
 interface Field {
@@ -48,7 +49,7 @@ const shecma: { [K in Types]: Fields } = {
   homeTown: [{ feild: "homeTown", placeholder: "current home/town" }],
 };
 
-const Add = ({ title, type }: Props) => {
+const Add = ({ title, type, isOwner }: Props) => {
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
@@ -87,26 +88,30 @@ const Add = ({ title, type }: Props) => {
     <motion.li className="about-info-add">
       <AnimatePresence>
         {!isOpen ? (
-          <motion.button
-            onClick={() => onOpen(type)}
-            className="d-flex align-items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <p>{title}</p>
-          </motion.button>
+          <>
+            {isOwner && (
+              <motion.button
+                onClick={() => onOpen(type)}
+                className="d-flex align-items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p>{title}</p>
+              </motion.button>
+            )}
+          </>
         ) : (
           <motion.form
             onSubmit={handleSubmit}

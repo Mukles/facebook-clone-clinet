@@ -1,6 +1,7 @@
 interface Props {
   details: any;
   type: string;
+  children?: JSX.Element | any;
 }
 
 const icons: any = {
@@ -65,13 +66,14 @@ const title: any = {
   homeTown: "From",
 };
 
-const Child = ({ details, type }: Props) => {
+const List = ({ children, details, type }: Props) => {
   return (
     <>
-      {details?.length && (
-        <ul className="ms-3">
+      {children}
+      {details?.length > 0 && (
+        <ul className="list-container">
           {details.map((item: any, i: number) => (
-            <li className="d-flex mb-3" key={i}>
+            <li className="d-flex mb-3 list" key={i}>
               <div className="me-2">{icons[type]}</div>
               <div>
                 <span>
@@ -87,4 +89,4 @@ const Child = ({ details, type }: Props) => {
   );
 };
 
-export default Child;
+export default List;

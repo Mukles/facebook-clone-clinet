@@ -1,9 +1,10 @@
-import React from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useGetReqUserQuery } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
-import { Details, Types } from "../../types/userTypes";
+import { IUser, Types } from "../../types/userTypes";
 import Add from "./add";
-import Child from "./child";
+import List from "./list";
 
 type Data = {
   type: Types;
@@ -33,15 +34,27 @@ const data: Data[] = [
   },
 ];
 
-const OverView = () => {
-  const details = useSelector<RootState, Details | undefined>(
-    (state) => state.auth.user.details
+interface Props {
+  isProfile?: boolean;
+}
+
+const OverView = ({ isProfile }: Props) => {
+  const { id: userId } = useParams();
+  let { details, _id: owerId } = useSelector<RootState, IUser>(
+    (state) => state.auth.user
   );
+  const isOwner = userId === owerId;
+
+  const { data: friendDetails } = useGetReqUserQuery(userId, {
+    skip: isOwner,
+  });
+
+  details = isOwner ? details : friendDetails?.details;
 
   return (
-    <div className="overview">
+    <div className={`overview ${isProfile && "profile-overview"}`}>
       <ul>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           const type =
             item.type === "study" || item.type === "university"
               ? "school"
@@ -51,12 +64,11 @@ const OverView = () => {
               ? "currentTown"
               : item.type;
           return (
-            <React.Fragment key={index}>
-              <Add type={item.type} title={item.title} />
-              {details![item.type].length && (
-                <Child details={details![item.type]} type={type} />
+            <List key={index} details={details![item.type]} type={type}>
+              {!isProfile && (
+                <Add type={item.type} title={item.title} isOwner={isOwner} />
               )}
-            </React.Fragment>
+            </List>
           );
         })}
       </ul>
