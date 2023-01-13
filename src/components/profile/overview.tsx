@@ -45,35 +45,39 @@ const OverView = ({ isProfile }: Props) => {
   );
   const isOwner = userId === owerId;
 
-  const { data: friendDetails } = useGetReqUserQuery(userId, {
+  const { data: friendDetails, isLoading } = useGetReqUserQuery(userId, {
     skip: isOwner,
   });
 
   details = isOwner ? details : friendDetails?.details;
 
-  return (
-    <div className={`overview ${isProfile && "profile-overview"}`}>
-      <ul>
-        {data?.map((item, index) => {
-          const type =
-            item.type === "study" || item.type === "university"
-              ? "school"
-              : item.type === "work"
-              ? "company"
-              : item.type === "currentCity"
-              ? "currentTown"
-              : item.type;
-          return (
-            <List key={index} details={details![item.type]} type={type}>
-              {!isProfile && (
-                <Add type={item.type} title={item.title} isOwner={isOwner} />
-              )}
-            </List>
-          );
-        })}
-      </ul>
-    </div>
-  );
+  if (!isLoading) {
+    return (
+      <div className={`overview ${isProfile && "profile-overview"}`}>
+        <ul>
+          {data?.map((item, index) => {
+            const type =
+              item.type === "study" || item.type === "university"
+                ? "school"
+                : item.type === "work"
+                ? "company"
+                : item.type === "currentCity"
+                ? "currentTown"
+                : item.type;
+            return (
+              <List key={index} details={details![item.type]} type={type}>
+                {!isProfile && (
+                  <Add type={item.type} title={item.title} isOwner={isOwner} />
+                )}
+              </List>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default OverView;

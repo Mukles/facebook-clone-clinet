@@ -197,6 +197,28 @@ export const userApi = apiSlice.injectEndpoints({
         } catch (error) {}
       },
     }),
+
+    getUploadedImages: build.query({
+      query: ({ userId }) => ({
+        url: `/user/uploads/${userId}`,
+        method: "GET",
+      }),
+    }),
+
+    getFriends: build.query({
+      query: ({ userId }) => ({
+        url: `/user/friends/${userId}`,
+        method: "GET",
+      }),
+    }),
+
+    getMutualFriends: build.query({
+      query: ({ user1Id, user2Id }) => ({
+        url: "/user/mutual/friends",
+        params: { user1Id, user2Id },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -216,4 +238,7 @@ export const {
   useGetNewsFeedQuery,
   useUpdaterUserDetailsMutation,
   useUpdateBioMutation,
+  useGetUploadedImagesQuery,
+  useGetFriendsQuery,
+  useGetMutualFriendsQuery,
 } = userApi;

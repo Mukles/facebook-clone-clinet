@@ -24,7 +24,7 @@ const PostWrapper = () => {
   return (
     <>
       <ProfileSidebar isAdmin={isAdmin} />
-      <div className="col">
+      <div className="col-7">
         {isAdmin && <CreatePost />}
         {posts?.map((post: any, index: number) => (
           <Post key={index} post={post} />
