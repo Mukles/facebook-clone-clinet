@@ -65,7 +65,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
       <div className="h-100">
         <motion.div
           initial={{ position: "static" }}
-          whileInView={{ position: "sticky", top: 0, bottom: 0 }}
+          whileInView={{ position: "sticky", bottom: 0 }}
           viewport={{ once: false }}
         >
           <div className="user-card">
