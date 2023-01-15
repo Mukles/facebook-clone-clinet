@@ -100,6 +100,14 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    toogleReactPost: build.mutation({
+      query: ({ postId, react, userId }) => ({
+        method: "PUT",
+        url: `/post/${postId}/react`,
+        body: { userId, react },
+      }),
+    }),
   }),
 });
 
@@ -108,4 +116,5 @@ export const {
   useGetPostsQuery,
   useEditPostMutation,
   useDeltePostMutation,
+  useToogleReactPostMutation,
 } = postApi;

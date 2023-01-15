@@ -19,7 +19,6 @@ const CommentBody = ({
   user,
   content,
   created_at,
-  replies,
   _id,
   img,
   postId,

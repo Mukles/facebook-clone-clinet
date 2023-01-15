@@ -7,18 +7,14 @@ import CreatePost from "./createPost";
 import Post from "./post";
 import ProfileSidebar from "./userSidebar";
 
-interface Props {
-  isAdmin: boolean;
-  userId: string;
-  email: string;
-}
-
 const PostWrapper = () => {
   const { _id, email } = useSelector<RootState, IUser>(
     (state) => state.auth.user
   );
+
   const { id: userId } = useParams();
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
+  console.log({ posts });
   const isAdmin = _id === userId;
 
   return (

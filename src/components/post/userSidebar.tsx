@@ -37,7 +37,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   });
 
   const { data: friendDetails, isLoading: isDetailsLoading } =
-    useGetReqUserQuery(userId, {
+    useGetReqUserQuery(requestId, {
       skip: isAdmin,
     });
 
@@ -55,7 +55,6 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   );
 
   bio = isAdmin ? bio : friendDetails?.bio;
-  console.log({ friends, mutualFriends });
   const onEditeable = () => {
     setEditBio(!editBio);
   };
@@ -69,6 +68,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
           viewport={{ once: false }}
         >
           <div className="user-card">
+            <h3>Intro</h3>
             {(editBio || !bio) && (
               <Formik
                 onSubmit={({ bio }, { resetForm }) => {
@@ -108,7 +108,6 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
             )}
             {bio && !editBio && (
               <>
-                <h3>Intro</h3>
                 <p>{bio}</p>
               </>
             )}
@@ -120,7 +119,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
             )}
             <OverView isProfile={true} />
             {isAdmin && (
-              <Link to={"about"} className="edit-bio">
+              <Link to={"about"} className="edit-bio mt-2">
                 Edit Details
               </Link>
             )}

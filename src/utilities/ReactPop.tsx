@@ -22,15 +22,31 @@ const item = {
 };
 
 interface Props {
+  isLoading: boolean;
   children?: any;
   setSelectedReact?: any;
   selectReact?: string;
+  postId: string;
+  toggleReact: any;
+  userId: string;
 }
 
-const ReactsPopup = ({ children, setSelectedReact, selectReact }: Props) => {
+const ReactsPopup = ({
+  children,
+  setSelectedReact,
+  userId,
+  postId,
+  toggleReact,
+}: Props) => {
   const reactions = ["like", "love", "wow", "haha", "sad", "angry"];
   const [isHover, setIsHovered] = useState(false);
   const [isOpen, setOpen] = useState(false);
+
+  const ClickHanlder = (reacts: string) => {
+    setOpen(false);
+    setSelectedReact(reacts);
+    toggleReact({ postId, react: reacts, userId });
+  };
 
   return (
     <motion.button
@@ -53,10 +69,7 @@ const ReactsPopup = ({ children, setSelectedReact, selectReact }: Props) => {
           >
             {reactions.map((reacts) => (
               <motion.div
-                onClick={() => {
-                  setOpen(false);
-                  setSelectedReact(reacts);
-                }}
+                onClick={() => ClickHanlder(reacts)}
                 variants={item}
                 key={reacts}
                 className={`reaction-icon ${reacts}`}
