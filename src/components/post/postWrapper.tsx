@@ -14,7 +14,6 @@ const PostWrapper = () => {
 
   const { id: userId } = useParams();
   const { data: posts, error, isLoading } = useGetPostsQuery({ userId, email });
-  console.log({ posts });
   const isAdmin = _id === userId;
 
   return (
@@ -22,9 +21,9 @@ const PostWrapper = () => {
       <ProfileSidebar isAdmin={isAdmin} />
       <div className="col-7">
         {isAdmin && <CreatePost />}
-        {posts?.map((post: any, index: number) => (
-          <Post key={index} post={post} />
-        ))}
+        {posts?.map((post: any, index: number) => {
+          return <Post key={index} post={post} />;
+        })}
       </div>
     </>
   );

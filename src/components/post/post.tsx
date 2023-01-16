@@ -5,7 +5,6 @@ import { useToogleReactPostMutation } from "../../App/features/post/postApi";
 import { addToast } from "../../App/features/toast/toastSlice";
 import { RootState } from "../../App/store";
 import angry from "../../assets/post/angery.svg";
-import care from "../../assets/post/care.svg";
 import love from "../../assets/post/download.svg";
 import haha from "../../assets/post/haha.svg";
 import like from "../../assets/post/like.svg";
@@ -22,26 +21,33 @@ interface Props {
   post?: any;
 }
 
-const reacts: any = {
+const reactIcons: any = {
   like,
   love,
-  wow,
   haha,
-  sad,
+  wow,
   angry,
+  sad,
 };
 
 const Post = ({ post }: Props) => {
-  const { img, caption, _id: id, likeReact }: any = post || {};
+  const dispatch = useDispatch();
+  const { img, caption, _id: id, likeReact, reactCount }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
   const [isEditAble, setEditAble] = useState<boolean>(false);
   const [selectReact, setSelectedReact] = useState<string>("");
   const [toggleReact, { isLoading }] = useToogleReactPostMutation();
+  const [tuple, setTuple] = useState(["", selectReact]);
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
-  const dispatch = useDispatch();
+
+  if (tuple[1] !== selectReact) {
+    setTuple([tuple[1], selectReact]);
+  }
+
+  let prevSeletedReact = tuple[0];
 
   const clickReactToggler = (selectReact: string) => {
     if (!isLoading) {
@@ -122,28 +128,59 @@ const Post = ({ post }: Props) => {
       <div className="post-footer">
         <div className="d-flex justify-content-between px-2 py-3">
           <ul className="d-flex user-reactions align-items-center justify-content-center">
-            <li>
-              <img width={20} height={20} src={like} alt="like" />
-            </li>
-            <li>
-              <img width={20} height={20} src={love} alt="love" />
-            </li>
-            <li>
-              <img width={20} height={20} src={haha} alt="haha" />
-            </li>
+            <AnimatePresence>
+              {Object.keys(reactCount || {})?.map(
+                (react: string, i: number) => {
+                  console.log({
+                    server: likeReact?.react,
+                    count: reactCount[likeReact?.react],
+                    selectReact,
+                    bool:
+                      reactCount[likeReact?.react] === 1 &&
+                      selectReact &&
+                      selectReact !== likeReact?.react &&
+                      selectReact === likeReact?.react,
+                  });
+                  if (
+                    reactCount[likeReact?.react] === 1 &&
+                    selectReact &&
+                    react ===
+                      (likeReact?.react === selectReact ? "" : likeReact?.react)
+                  ) {
+                    return false;
+                  } else if (reactCount[react] > 0) {
+                    return (
+                      <motion.li
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        key={i}
+                      >
+                        <img
+                          src={reactIcons[react]}
+                          alt={react}
+                          width={20}
+                          height={20}
+                        />
+                      </motion.li>
+                    );
+                  } else if (selectReact === react) {
+                    return (
+                      <li key={i}>
+                        <img
+                          src={reactIcons[react]}
+                          alt={react}
+                          width={20}
+                          height={20}
+                        />
+                      </li>
+                    );
+                  }
 
-            <li>
-              <img width={20} height={20} src={angry} alt="angry" />
-            </li>
-            <li>
-              <img width={20} height={20} src={sad} alt="sad" />
-            </li>
-            <li>
-              <img width={20} height={20} src={wow} alt="wow" />
-            </li>
-            <li>
-              <img width={20} height={20} src={care} alt="care" />
-            </li>
+                  return null;
+                }
+              )}
+            </AnimatePresence>
           </ul>
           <p className="total-comments m-0">5 Comments</p>
         </div>
@@ -165,7 +202,7 @@ const Post = ({ post }: Props) => {
                 aria-disabled={isLoading}
                 onClick={() => clickReactToggler(selectReact)}
               >
-                {selectReact || likeReact?.react ? (
+                {prevSeletedReact === selectReact && likeReact?.react ? (
                   <motion.div
                     onClick={() => setSelectedReact("")}
                     initial={{ opacity: 0 }}
@@ -175,28 +212,47 @@ const Post = ({ post }: Props) => {
                   >
                     <img
                       className="me-2"
-                      src={reacts[selectReact] || reacts[likeReact?.react]}
+                      src={reactIcons[likeReact?.react]}
                       alt="react"
                     />
                     <span>{selectReact}</span>
                   </motion.div>
                 ) : (
                   <>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
-                      />
-                    </svg>
-                    <span>Like</span>
+                    {selectReact !== prevSeletedReact && selectReact ? (
+                      <motion.div
+                        onClick={() => setSelectedReact("")}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        key={selectReact}
+                      >
+                        <img
+                          className="me-2"
+                          src={reactIcons[selectReact]}
+                          alt="react"
+                        />
+                        <span>{selectReact}</span>
+                      </motion.div>
+                    ) : (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                          />
+                        </svg>
+                        <span>Like</span>
+                      </>
+                    )}
                   </>
                 )}
               </div>
