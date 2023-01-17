@@ -9,13 +9,21 @@ interface Props {
   created_at: string;
   content: string;
   postId: string;
+  page: number;
 }
 
 const Comment = (details: Props) => {
   return (
     <CommentBody {...details} key={details._id}>
       {details.replies?.map((reply: any, index: number) => {
-        return <CommentBody key={index} {...reply} _id={details._id} />;
+        return (
+          <CommentBody
+            page={details.page}
+            key={index}
+            {...reply}
+            _id={details._id}
+          />
+        );
       })}
     </CommentBody>
   );

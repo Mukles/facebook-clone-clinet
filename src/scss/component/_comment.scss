@@ -49,6 +49,18 @@
   display: flex;
   justify-content: center;
 
+  > button {
+    border: none;
+    background: transparent;
+    color: $color-semibalck;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: $color-semibalck;
+    }
+  }
+
   .comment-footer {
     padding: 3px 12px;
 

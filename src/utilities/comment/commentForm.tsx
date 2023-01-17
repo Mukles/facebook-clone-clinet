@@ -15,9 +15,10 @@ interface Props {
   postId: string;
   type?: "replay";
   commentId?: string;
+  page: number;
 }
 
-const CommentForm = ({ postId, type, commentId }: Props) => {
+const CommentForm = ({ postId, type, commentId, page }: Props) => {
   const [preview, setPreview] = useState<any | null>();
 
   const { _id: userId, profilePicture } = useSelector<RootState, IUser>(
@@ -56,14 +57,23 @@ const CommentForm = ({ postId, type, commentId }: Props) => {
     useAddCommentMutation();
   const [addReplay, { isLoading: replyLoading, data: replayComment }] =
     useReplyCommentMutation();
+
   return (
     <Formik
       initialValues={{ comment: "", image: "" }}
       onSubmit={({ comment, image }, { resetForm, setSubmitting }) => {
+        const comments = {
+          content: comment,
+          postId,
+          userId,
+          image,
+          page,
+        };
+
         if (type !== "replay") {
-          addComment({ content: comment, postId, userId, image });
+          addComment(comments);
         } else {
-          addReplay({ content: comment, userId, image, commentId });
+          addReplay({ ...comments, commentId });
         }
         //submit the form here
         setTimeout(() => {

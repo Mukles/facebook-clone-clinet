@@ -20,7 +20,6 @@ const Home = () => {
     error,
     data: posts,
   } = useGetNewsFeedQuery(userId);
-  console.log({ posts });
 
   return (
     <div className="container-fluid nav-top">

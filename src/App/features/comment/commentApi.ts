@@ -1,3 +1,4 @@
+import { defaultSerializeQueryArgs } from "@reduxjs/toolkit/dist/query";
 import { apiSlice } from "../api/apiSlice";
 
 export const commentApi = apiSlice.injectEndpoints({
@@ -15,17 +16,16 @@ export const commentApi = apiSlice.injectEndpoints({
           body: formData,
         };
       },
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ postId, page }, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
           if (result.data?._id) {
-            console.log({ result });
             dispatch(
               apiSlice.util.updateQueryData(
                 "getCommentLists" as never,
                 { postId } as never,
                 (draftComments: any) => {
-                  //draftComments.unshift({ ...result.data });
+                  draftComments.comments.unshift(result.data);
                 }
               )
             );
@@ -34,14 +34,32 @@ export const commentApi = apiSlice.injectEndpoints({
       },
     }),
     getCommentLists: build.query({
-      query: ({ postId }) => ({
+      query: ({ postId, page, skip }) => ({
         url: `/comment/${postId}`,
         method: "GET",
+        params: { page, skip },
       }),
+
+      serializeQueryArgs: ({ endpointName, queryArgs, endpointDefinition }) => {
+        const { postId } = queryArgs;
+        return defaultSerializeQueryArgs({
+          endpointName,
+          queryArgs: { postId },
+          endpointDefinition,
+        });
+      },
+
+      merge: (currentCache, newItems) => {
+        currentCache?.comments.push(...newItems.comments);
+        currentCache.size = newItems.size;
+      },
+
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg.page !== previousArg?.page;
+      },
     }),
     replyComment: build.mutation({
       query: ({ content, userId, image, commentId }) => {
-        console.log({ userId });
         const formData = new FormData();
         formData.append("content", content);
         formData.append("userId", userId as string);
@@ -51,6 +69,28 @@ export const commentApi = apiSlice.injectEndpoints({
           method: "PATCH",
           body: formData,
         };
+      },
+      async onQueryStarted(
+        { postId, commentId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const result = await queryFulfilled;
+          if (result.data?._id) {
+            dispatch(
+              apiSlice.util.updateQueryData(
+                "getCommentLists" as never,
+                { postId } as never,
+                (draftComments: any) => {
+                  const singleComment = draftComments?.comments.find(
+                    (comment: any) => comment._id === commentId
+                  );
+                  singleComment.replies = result.data.replies;
+                }
+              )
+            );
+          }
+        } catch (error) {}
       },
     }),
   }),

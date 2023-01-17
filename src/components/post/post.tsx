@@ -131,16 +131,6 @@ const Post = ({ post }: Props) => {
             <AnimatePresence>
               {Object.keys(reactCount || {})?.map(
                 (react: string, i: number) => {
-                  console.log({
-                    server: likeReact?.react,
-                    count: reactCount[likeReact?.react],
-                    selectReact,
-                    bool:
-                      reactCount[likeReact?.react] === 1 &&
-                      selectReact &&
-                      selectReact !== likeReact?.react &&
-                      selectReact === likeReact?.react,
-                  });
                   if (
                     reactCount[likeReact?.react] === 1 &&
                     selectReact &&

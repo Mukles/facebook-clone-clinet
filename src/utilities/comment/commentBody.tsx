@@ -13,9 +13,11 @@ interface Props {
   created_at: string;
   content: string;
   postId: string;
+  page: number;
   children?: any;
 }
 const CommentBody = ({
+  page,
   user,
   content,
   created_at,
@@ -59,7 +61,12 @@ const CommentBody = ({
           </button>
           <button type="button">{format(created_at)}</button>
           {visiable && (
-            <CommentForm type="replay" postId={postId} commentId={_id} />
+            <CommentForm
+              page={page}
+              type="replay"
+              postId={postId}
+              commentId={_id}
+            />
           )}
         </div>
         <ul>{children}</ul>
