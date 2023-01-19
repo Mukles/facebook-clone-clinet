@@ -1,0 +1,22 @@
+.post-loader {
+  background-color: $color-white;
+  width: 100%;
+  max-width: 550px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  padding: 5px;
+
+  .footer {
+    padding-block: 4px;
+
+    li {
+      flex: 1;
+      height: 40px;
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+}

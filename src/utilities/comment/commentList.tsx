@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { useGetCommentListsQuery } from "../../App/features/comment/commentApi";
 import Comment from "./comment";
 import CommentForm from "./commentForm";
@@ -17,6 +18,8 @@ const Commentlist = ({ postId }: Props) => {
   });
   const { comments, size } = commentsList || {};
   const hasMore = comments?.length < size;
+
+  console.log({ len: comments?.length, size, postId });
 
   const clickHanlder = () => {
     if (hasMore) {
@@ -39,14 +42,26 @@ const Commentlist = ({ postId }: Props) => {
             />
           );
         })}
-        {hasMore && (
+        {hasMore && comments?.length > 0 && (
           <li className="comment justify-content-start">
             <button
+              disabled={isLoading}
               onClick={clickHanlder}
               type="button"
-              className="border-none bg-transparent"
+              className="border-none bg-transparent d-flex align-items-center justify-content-center"
             >
               See more comments
+              {isLoading && (
+                <TailSpin
+                  height="20"
+                  width="20"
+                  radius="1"
+                  color="#000"
+                  ariaLabel="tail-spin-loading"
+                  visible={true}
+                  wrapperClass="d-inline-block ms-2"
+                />
+              )}
             </button>
           </li>
         )}

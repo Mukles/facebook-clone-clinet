@@ -1,6 +1,5 @@
 import { FastField, Form, Formik } from "formik";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -19,13 +18,9 @@ interface Porps {
 }
 
 const ProfileSidebar = ({ isAdmin }: Porps) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const [isBottomVisible, setIsBottomVisible] = useState(false);
   const { id: requestId } = useParams();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const position = useTransform(scrollYProgress, [0, 1], ["", "static"]);
   let { bio, _id: userId } = useSelector<RootState, IUser>(
     (state) => state.auth.user
   );
@@ -59,17 +54,31 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
     setEditBio(!editBio);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ref.current) return;
+      const elementTop =
+        ref.current.getBoundingClientRect().top + window.pageYOffset;
+      const elementBottom = elementTop + ref.current.clientHeight;
+      const scrollY = window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      if (elementBottom <= scrollY + windowHeight) {
+        setIsBottomVisible(true);
+      } else {
+        setIsBottomVisible(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isBottomVisible]);
+
   return (
     <div className="col-lg-5 mt-3">
       <div className="h-100">
-        <motion.div
-          initial={{ position: "static" }}
-          whileInView={{ position: "sticky", bottom: 0 }}
-          viewport={{ once: false }}
-        >
+        <div ref={ref} className={isBottomVisible ? "sticky" : ""}>
           <div className="user-card">
             <h3>Intro</h3>
-            {(editBio || !bio) && (
+            {(editBio || !bio) && isAdmin && (
               <Formik
                 onSubmit={({ bio }, { resetForm }) => {
                   updateBio({ userId, bio });
@@ -142,7 +151,6 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
                             src={item?.img}
                             alt={"friend"}
                           />
-                          ;
                         </div>
                       </div>
                     </div>
@@ -151,8 +159,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
               </div>
             </div>
           </div>
-          <div className="user-card mt-3"></div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

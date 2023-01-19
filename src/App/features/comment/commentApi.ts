@@ -26,6 +26,7 @@ export const commentApi = apiSlice.injectEndpoints({
                 { postId } as never,
                 (draftComments: any) => {
                   draftComments.comments.unshift(result.data);
+                  draftComments.size += 1;
                 }
               )
             );

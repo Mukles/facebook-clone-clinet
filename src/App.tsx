@@ -14,7 +14,7 @@ import { onAuthChanged } from "./service/authService";
 function App() {
   const dispatch = useDispatch();
   const width = useWidth();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const direction: number = useSelector<RootState, any>(
     (state) => state.auth.direction
@@ -33,7 +33,7 @@ function App() {
       <>
         <Header />
         <AnimatePresence mode="wait" initial={false} custom={direction}>
-          {cloneElement(smallRoutes, { key: location.pathname })}
+          {cloneElement(smallRoutes, { key: pathname })}
         </AnimatePresence>
       </>
     );
@@ -43,7 +43,9 @@ function App() {
     <>
       <Header />
       <AnimatePresence mode="wait" initial={false}>
-        {cloneElement(largeRoutes, { key: location.pathname })}
+        {pathname.match(/\/profile/gi)?.length
+          ? cloneElement(largeRoutes)
+          : cloneElement(largeRoutes, { key: pathname })}
       </AnimatePresence>
     </>
   );

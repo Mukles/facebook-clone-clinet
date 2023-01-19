@@ -66,6 +66,7 @@ const CommentBody = ({
               type="replay"
               postId={postId}
               commentId={_id}
+              setVisiable={setVisiable}
             />
           )}
         </div>

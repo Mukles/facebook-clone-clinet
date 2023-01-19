@@ -34,6 +34,29 @@ export const postApi = apiSlice.injectEndpoints({
         method: "GET",
         params: data,
       }),
+
+      async onQueryStarted(arg, { queryFulfilled }) {
+        const result = await queryFulfilled;
+        console.log({ result });
+      },
+
+      // serializeQueryArgs: ({ endpointName, queryArgs, endpointDefinition }) => {
+      //   const { postId } = queryArgs;
+      //   return defaultSerializeQueryArgs({
+      //     endpointName,
+      //     queryArgs: { postId },
+      //     endpointDefinition,
+      //   });
+      // },
+
+      // merge: (currentCache, newItems) => {
+      //   currentCache?.comments.push(...newItems.comments);
+      //   currentCache.size = newItems.size;
+      // },
+
+      // forceRefetch({ currentArg, previousArg }) {
+      //   return currentArg.page !== previousArg?.page;
+      // },
     }),
 
     deltePost: build.mutation({

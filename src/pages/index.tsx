@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetNewsFeedQuery } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
@@ -6,9 +7,11 @@ import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
 import RightSide from "../components/story/right-side";
 import Story from "../components/story/story";
+import PostSkeleton from "../Skeleton/Post-Skeleton";
 import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Home = () => {
+  const [loader, setLoader] = useState(true);
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
@@ -20,6 +23,14 @@ const Home = () => {
     error,
     data: posts,
   } = useGetNewsFeedQuery(userId);
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      setLoader(false);
+    }, 500);
+
+    return () => clearTimeout(timeOutId);
+  }, []);
 
   return (
     <div className="container-fluid nav-top">
@@ -40,9 +51,22 @@ const Home = () => {
           {/* create a new post */}
           <CreatePost />
           {/* posts */}
-          {posts?.map((post: any, index: number) => (
-            <Post key={index} post={post.friendsPosts} />
-          ))}
+
+          {isLoading || loader ? (
+            <>
+              {Array(3)
+                .fill("")
+                .map((item, i) => (
+                  <PostSkeleton key={i} />
+                ))}
+            </>
+          ) : (
+            <>
+              {posts?.map((post: any, index: number) => (
+                <Post key={index} post={post.friendsPosts} />
+              ))}
+            </>
+          )}
         </div>
         <div className="col-lg-4 col-xl-3 d-none d-lg-block">
           <RightSide />

@@ -16,9 +16,10 @@ interface Props {
   type?: "replay";
   commentId?: string;
   page: number;
+  setVisiable?: any;
 }
 
-const CommentForm = ({ postId, type, commentId, page }: Props) => {
+const CommentForm = ({ postId, type, commentId, page, setVisiable }: Props) => {
   const [preview, setPreview] = useState<any | null>();
 
   const { _id: userId, profilePicture } = useSelector<RootState, IUser>(
@@ -71,9 +72,14 @@ const CommentForm = ({ postId, type, commentId, page }: Props) => {
         };
 
         if (type !== "replay") {
-          addComment(comments);
+          if (!addLoading) {
+            addComment(comments);
+          }
         } else {
-          addReplay({ ...comments, commentId });
+          setVisiable(false);
+          if (!replyLoading) {
+            addReplay({ ...comments, commentId });
+          }
         }
         //submit the form here
         setTimeout(() => {
