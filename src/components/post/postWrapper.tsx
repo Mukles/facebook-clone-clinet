@@ -44,19 +44,25 @@ const PostWrapper = () => {
             .fill("")
             .map((item, i) => <PostSkeleton key={i} />)
         ) : (
-          <div id="scrollableDiv">
-            <InfiniteScroll
-              scrollThreshold={1}
-              dataLength={posts?.length || 5}
-              next={() => setPage((prev) => prev + 1)}
-              hasMore={posts?.length}
-              loader={<h4>Loading...</h4>}
-            >
-              {posts?.map((post: any, index: number) => {
-                return <Post key={index} post={post} />;
-              })}
-            </InfiniteScroll>
-          </div>
+          <>
+            {posts.length > 0 ? (
+              <div id="scrollableDiv">
+                <InfiniteScroll
+                  scrollThreshold={1}
+                  dataLength={posts?.length}
+                  next={() => setPage((prev) => prev + 1)}
+                  hasMore={posts?.length}
+                  loader={<h4>Loading...</h4>}
+                >
+                  {posts?.map((post: any, index: number) => {
+                    return <Post key={index} post={post} />;
+                  })}
+                </InfiniteScroll>
+              </div>
+            ) : (
+              <h2 className="text-center mt-2">No Post</h2>
+            )}
+          </>
         )}
       </div>
     </>

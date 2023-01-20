@@ -179,3 +179,27 @@
     }
   }
 }
+
+.comment-option {
+  background-color: #fff;
+  position: absolute;
+  top: 15px;
+  right: 0;
+  z-index: 999;
+  padding: 4px 6px;
+
+  li {
+    padding: 5px 7px;
+    padding-right: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    color: #050505;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($color: $color-gray, $alpha: 0.4);
+    }
+  }
+}

@@ -19,6 +19,27 @@ import Animated from "../../utilities/Animate";
 import PublicRoute from "../../utilities/publicRoute";
 import RequiredAuth from "../../utilities/requireAuth";
 
+const profileLayoutChild = [
+  {
+    index: true,
+    element: <PostWrapper />,
+  },
+  {
+    path: "about",
+    element: <AboutLayout />,
+    children: [
+      {
+        index: true,
+        element: <OverView />,
+      },
+      {
+        path: "work_and_education",
+        element: <OverView />,
+      },
+    ],
+  },
+];
+
 const mutualRoutes = [
   {
     path: "/",
@@ -67,26 +88,7 @@ const mutualRoutes = [
         <ProfileLayout />
       </RequiredAuth>
     ),
-    children: [
-      {
-        index: true,
-        element: <PostWrapper />,
-      },
-      {
-        path: "about",
-        element: <AboutLayout />,
-        children: [
-          {
-            index: true,
-            element: <OverView />,
-          },
-          {
-            path: "work_and_education",
-            element: <OverView />,
-          },
-        ],
-      },
-    ],
+    children: profileLayoutChild,
   },
 
   {
@@ -103,22 +105,44 @@ const mutualRoutes = [
         element: <RequestGrid />,
       },
       {
+        path: ":id",
+        element: <ProfileLayout />,
+        children: profileLayoutChild,
+      },
+      {
         path: "requests",
         element: <ProfilePreview />,
       },
       {
-        path: "requests/:selectedId",
+        path: "requests",
         element: <ProfilePreview />,
+      },
+      {
+        path: "requests",
+        element: <ProfilePreview />,
+        children: [
+          {
+            path: ":id",
+            element: <ProfileLayout />,
+            children: profileLayoutChild,
+          },
+        ],
       },
       {
         path: "suggestions",
         element: <ProfilePreview />,
       },
       {
-        path: "suggestions/:selectedId",
+        path: "suggestions",
         element: <ProfilePreview />,
+        children: [
+          {
+            path: ":id",
+            element: <ProfileLayout />,
+            children: profileLayoutChild,
+          },
+        ],
       },
-
       {
         path: "list",
         element: <ProfilePreview />,

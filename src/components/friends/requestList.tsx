@@ -218,7 +218,7 @@ const RequestList = () => {
     <>
       <SideBarTop text="Friend Requests" />
       <div className="friend-request-container">
-        <h4 className="mt-2">52 Friend Requests</h4>
+        <h4 className="mt-2">{data?.length} Friend Requests</h4>
         <button>View sent request</button>
         {data?.map((friend: any, index: number) => {
           return (

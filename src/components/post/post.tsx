@@ -72,7 +72,7 @@ const Post = ({ post }: Props) => {
         ></div>
       )}
       {/* option */}
-      <AnimatePresence initial>
+      <AnimatePresence>
         {isOpen && (
           <Option
             setDeleteReq={setDeleteReq}

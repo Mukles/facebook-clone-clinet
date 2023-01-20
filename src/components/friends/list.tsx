@@ -43,7 +43,7 @@ const List = () => {
               const { _id, userName, profilePicture } = friend;
               return (
                 <li className="friend-card" key={_id}>
-                  <Link to={`/profile/${_id}`}>
+                  <Link to={`${_id}`}>
                     <img src={profilePicture || defaultProfile} alt="profile" />
                     <div className="ms-2 flex-fill">
                       <p>{userName}</p>

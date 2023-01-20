@@ -43,7 +43,7 @@ function App() {
     <>
       <Header />
       <AnimatePresence mode="wait" initial={false}>
-        {pathname.match(/\/profile/gi)?.length
+        {pathname.match(/\/profile|friend/gi)?.length
           ? cloneElement(largeRoutes)
           : cloneElement(largeRoutes, { key: pathname })}
       </AnimatePresence>

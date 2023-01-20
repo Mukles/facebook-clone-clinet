@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import noSelected from "../../assets/default/non-selected.svg";
-import Profile from "../../pages/profile";
 
 const ProfilePreview = () => {
-  const { selectedId } = useParams();
+  const { id } = useParams();
   return (
     <>
-      {selectedId ? (
-        <Profile selectedId={selectedId} />
+      {id ? (
+        <Outlet />
       ) : (
         <div className="no-proile-selected">
           <img src={noSelected} alt="no-selected" />

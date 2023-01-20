@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
 import defaultProfile from "../../assets/default/profile.png";
 import { IUser } from "../../types/userTypes";
 import CommentForm from "./commentForm";
+import Option from "./option";
 
 interface Props {
   user: IUser;
@@ -26,13 +28,37 @@ const CommentBody = ({
   postId,
   children,
 }: Props) => {
+  const button = useRef<HTMLButtonElement>(null);
+  const modal = useRef<HTMLUListElement>(null);
+
   const [visiable, setVisiable] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+
   const onVisiable = () => {
     setVisiable(true);
   };
 
+  useEffect(() => {
+    const handleClick = (event: any) => {
+      if (
+        !modal.current?.contains(event.target) &&
+        !button.current?.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("click", (event) => handleClick(event));
+
+    return () =>
+      document.removeEventListener("click", (event) => handleClick(event));
+  }, [button, setOpen]);
+
   return (
-    <li className="comment">
+    <li className="comment position-relative">
+      <AnimatePresence>
+        {isOpen && <Option ref={modal} setOpen={setOpen} />}
+      </AnimatePresence>
       <Link to={`/profile/${user._id}`} className="profile">
         <img src={user.profilePicture || defaultProfile} alt="profile" />
       </Link>
@@ -43,7 +69,12 @@ const CommentBody = ({
             {img && <img src={img} alt="comment-img" className="d-block" />}
             <p>{content}</p>
           </div>
-          <button className="icon">
+          <button
+            ref={button}
+            type="button"
+            className="icon edit-button"
+            onClick={() => setOpen(true)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
