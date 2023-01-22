@@ -7,7 +7,7 @@ import {
   useCancelFriendRequestMutation,
   useDeleteFriendRequestMutation,
   useGetFriendRequestListQuery,
-  useSentFriendRequestMutation,
+  useSentFriendRequestMutation
 } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";

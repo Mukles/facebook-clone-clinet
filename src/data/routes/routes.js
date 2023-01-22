@@ -1,5 +1,6 @@
 import ProfilePreview from "../../components/friends/profilePreview";
 import RequestGrid from "../../components/friends/requesGrid";
+import LeftSide from "../../components/leftSide";
 import PostWrapper from "../../components/post/postWrapper";
 import AboutLayout from "../../components/profile/aboutLayout";
 import OverView from "../../components/profile/overview";
@@ -13,9 +14,9 @@ import Messenger from "../../pages/messenger/index";
 import MobileConversation from "../../pages/messenger/mobile/conversation";
 import MobileSpecificConversation from "../../pages/messenger/mobile/[id]";
 import SpecificConversation from "../../pages/messenger/[id]";
-import Profile from "../../pages/profile";
 import Videos from "../../pages/videos.tsx";
 import Animated from "../../utilities/Animate";
+import PrivacyScreen from "../../utilities/PrivacyScreen";
 import PublicRoute from "../../utilities/publicRoute";
 import RequiredAuth from "../../utilities/requireAuth";
 
@@ -63,6 +64,17 @@ const mutualRoutes = [
       <PublicRoute>
         <Login />
       </PublicRoute>
+    ),
+  },
+  {
+    path: "/bar",
+    element: (
+      <RequiredAuth>
+        <div className="bar-container">
+          <PrivacyScreen />
+          <LeftSide />
+        </div>
+      </RequiredAuth>
     ),
   },
   {
@@ -203,14 +215,7 @@ export const smallDevicesRoutes = [
       </RequiredAuth>
     ),
   },
-  {
-    path: "/profile/:id",
-    element: (
-      <RequiredAuth>
-        <Profile />
-      </RequiredAuth>
-    ),
-  },
+
   {
     path: "*",
     element: <h1 className="nav-top">I am form not found</h1>,

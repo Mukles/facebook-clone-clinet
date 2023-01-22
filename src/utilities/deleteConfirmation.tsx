@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDeltePostMutation } from "../App/features/post/postApi";
 import { RootState } from "../App/store";
+import { toastRise } from "../hooks/toastRise";
 import { IUser } from "../types/userTypes";
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const DeleteConfirmation = ({ setDeleteReq, id, setOpen }: Props) => {
+  const dispatch = useDispatch();
   const [deletePost, { isSuccess, isLoading, isError, error }] =
     useDeltePostMutation();
 
@@ -24,6 +26,14 @@ const DeleteConfirmation = ({ setDeleteReq, id, setOpen }: Props) => {
       setDeleteReq(false);
       setOpen(false);
     }
+
+    toastRise(
+      isSuccess,
+      isError,
+      (error as any)?.message,
+      "Post deleted successfully.!",
+      dispatch
+    );
   }, [isSuccess, isError, setDeleteReq, setOpen]);
 
   return (

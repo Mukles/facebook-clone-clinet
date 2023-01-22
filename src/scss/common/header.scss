@@ -1,5 +1,5 @@
 header {
-  background-color: #fff;
+  background-color: $color-white;
   margin-bottom: 10px;
 
   &.mobile-nav {
@@ -38,11 +38,91 @@ header {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #fff;
+    background-color: $color-white;
     padding: 6px;
     border-radius: 5px;
-    height: 100px;
+    min-height: 100px;
     box-shadow: 2px 9px 5px #00000021;
+    max-height: 350px;
+    overflow: hidden;
+
+    .serach-header {
+      h6 {
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 20px;
+        color: $color-semibalck;
+      }
+
+      button {
+        padding: 4px 6px;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 20px;
+        color: $brand-color;
+        border: none;
+        background-color: transparent;
+
+        &:hover {
+          background: $secondary-color;
+        }
+      }
+    }
+
+    .search-item {
+      padding: 4px 6px;
+      text-decoration: none;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      svg {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+      }
+
+      p {
+        margin: 0;
+        margin-inline: 10px;
+        text-align: left;
+        font-size: 15px;
+        line-height: 20px;
+        color: $color-semibalck;
+        white-space: nowrap;
+        width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .close {
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        font-size: 25px;
+        border: none;
+        box-sizing: border-box;
+
+        &:hover {
+          background-color: $secondary-color;
+          box-shadow: 0px 0px 9px 2px #0000001c;
+        }
+      }
+
+      &:hover {
+        background-color: rgba($color: $secondary-color, $alpha: 0.8);
+      }
+    }
 
     .arrow-icon {
       border-radius: 50%;
@@ -71,6 +151,13 @@ header {
       padding: 8px 12px;
       background-color: $secondary-color;
       border-radius: 22px;
+    }
+
+    p {
+      color: $color-semibalck;
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 400;
     }
   }
 

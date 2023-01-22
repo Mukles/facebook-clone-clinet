@@ -37,17 +37,17 @@ const Login = () => {
   }, [pathname]);
 
   return (
-    <section className="login-container py-5 px-0 mx-0">
+    <section className="login-container py-3 py-lg-5 px-0 mx-0">
       <AnimatePresence>
         {show && <Register setShow={setShow} />}
         {error && <ErrorModal key={"errormodal"} Error={error} />}
       </AnimatePresence>
       <div className="container">
-        <div className="row gy-5 gy-lg-0">
+        <div className="row login-row">
           <div className="col-lg-6 d-flex flex-column align-items-center justify-content-center ">
             <div className="brand-details">
               <div className="logo-img">
-                <img width={300} height={120} src={logo} alt={"facebook"} />
+                <img src={logo} alt={"facebook"} />
               </div>
               <p>
                 Facebook helps you connect and share with the people in your

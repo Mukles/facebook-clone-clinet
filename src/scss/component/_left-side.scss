@@ -14,42 +14,50 @@
     display: none;
   }
 
-  ul li {
-    padding: 6px;
-    border-radius: 10px;
-    transition: 0.3s;
-    cursor: pointer;
-    a {
-      text-decoration: none;
-    }
+  ul {
+    li {
+      padding: 6px;
+      border-radius: 10px;
+      transition: 0.3s;
+      cursor: pointer;
+      a {
+        text-decoration: none;
+      }
 
-    &:hover {
-      background-color: #e4e6e9;
-    }
+      &:hover {
+        background-color: #e4e6e9;
+      }
 
-    .profile img {
-      border-radius: 50%;
-    }
+      .profile img {
+        border-radius: 50%;
+      }
 
-    p {
-      color: #050505;
-      font-size: 15px;
-      font-weight: 500;
-    }
+      p {
+        color: #050505;
+        font-size: 15px;
+        font-weight: 500;
+      }
 
-    button.show-more {
-      @include reset-button;
-      background-color: #d8dadf;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      button.show-more {
+        @include reset-button;
+        background-color: #d8dadf;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      svg {
-        width: 25px;
+        svg {
+          width: 25px;
+        }
       }
     }
+  }
+}
+
+.bar-container {
+  .left-side {
+    max-width: 100%;
   }
 }

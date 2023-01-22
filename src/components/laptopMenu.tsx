@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { RootState } from "../App/store";
 import defaultProfile from "../assets/default/profile.png";
 import BarSvg from "../assets/Header/barSvg";
@@ -10,17 +10,20 @@ import MenuSvg from "../assets/Header/MenuSvg";
 import MessengerSvg from "../assets/Header/messagerSvg";
 import NotificationSvg from "../assets/Header/notificationSvg";
 import { header } from "../data/settings/header";
+import SearchOverlay from "../utilities/comment/search-overlay";
 import CustomeNav from "../utilities/navLink";
-
 interface Props {
   setOpen: any;
 }
 
 const LaptopMenu = ({ setOpen }: Props) => {
+  const buttonRef = useRef<HTMLInputElement>(null);
+  const serachRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const profilePicture = useSelector<RootState, string | undefined>(
     (state) => state.auth.user?.profilePicture
   );
+  const search = useSelector<RootState, string>((state) => state.search);
 
   return (
     <div className="nav-bar align-items-center justify-content-between d-none d-sm-flex">
@@ -29,52 +32,56 @@ const LaptopMenu = ({ setOpen }: Props) => {
         <Link to={"/"}>
           <LogoSvg />
         </Link>
-        <div className="flex-lg-fill">
-          <div className="d-lg-block d-none input-search">
-            <input type={"text"} placeholder="Search facebook" />
-          </div>
-          <div className="search-icon ms-1 d-flex d-lg-none">
-            <svg
-              onClick={() => setShow(true)}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+        <AnimateSharedLayout>
+          <div className="flex-lg-fill">
+            <div className="d-lg-block d-none input-search">
+              <motion.input
+                value={search}
+                ref={buttonRef}
+                readOnly
+                onClick={() => setShow(true)}
+                layoutId="input"
+                type={"text"}
+                placeholder="Search facebook"
               />
-            </svg>
-          </div>
-        </div>
-
-        {/* search-overlay */}
-        <div className={`search-overlay ${show ? "d-block" : "d-none"}`}>
-          <div className="d-flex align-items-center">
-            <div onClick={() => setShow(false)} className="arrow-icon">
+            </div>
+            <div ref={serachRef} className="search-icon ms-1 d-flex d-lg-none">
               <svg
+                onClick={() => setShow(true)}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </svg>
             </div>
-            <input type={"text"} placeholder="Search facebook" />
           </div>
-        </div>
+          {/* search-overlay */}
+          <AnimatePresence>
+            {show && (
+              <SearchOverlay
+                search={search}
+                serachRef={serachRef}
+                buttonRef={buttonRef}
+                setShow={setShow}
+              />
+            )}
+          </AnimatePresence>
+        </AnimateSharedLayout>
+
         <div className="ms-2 d-block d-md-none">
-          <BarSvg />
+          <NavLink
+            to={"/bar"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <BarSvg />
+          </NavLink>
         </div>
       </div>
 

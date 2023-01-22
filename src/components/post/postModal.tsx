@@ -71,32 +71,6 @@ const PostModal = ({ setShow, post }: Props) => {
   ]);
 
   const { email } = useSelector<RootState, any>((state) => state.auth.user);
-
-  function onTextChange(
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-    from: any
-  ) {
-    const textarea = event.target;
-    const text = textarea.value;
-    const name = textarea.name;
-    from.form.setFieldValue(name, text);
-    adjustHeight(text, textarea);
-    adjustFont(text, textarea);
-  }
-
-  function adjustHeight(value: string, textarea: HTMLTextAreaElement) {
-    if (value.length > prevText.length) {
-      textarea.style.height = Math.min(textarea.scrollHeight, limit) + "px";
-    } else {
-      textarea.style.height = "100%";
-    }
-    prevText = value;
-  }
-
-  function adjustFont(value: string, textarea: HTMLTextAreaElement) {
-    textarea.style.fontSize = value.length > 38 ? "14px" : "24px";
-  }
-
   return (
     <motion.div className="overlay py-5" onClick={() => setShow(false)}>
       <motion.div

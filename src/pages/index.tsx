@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ColorRing } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { useGetNewsFeedQuery } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
@@ -12,17 +14,22 @@ import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Home = () => {
   const [loader, setLoader] = useState(true);
+  const [isRender, setRender] = useState(true);
+  const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(0);
+
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
 
   const {
     isLoading,
-    isSuccess,
     isError,
     error,
-    data: posts,
-  } = useGetNewsFeedQuery(userId);
+    data: feeds,
+  } = useGetNewsFeedQuery({ userId, skip, page });
+  const { posts } = feeds || {};
+  console.log({ feeds, posts });
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -52,7 +59,7 @@ const Home = () => {
           <CreatePost />
           {/* posts */}
 
-          {isLoading || loader ? (
+          {(isLoading || loader) && isRender ? (
             <>
               {Array(3)
                 .fill("")
@@ -61,11 +68,41 @@ const Home = () => {
                 ))}
             </>
           ) : (
-            <>
-              {posts?.map((post: any, index: number) => (
-                <Post key={index} post={post.friendsPosts} />
-              ))}
-            </>
+            <div>
+              {posts?.length > 0 ? (
+                <InfiniteScroll
+                  scrollThreshold={1}
+                  dataLength={posts?.length}
+                  next={() => {
+                    setSkip(posts?.length);
+                    setPage((prev) => prev + 1);
+                  }}
+                  hasMore={posts?.length < posts[0]?.totalCount}
+                  loader={
+                    <ColorRing
+                      visible={true}
+                      height="40"
+                      width="40"
+                      ariaLabel="blocks-loading"
+                      wrapperClass="blocks-wrapper mx-auto d-block"
+                      colors={[
+                        "#e15b64",
+                        "#f47e60",
+                        "#f8b26a",
+                        "#abbd81",
+                        "#849b87",
+                      ]}
+                    />
+                  }
+                >
+                  {posts?.map((post: any, index: number) => {
+                    return <Post key={index} post={post.friendsPosts} />;
+                  })}
+                </InfiniteScroll>
+              ) : (
+                <h1></h1>
+              )}
+            </div>
           )}
         </div>
         <div className="col-lg-4 col-xl-3 d-none d-lg-block">

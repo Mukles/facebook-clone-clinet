@@ -1,13 +1,26 @@
 .login-container {
   margin: 5% 0;
+
+  .login-row div:first-child {
+    @media (max-width: $md) {
+      margin-bottom: 10px;
+    }
+  }
   .brand-details {
     margin-top: -25px;
 
     .logo-img {
+      max-width: 300px;
+      width: 100%;
       transform: translateX(-2%);
 
       @media (max-width: $md) {
+        margin: auto;
         text-align: center;
+      }
+
+      @media (max-width: $sm) {
+        max-width: 250px;
       }
     }
 

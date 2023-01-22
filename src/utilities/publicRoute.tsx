@@ -11,7 +11,7 @@ const PublicRoute = ({ children }: Props): React.ReactElement => {
     (state) => state.auth
   );
 
-  if (loading && !user && !loginLoader) {
+  if (loading && !loginLoader) {
     return (
       <AnimatePresence>
         <motion.div

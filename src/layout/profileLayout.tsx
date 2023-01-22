@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import {
@@ -22,8 +23,17 @@ import RequestChecker from "../utilities/requestChecker";
 
 const ProfileLayout = () => {
   const { id: userId } = useParams();
-  const { _id, email, userName, profilePicture, converPicture } =
-    useSelector<RootState, IUser>((state) => state.auth.user) || {};
+  const {
+    _id,
+    email,
+    userName,
+    profilePicture,
+    converPicture,
+    numberOfFriends,
+    friends,
+  } = useSelector<RootState, IUser>((state) => state.auth.user) || {};
+
+  console.log({ friends, numberOfFriends });
 
   const { data: friendDetails, isLoading: isDetailsLoading } =
     useGetReqUserQuery(userId, {
@@ -45,15 +55,7 @@ const ProfileLayout = () => {
   const [profilePhotoPreview, setProfilePhotoPreview] = useState<any | null>(
     null
   );
-  const [
-    coverChange,
-    {
-      isLoading: coverLoading,
-      isError: isCoverError,
-      error: coverError,
-      data: coverData,
-    },
-  ] = useCoverChangeMutation();
+  const [coverChange, { isLoading: isCoverLoading }] = useCoverChangeMutation();
 
   const onCoverPhotoSave = () => {
     const formdata = new FormData();
@@ -79,6 +81,10 @@ const ProfileLayout = () => {
 
   const cover = friendDetails ? friendDetails.converPicture : converPicture;
   const avater = friendDetails ? friendDetails.profilePicture : profilePicture;
+  const frindesLength = friendDetails
+    ? friendDetails.numberOfFriends
+    : numberOfFriends;
+  const friendsList = friendDetails ? friendDetails.friends : friends;
   const isFriendOrRequestsent = isFriend && isFriend[0];
   const isAdmin = userId === _id;
 
@@ -108,8 +114,23 @@ const ProfileLayout = () => {
                 >
                   Cancel
                 </button>
-                <button type="button" onClick={onCoverPhotoSave}>
-                  Save Changes
+                <button
+                  disabled={isCoverLoading}
+                  type="button"
+                  onClick={onCoverPhotoSave}
+                >
+                  {isCoverLoading ? (
+                    <ThreeDots
+                      height="19px"
+                      width="38px"
+                      radius="9"
+                      color="#fff"
+                      ariaLabel="three-dots-loading"
+                      visible={true}
+                    />
+                  ) : (
+                    <span>Save Changes</span>
+                  )}
                 </button>
               </div>
             </motion.div>
@@ -211,38 +232,30 @@ const ProfileLayout = () => {
                   <div className="profile-details-wrapper">
                     <div>
                       <h2>{friendDetails?.userName || userName}</h2>
-                      <span className="mutual-frd">782 friends</span>
+                      <span className="mutual-frd">
+                        {frindesLength === 0 ? (
+                          <>No friend yet</>
+                        ) : frindesLength === 1 ? (
+                          <>1 friend</>
+                        ) : (
+                          <>{frindesLength} friends</>
+                        )}
+                      </span>
                       <ul className="friend-list">
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <img src={defaultCover} alt="friend" />
-                          </a>
-                        </li>
+                        {friendsList?.map((item: any) => {
+                          const { _id, profilePicture, userName } = item;
+                          return (
+                            <li key={_id}>
+                              <Link to={`/profile/${_id}`}>
+                                <img
+                                  src={profilePicture || defaultProfile}
+                                  alt="friend"
+                                  title={userName}
+                                />
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                     <div>

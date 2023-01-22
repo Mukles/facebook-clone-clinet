@@ -7,7 +7,7 @@ export const toastRise = (
   errorMessage: string,
   custom: string,
   dispatch: Dispatch<AnyAction>,
-  setShow: any
+  setShow?: any
 ) => {
   if (isSuccess) {
     dispatch(
@@ -16,7 +16,7 @@ export const toastRise = (
         type: "success",
       })
     );
-    setShow(false);
+    setShow && setShow(false);
   } else if (isError) {
     dispatch(
       addToast({

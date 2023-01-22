@@ -1,3 +1,4 @@
+import { defaultSerializeQueryArgs } from "@reduxjs/toolkit/dist/query";
 import { RootState } from "../../store";
 import { apiSlice } from "../api/apiSlice";
 
@@ -13,15 +14,17 @@ export const postApi = apiSlice.injectEndpoints({
       },
       async onQueryStarted(args, { queryFulfilled, dispatch, getState }) {
         const result = await queryFulfilled;
-        const { _id, email } = (getState() as RootState).auth.user || {};
+        console.log({ result });
+        const { _id } = (getState() as RootState).auth.user || {};
         const { post, user } = result.data || {};
 
         dispatch(
           apiSlice.util.updateQueryData(
             "getPosts" as never,
-            { userId: _id, email } as never,
+            { userId: _id } as never,
             (draftPosts: any) => {
-              draftPosts.unshift({ ...post, user });
+              draftPosts.posts.unshift({ ...post, user });
+              draftPosts.size += 1;
             }
           )
         );
@@ -35,28 +38,23 @@ export const postApi = apiSlice.injectEndpoints({
         params: data,
       }),
 
-      async onQueryStarted(arg, { queryFulfilled }) {
-        const result = await queryFulfilled;
-        console.log({ result });
+      serializeQueryArgs: ({ endpointName, queryArgs, endpointDefinition }) => {
+        const { userId } = queryArgs;
+        return defaultSerializeQueryArgs({
+          endpointName,
+          queryArgs: { userId },
+          endpointDefinition,
+        });
       },
 
-      // serializeQueryArgs: ({ endpointName, queryArgs, endpointDefinition }) => {
-      //   const { postId } = queryArgs;
-      //   return defaultSerializeQueryArgs({
-      //     endpointName,
-      //     queryArgs: { postId },
-      //     endpointDefinition,
-      //   });
-      // },
+      merge: (currentCache, newItems) => {
+        currentCache?.posts.push(...newItems.posts);
+        currentCache.size = newItems.size;
+      },
 
-      // merge: (currentCache, newItems) => {
-      //   currentCache?.comments.push(...newItems.comments);
-      //   currentCache.size = newItems.size;
-      // },
-
-      // forceRefetch({ currentArg, previousArg }) {
-      //   return currentArg.page !== previousArg?.page;
-      // },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg.page !== previousArg?.page;
+      },
     }),
 
     deltePost: build.mutation({
@@ -65,21 +63,24 @@ export const postApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: data,
       }),
-      async onQueryStarted(args, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted(
+        { id: postId },
+        { dispatch, queryFulfilled, getState }
+      ) {
         const result = await queryFulfilled;
-        console.log("delted", args);
-        const { _id, email } = (getState() as RootState).auth.user || {};
+        const { _id: userId } = (getState() as RootState).auth.user || {};
         if (result.data) {
           dispatch(
             apiSlice.util.updateQueryData(
               "getPosts" as never,
-              { userId: _id, email } as never,
+              { userId } as never,
               (draftPosts: any) => {
-                const filterdPost: any = draftPosts.filter(
-                  (post: any) => post._id !== args.id
+                console.log(JSON.stringify(draftPosts));
+                draftPosts.size -= 1;
+                const filterdPost: any = draftPosts.posts.filter(
+                  (post: any) => post._id !== postId
                 );
-                draftPosts = [...filterdPost];
-                return draftPosts;
+                draftPosts.posts = filterdPost;
               }
             )
           );
@@ -100,20 +101,18 @@ export const postApi = apiSlice.injectEndpoints({
       },
       async onQueryStarted(args, { dispatch, getState, queryFulfilled }) {
         const result = await queryFulfilled;
-        const { _id, email } = (getState() as RootState).auth.user || {};
         const id: string = args.get("postId");
 
         if (result.data) {
-          console.log(result);
           dispatch(
             apiSlice.util.updateQueryData(
               "getPosts" as never,
-              { userId: _id, email } as never,
+              { postId: id } as never,
               (draftPosts: any) => {
-                const index = draftPosts.findIndex(
+                const index = draftPosts.posts.findIndex(
                   (post: any) => post._id === id
                 );
-                draftPosts[index] = {
+                draftPosts.posts[index] = {
                   ...draftPosts[index],
                   ...result.data.post,
                 };

@@ -19,8 +19,6 @@ const Commentlist = ({ postId }: Props) => {
   const { comments, size } = commentsList || {};
   const hasMore = comments?.length < size;
 
-  console.log({ len: comments?.length, size, postId });
-
   const clickHanlder = () => {
     if (hasMore) {
       setSkip(comments?.length);

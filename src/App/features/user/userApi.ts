@@ -1,3 +1,4 @@
+import { defaultSerializeQueryArgs } from "@reduxjs/toolkit/dist/query";
 import { RootState } from "../../store";
 import { apiSlice } from "../api/apiSlice";
 import { setBio, setDetails, setPicture, userLogin } from "../auth/authSlice";
@@ -14,19 +15,19 @@ export const userApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch, getState }) {
         try {
           const result = await queryFulfilled;
-          const { _id, email } = (getState() as RootState).auth.user || {};
-          if (result.data) {
+          console.log({ result });
+          const { _id } = (getState() as RootState).auth.user || {};
+          const { post, user } = result.data || {};
+          if (post) {
             const { converPicture } = result.data.user;
             dispatch(setPicture({ converPicture }));
             dispatch(
               apiSlice.util.updateQueryData(
                 "getPosts" as never,
-                { userId: _id, email } as never,
+                { userId: _id } as never,
                 (draftPosts: any) => {
-                  draftPosts.unshift({
-                    ...result.data.post,
-                    user: { ...result.data.user },
-                  });
+                  draftPosts.size += 1;
+                  draftPosts.posts.unshift({ ...post, user });
                 }
               )
             );
@@ -44,16 +45,17 @@ export const userApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch, getState }) {
         try {
           const result = await queryFulfilled;
-          const { _id, email } = (getState() as RootState).auth.user || {};
+          const { _id } = (getState() as RootState).auth.user || {};
           if (result.data) {
             const { profilePicture } = result.data.user;
             dispatch(setPicture({ profilePicture }));
             dispatch(
               apiSlice.util.updateQueryData(
                 "getPosts" as never,
-                { userId: _id, email } as never,
+                { userId: _id } as never,
                 (draftPosts: any) => {
-                  draftPosts.unshift({
+                  draftPosts.size += 1;
+                  draftPosts.posts.unshift({
                     ...result.data.post,
                     user: { ...result.data.user },
                   });
@@ -94,8 +96,6 @@ export const userApi = apiSlice.injectEndpoints({
       async onQueryStarted(args, { queryFulfilled, dispatch }) {
         const result = await queryFulfilled;
         const bio = result.data?.bio;
-        console.log({ bio });
-
         if (bio) {
           dispatch(setBio(bio));
         }
@@ -172,10 +172,29 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     getNewsFeed: build.query({
-      query: (userId) => ({
+      query: ({ userId, page, skip }) => ({
         url: `/user/newsfeed/${userId}`,
         method: "GET",
+        params: { userId, page, skip },
       }),
+
+      serializeQueryArgs: ({ endpointName, queryArgs, endpointDefinition }) => {
+        const { userId } = queryArgs;
+        return defaultSerializeQueryArgs({
+          endpointName,
+          queryArgs: { userId },
+          endpointDefinition,
+        });
+      },
+
+      merge: (currentCache, newItems) => {
+        currentCache?.posts.push(...newItems.posts);
+        currentCache.size = newItems.size;
+      },
+
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg.page !== previousArg?.page;
+      },
     }),
 
     updaterUserDetails: build.mutation({
@@ -190,7 +209,6 @@ export const userApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           const { data } = result || {};
-          console.log(data);
           if (data) {
             dispatch(setDetails(data));
           }

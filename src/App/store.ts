@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import { authSlice } from "./features/auth/authSlice";
 import { postSlice } from "./features/post/postSlice";
+import { searchSlice } from "./features/search/searchSlice";
 import { toastSlice } from "./features/toast/toastSlice";
 
 export const configStore = () =>
@@ -11,6 +12,7 @@ export const configStore = () =>
       [authSlice.name]: authSlice.reducer,
       [postSlice.name]: postSlice.reducer,
       [toastSlice.name]: toastSlice.reducer,
+      [searchSlice.name]: searchSlice.reducer,
     },
 
     devTools: true,

@@ -30,6 +30,8 @@ export interface IUser {
   _id?: string;
   userName?: string;
   email?: string;
+  numberOfFriends?: number;
+  friends?: IUser[];
   profilePicture?: string;
   converPicture?: string;
   gender?: string;

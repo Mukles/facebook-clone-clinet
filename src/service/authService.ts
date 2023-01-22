@@ -35,6 +35,8 @@ export const onAuthChanged = (dispatch: any) => {
           dispatch
         );
 
+        console.log({ result });
+
         if (result) {
           dispatchSucess(result?.user, token, dispatch);
         }
