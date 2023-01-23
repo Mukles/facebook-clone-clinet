@@ -32,7 +32,8 @@ const SearchOverlay = ({ setShow, buttonRef, serachRef, search }: Props) => {
   const [addSearch, { isLoading: isAdding }] = useAddSearchMutation();
   const [deleteSearch, { isLoading: isDeleting }] = useDeleteSearchMutation();
   const { isLoading: isSearchLoading, data: searchData } = useGetSearchQuery(
-    user._id
+    user._id,
+    { refetchOnFocus: true }
   );
 
   const submitHandler = (event: any, value: string) => {
@@ -99,128 +100,131 @@ const SearchOverlay = ({ setShow, buttonRef, serachRef, search }: Props) => {
           />
         </form>
       </div>
-      <motion.div className="mt-3">
-        <AnimatePresence initial={false}>
-          {inputValue ? (
-            <>
-              {data?.map((user: any) => {
-                const { _id, profilePicture, userName } = user || {};
-                return (
-                  <Link
-                    key={_id}
-                    to={`/profile/${_id}`}
-                    className="d-flex mt-2 search-item align-items-center rounded"
-                    onClick={(e) => {
-                      submitHandler(e, _id);
-                      setShow(false);
-                      naviagate(`/profile/${_id}`);
-                    }}
+
+      {false && (
+        <motion.div className="mt-3">
+          <AnimatePresence initial={false}>
+            {inputValue ? (
+              <>
+                {data?.map((user: any) => {
+                  const { _id, profilePicture, userName } = user || {};
+                  return (
+                    <Link
+                      key={_id}
+                      to={`/profile/${_id}`}
+                      className="d-flex mt-2 search-item align-items-center rounded"
+                      onClick={(e) => {
+                        submitHandler(e, _id);
+                        setShow(false);
+                        naviagate(`/profile/${_id}`);
+                      }}
+                    >
+                      <img
+                        src={profilePicture || defaultProfile}
+                        alt={userName}
+                      />
+                      <p>{userName}</p>
+                    </Link>
+                  );
+                })}
+                {isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                   >
-                    <img
-                      src={profilePicture || defaultProfile}
-                      alt={userName}
+                    <Oval
+                      height={30}
+                      width={30}
+                      color="#1876f2"
+                      wrapperClass={"d-flex justify-content-center"}
+                      visible={true}
+                      ariaLabel="oval-loading"
+                      secondaryColor="#65676b"
+                      strokeWidth={5}
+                      strokeWidthSecondary={2}
                     />
-                    <p>{userName}</p>
-                  </Link>
-                );
-              })}
-              {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <Oval
-                    height={30}
-                    width={30}
-                    color="#1876f2"
-                    wrapperClass={"d-flex justify-content-center"}
-                    visible={true}
-                    ariaLabel="oval-loading"
-                    secondaryColor="#65676b"
-                    strokeWidth={5}
-                    strokeWidthSecondary={2}
-                  />
-                </motion.div>
-              )}
-            </>
-          ) : (
-            <>
-              {isSearchLoading ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <Oval
-                    height={30}
-                    width={30}
-                    color="#1876f2"
-                    wrapperClass={"d-flex justify-content-center"}
-                    visible={true}
-                    ariaLabel="oval-loading"
-                    secondaryColor="#65676b"
-                    strokeWidth={5}
-                    strokeWidthSecondary={2}
-                  />
-                </motion.div>
-              ) : !isSearchLoading && searchData.length === 0 ? (
-                <p className="text-center">No recent searches</p>
-              ) : (
-                <motion.div>
-                  <div className="d-flex justify-content-between serach-header">
-                    <h6>Recent searches</h6>
-                    <button>Edit</button>
-                  </div>
-                  {searchData?.map((item: any, i: number) => {
-                    return (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ opacity: { duration: 0.2 } }}
-                      >
-                        <Link
-                          key={i}
-                          to="/"
-                          className="d-flex mt-2 search-item align-items-center rounded"
+                  </motion.div>
+                )}
+              </>
+            ) : (
+              <>
+                {isSearchLoading ? (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <Oval
+                      height={30}
+                      width={30}
+                      color="#1876f2"
+                      wrapperClass={"d-flex justify-content-center"}
+                      visible={true}
+                      ariaLabel="oval-loading"
+                      secondaryColor="#65676b"
+                      strokeWidth={5}
+                      strokeWidthSecondary={2}
+                    />
+                  </motion.div>
+                ) : !isSearchLoading && searchData.length === 0 ? (
+                  <p className="text-center">No recent searches</p>
+                ) : (
+                  <motion.div>
+                    <div className="d-flex justify-content-between serach-header">
+                      <h6>Recent searches</h6>
+                      <button>Edit</button>
+                    </div>
+                    {searchData?.map((item: any, i: number) => {
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ opacity: { duration: 0.2 } }}
                         >
-                          {true ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                          ) : (
-                            <img src={defaultProfile} alt="user" />
-                          )}
-                          <p>{item}</p>
-                          <button
-                            onClick={(e) => deleteHandle(e, item)}
-                            type="button"
-                            className="close"
+                          <Link
+                            key={i}
+                            to="/"
+                            className="d-flex mt-2 search-item align-items-center rounded"
                           >
-                            &times;
-                          </button>
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </>
-          )}
-        </AnimatePresence>
-      </motion.div>
+                            {true ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                            ) : (
+                              <img src={defaultProfile} alt="user" />
+                            )}
+                            <p>{item}</p>
+                            <button
+                              onClick={(e) => deleteHandle(e, item)}
+                              type="button"
+                              className="close"
+                            >
+                              &times;
+                            </button>
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

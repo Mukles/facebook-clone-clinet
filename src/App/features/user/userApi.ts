@@ -146,6 +146,26 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: { userId },
       }),
+
+      async onQueryStarted(
+        { userId, requestId },
+        { queryFulfilled, dispatch }
+      ) {
+        try {
+          const reuslt = await queryFulfilled;
+          console.log(reuslt);
+          console.log({ userId, requestId });
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "checkRequestStatus" as never,
+              { userId, requestId } as never,
+              (draftRequst: any) => {
+                draftRequst[0].status = "accepted";
+              }
+            )
+          );
+        } catch (error) {}
+      },
     }),
 
     deleteFriendRequest: build.mutation({

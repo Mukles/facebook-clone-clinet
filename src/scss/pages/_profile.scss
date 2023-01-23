@@ -181,7 +181,7 @@
 
   .nav-bottom {
     position: relative;
-    margin-top: -20px;
+    // margin-top: -20px;
 
     &::after {
       position: absolute;
@@ -305,6 +305,10 @@
         }
       }
     }
+
+    & ~ div {
+      margin-top: -45px;
+    }
   }
 
   .profile-photo {
@@ -312,7 +316,7 @@
     max-width: 880px;
     margin: auto;
     width: 100%;
-    transform: translateY(-45px);
+    // transform: translateY(-45px);
 
     @media (max-width: $sm) {
       flex-direction: column;
@@ -412,6 +416,22 @@
     }
   }
 
+  .request-status {
+    background: $semiWhite-color;
+    padding: 10px;
+    p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 19px;
+      color: rgba($color: $color-semibalck, $alpha: 0.95);
+      font-weight: 500;
+    }
+
+    button {
+      opacity: 0.8;
+    }
+  }
+
   .profile-details-wrapper {
     display: flex;
     flex: 1;
@@ -423,42 +443,6 @@
       align-items: center;
       padding-top: 195px;
       flex-direction: column;
-    }
-
-    .profile-button {
-      @include reset-button;
-      font-size: 14px;
-      line-height: 19px;
-      padding-block: 10px;
-      padding-inline: 15px;
-      font-weight: 600;
-      color: $color-white;
-      border-radius: 6px;
-
-      svg {
-        width: 20px;
-        line-height: 19px;
-        margin-right: 6px;
-      }
-
-      &.add-story {
-        background-color: $brand-color;
-        margin-right: 12px;
-
-        &:hover {
-          background-color: #1a6ed8;
-        }
-      }
-
-      &.edit-profile {
-        background-color: $color-gray;
-        color: $color-semibalck;
-        text-decoration: none;
-
-        &:hover {
-          background-color: $color-gray-hover;
-        }
-      }
     }
   }
 

@@ -1,0 +1,70 @@
+.profile-button {
+    @include reset-button;
+    font-size: 14px;
+    line-height: 19px;
+    padding-block: 10px;
+    padding-inline: 15px;
+    font-weight: 600;
+    color: $color-white;
+    border-radius: 6px;
+
+    svg {
+      width: 20px;
+      line-height: 19px;
+      margin-right: 6px;
+    }
+
+    &.add-story {
+      background-color: $brand-color;
+      margin-right: 12px;
+
+      &:hover {
+        background-color: #1a6ed8;
+      }
+    }
+
+    &.edit-profile {
+      background-color: $color-gray;
+      color: $color-semibalck;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $color-gray-hover;
+      }
+    }
+
+    .status-bar {
+      left: 0;
+      top: 50px;
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+      background-color: #fff;
+      border-radius: 6px;
+      z-index: 20;
+      padding: 8px 8px;
+      min-width: 250px;
+      border: 2px solid;
+
+      li {
+        display: flex;
+        color: $color-semibalck;
+        display: flex;
+        align-items: center;
+
+        svg {
+          width: 25px;
+          height: 25px;
+        }
+
+        p {
+          margin: 0;
+          color: $color-semibalck;
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }

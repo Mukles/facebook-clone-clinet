@@ -21,8 +21,6 @@ interface Props {
 }
 
 const PostModal = ({ setShow, post }: Props) => {
-  const limit = 500;
-  let prevText = "";
   const dispatch = useDispatch();
   const { caption, img, _id } = post || {};
   const [isShowImgUploader, setShowImgUploader] = useState<boolean>(false);
@@ -32,6 +30,7 @@ const PostModal = ({ setShow, post }: Props) => {
     profilePicture,
   } = useSelector<RootState, IUser>((state) => state.auth.user);
   const [addPost, { isLoading, isError, isSuccess, error }] = useAddMutation();
+  console.log({ error });
   const [
     editPost,
     {
@@ -46,7 +45,7 @@ const PostModal = ({ setShow, post }: Props) => {
     toastRise(
       isSuccess,
       isError,
-      (error as any)?.message,
+      (error as any)?.data.message,
       "Post added successfully.!",
       dispatch,
       setShow
@@ -54,7 +53,7 @@ const PostModal = ({ setShow, post }: Props) => {
     toastRise(
       isEditSuccess,
       isEditError,
-      (editError as any)?.message,
+      (editError as any)?.data.message,
       "Post edited successfully.!",
       dispatch,
       setShow
