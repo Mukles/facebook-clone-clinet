@@ -17,10 +17,12 @@ const MessengerMenu = () => {
   );
 
   const {
+    /*
     isLoading,
     isError,
     isSuccess,
     error,
+    */
     data: convserationList,
   } = useGetConversationListQuery({ sender });
 

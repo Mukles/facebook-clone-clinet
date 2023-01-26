@@ -46,6 +46,7 @@ const PostWrapper = () => {
       <ProfileSidebar isAdmin={isAdmin} />
       <div className="col">
         {isAdmin && <CreatePost />}
+
         {(loader || isLoading) && isRender ? (
           Array(3)
             .fill("")
@@ -85,7 +86,7 @@ const PostWrapper = () => {
                 </InfiniteScroll>
               </div>
             ) : (
-              <h2 className="text-center mt-2">No Post</h2>
+              <h2 className="no-post-available">No posts available</h2>
             )}
           </>
         )}

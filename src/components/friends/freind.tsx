@@ -20,7 +20,7 @@ const Frined = ({ sender, userId }: Props) => {
     {
       isLoading: isAccpetLoading,
       isSuccess: isAccpetSuccess,
-      isError: isAccpetError,
+      //isError: isAccpetError,
       data: accpetData,
     },
   ] = useAccpetFriendRequestMutation();
@@ -35,9 +35,9 @@ const Frined = ({ sender, userId }: Props) => {
     {
       isLoading: isDeleteLoading,
       isSuccess: isDeleteSuccess,
-      isError: isDeleteError,
+      //isError: isDeleteError,
       data: deleteData,
-      error: deleteError,
+      //error: deleteError,
     },
   ] = useDeleteFriendRequestMutation();
 

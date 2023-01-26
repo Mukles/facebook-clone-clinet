@@ -6,6 +6,7 @@ import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import {
   useCheckRequestStatusQuery,
   useCoverChangeMutation,
+  useGetFriendsQuery,
   useGetReqUserQuery,
 } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
@@ -30,20 +31,27 @@ const ProfileLayout = () => {
     profilePicture,
     converPicture,
     numberOfFriends,
-    friends,
   } = useSelector<RootState, IUser>((state) => state.auth.user) || {};
+  const isAdmin = userId === _id;
 
   const { data: friendDetails, isLoading: isDetailsLoading } =
     useGetReqUserQuery(userId, {
-      skip: userId === _id,
+      skip: isAdmin,
     });
 
   const { data: isFriend } = useCheckRequestStatusQuery(
     { sender: _id, recipient: userId },
-    { skip: userId === _id }
+    { skip: isAdmin }
   );
 
-  console.log({ isFriend });
+  const { data: friends, isLoading: friendsLoading } = useGetFriendsQuery(
+    {
+      userId,
+    },
+    {
+      skip: !isAdmin,
+    }
+  );
 
   const [globalLoading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -79,18 +87,14 @@ const ProfileLayout = () => {
     return () => clearTimeout(timeOutId);
   }, []);
 
-  console.log({ friendDetails });
-
   const cover = friendDetails ? friendDetails.converPicture : converPicture;
   const avater = friendDetails ? friendDetails.profilePicture : profilePicture;
   const frindesLength = friendDetails
     ? friendDetails.numberOfFriends
     : numberOfFriends;
-  const friendsList = friendDetails ? friendDetails.friends : friends;
-  const isFriendOrRequestsent = isFriend && isFriend[0];
-  const isAdmin = userId === _id;
+  const friendsList = isAdmin ? friends : friendDetails?.friends;
 
-  console.log({ frindesLength, friendDetails });
+  const isFriendOrRequestsent = isFriend && isFriend[0];
 
   return (
     <section id="profile">
@@ -157,7 +161,7 @@ const ProfileLayout = () => {
         </AnimatePresence>
         <div className="container-fluid nav-top p-0">
           <div className="profile-container">
-            {globalLoading || isDetailsLoading ? (
+            {globalLoading || isDetailsLoading || friendsLoading ? (
               <ProfileSkeleton />
             ) : (
               <>
@@ -322,20 +326,7 @@ const ProfileLayout = () => {
                     </div>
                   </div>
 
-                  {_id !== isFriendOrRequestsent?.sender &&
-                    isFriendOrRequestsent?.status === "pending" && (
-                      <div className="d-flex justify-content-between profile-photo rounded mt-5 align-items-center request-status">
-                        <p>Kasfiya Islam sent you a friend request</p>
-                        <div>
-                          <button className="add-story profile-button">
-                            <span>Confirm request</span>
-                          </button>
-                          <button className="edit-profile profile-button">
-                            <span>Delete request</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                  <div className="portal"></div>
 
                   <div className="nav-bottom mx-3 mt-3 mt-lg-4 d-flex justify-content-between align-items-center">
                     <ul className="d-flex">

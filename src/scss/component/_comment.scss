@@ -203,3 +203,40 @@
     }
   }
 }
+
+.no-more-post {
+  background-color: $color-white;
+  padding: 18px 12px;
+  text-align: center;
+
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    color: rgba($color: $color-semibalck, $alpha: 0.6);
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    color: $color-semibalck;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+}
+
+.no-post-available {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: rgba($color: $color-semibalck, $alpha: 0.6);
+}

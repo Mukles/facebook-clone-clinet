@@ -123,6 +123,25 @@ export const userApi = apiSlice.injectEndpoints({
         method: "POST",
         body: { userId },
       }),
+      async onQueryStarted({ friendId, userId }, { queryFulfilled, dispatch }) {
+        const result = await queryFulfilled;
+        const { newRequest } = result.data;
+        if (newRequest._id) {
+          console.log({ newRequest });
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "checkRequestStatus" as never,
+              { sender: userId, recipient: friendId } as never,
+              (draftRequest: any) => {
+                draftRequest[0] = newRequest;
+
+                console.log(JSON.stringify(draftRequest));
+                return draftRequest;
+              }
+            )
+          );
+        }
+      },
     }),
 
     cancelFriendRequest: build.mutation({
@@ -131,6 +150,49 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: { userId },
       }),
+
+      async onQueryStarted({ userId, friendId }, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          if (result.data.message) {
+            dispatch(
+              apiSlice.util.updateQueryData(
+                "checkRequestStatus" as never,
+                { sender: userId, recipient: friendId } as never,
+                (draftRequest: any) => {
+                  console.log(JSON.stringify(draftRequest));
+                  draftRequest = [];
+                  return draftRequest;
+                }
+              )
+            );
+          }
+        } catch (error) {}
+      },
+    }),
+
+    unFriendRequest: build.mutation({
+      query: ({ requestId, userId, friendId }) => ({
+        url: `/user/request/unfriend/${requestId}`,
+        method: "DELETE",
+        body: { userId, friendId },
+      }),
+      async onQueryStarted({ userId, friendId }, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          if (result.data.message) {
+            dispatch(
+              apiSlice.util.updateQueryData(
+                "checkRequestStatus" as never,
+                { userId, friendId } as never,
+                (draftStatus: any) => {
+                  draftStatus = [];
+                }
+              )
+            );
+          }
+        } catch (error) {}
+      },
     }),
 
     getFriendRequestList: build.query({
@@ -146,25 +208,21 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: { userId },
       }),
-
-      async onQueryStarted(
-        { userId, requestId },
-        { queryFulfilled, dispatch }
-      ) {
-        try {
-          const reuslt = await queryFulfilled;
-          console.log(reuslt);
-          console.log({ userId, requestId });
+      async onQueryStarted({ friendId, userId }, { queryFulfilled, dispatch }) {
+        const result = await queryFulfilled;
+        if (result.data.message) {
           dispatch(
             apiSlice.util.updateQueryData(
               "checkRequestStatus" as never,
-              { userId, requestId } as never,
-              (draftRequst: any) => {
-                draftRequst[0].status = "accepted";
+              { sender: userId, recipient: friendId } as never,
+              (draftRequest: any) => {
+                console.log(JSON.stringify(draftRequest));
+                draftRequest[0].status = "accepted";
+                return draftRequest;
               }
             )
           );
-        } catch (error) {}
+        }
       },
     }),
 
@@ -174,6 +232,22 @@ export const userApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { userId },
       }),
+      async onQueryStarted({ friendId, userId }, { queryFulfilled, dispatch }) {
+        const result = await queryFulfilled;
+        if (result.data.message) {
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "checkRequestStatus" as never,
+              { sender: userId, recipient: friendId } as never,
+              (draftRequest: any) => {
+                console.log(JSON.stringify(draftRequest));
+                draftRequest = [];
+                return draftRequest;
+              }
+            )
+          );
+        }
+      },
     }),
 
     checkRequestStatus: build.query({
@@ -182,13 +256,10 @@ export const userApi = apiSlice.injectEndpoints({
         method: "GET",
         params: { sender, recipient },
       }),
-    }),
 
-    getFriendList: build.query({
-      query: (userId) => ({
-        url: `/user/friend-list/${userId}`,
-        method: "GET",
-      }),
+      async onQueryStarted(args) {
+        console.log(args);
+      },
     }),
 
     getNewsFeed: build.query({
@@ -243,6 +314,13 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    getFriendList: build.query({
+      query: (userId) => ({
+        url: `/user/friend-list/${userId}`,
+        method: "GET",
+      }),
+    }),
+
     getFriends: build.query({
       query: ({ userId }) => ({
         url: `/user/friends/${userId}`,
@@ -271,6 +349,7 @@ export const {
   useGetFriendRequestListQuery,
   useAccpetFriendRequestMutation,
   useDeleteFriendRequestMutation,
+  useUnFriendRequestMutation,
   useCheckRequestStatusQuery,
   useGetFriendListQuery,
   useGetNewsFeedQuery,

@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { useGetFriendListQuery } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";
+import RequestSkelton from "../../Skeleton/request-skeleton";
 import SideBarTop from "./sidebarTop";
 
 const List = () => {
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
-  const { isLoading, isSuccess, isError, data } = useGetFriendListQuery(userId);
-  console.log(data);
+  const { isLoading, data } = useGetFriendListQuery(userId);
   return (
     <>
       <SideBarTop text="All Friends" />
@@ -36,39 +36,54 @@ const List = () => {
         </div>
         <div className="list-body">
           <ul className="list-container">
-            {data?.length > 0 && (
-              <p className="mt-3 ms-2">{data.length} Friends</p>
-            )}
-            {data?.map((friend: any) => {
-              const { _id, userName, profilePicture } = friend;
-              return (
-                <li className="friend-card" key={_id}>
-                  <Link to={`${_id}`}>
-                    <img src={profilePicture || defaultProfile} alt="profile" />
-                    <div className="ms-2 flex-fill">
-                      <p>{userName}</p>
-                      <p className="mutual">2 mutual Friends</p>
-                    </div>
-                    <button className="icon ms-auto">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+            {isLoading ? (
+              <>
+                {Array(6)
+                  .fill("")
+                  .map((item, i) => (
+                    <RequestSkelton key={i} />
+                  ))}
+              </>
+            ) : (
+              <>
+                {data?.length > 0 && (
+                  <p className="mt-3 ms-2">{data.length} Friends</p>
+                )}
+                {data?.map((friend: any) => {
+                  const { _id, userName, profilePicture } = friend;
+                  return (
+                    <li className="friend-card" key={_id}>
+                      <Link to={`${_id}`}>
+                        <img
+                          src={profilePicture || defaultProfile}
+                          alt="profile"
                         />
-                      </svg>
-                    </button>
-                  </Link>
-                </li>
-              );
-            })}
+                        <div className="ms-2 flex-fill">
+                          <p>{userName}</p>
+                          <p className="mutual">2 mutual Friends</p>
+                        </div>
+                        <button className="icon ms-auto">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                            />
+                          </svg>
+                        </button>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </>
+            )}
           </ul>
         </div>
       </div>

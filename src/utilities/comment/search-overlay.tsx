@@ -29,8 +29,9 @@ const SearchOverlay = ({ setShow, buttonRef, serachRef, search }: Props) => {
   const [inputValue, setInputValue] = useState(search);
   const debouncedValue = useDebounce(inputValue, 500);
   const { isLoading, data } = useSearchBynameQuery(debouncedValue || skipToken);
-  const [addSearch, { isLoading: isAdding }] = useAddSearchMutation();
-  const [deleteSearch, { isLoading: isDeleting }] = useDeleteSearchMutation();
+  const [addSearch /*{ isLoading: isAdding }*/] = useAddSearchMutation();
+  const [deleteSearch /* { isLoading: isDeleting }*/] =
+    useDeleteSearchMutation();
   const { isLoading: isSearchLoading, data: searchData } = useGetSearchQuery(
     user._id,
     { refetchOnFocus: true }

@@ -9,10 +9,9 @@ const RequestGrid = () => {
     (state) => state.auth.user._id
   );
 
-  const { isLoading, isSuccess, isError, error, data } =
+  const { /*isLoading, isSuccess, isError, error,*/ data } =
     useGetFriendRequestListQuery(userId);
 
-  console.log("list", data);
   return (
     <div>
       <div className="py-4">

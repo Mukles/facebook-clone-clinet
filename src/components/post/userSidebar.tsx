@@ -1,7 +1,8 @@
 import { FastField, Form, Formik } from "formik";
 import { useEffect, useRef, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetFriendsQuery,
   useGetMutualFriendsQuery,
@@ -10,6 +11,7 @@ import {
   useUpdateBioMutation,
 } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
+import defaultProfile from "../../assets/default/profile.png";
 import { IUser } from "../../types/userTypes";
 import OverView from "../profile/overview";
 
@@ -18,6 +20,7 @@ interface Porps {
 }
 
 const ProfileSidebar = ({ isAdmin }: Porps) => {
+  const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
   const [isBottomVisible, setIsBottomVisible] = useState(false);
   const { id: requestId } = useParams();
@@ -26,15 +29,14 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   );
 
   const [editBio, setEditBio] = useState(false);
-  const [updateBio, { isLoading, isError }] = useUpdateBioMutation();
+  const [updateBio, { isLoading }] = useUpdateBioMutation();
   const { isLoading: imagesLoading, data: images } = useGetUploadedImagesQuery({
     userId: requestId,
   });
 
-  const { data: friendDetails, isLoading: isDetailsLoading } =
-    useGetReqUserQuery(requestId, {
-      skip: isAdmin,
-    });
+  const { data: friendDetails } = useGetReqUserQuery(requestId, {
+    skip: isAdmin,
+  });
 
   const { data: mutualFriends, isLoading: mutualFriendsLoading } =
     useGetMutualFriendsQuery(
@@ -42,14 +44,20 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
       { skip: isAdmin }
     );
 
-  let { data: friends, isLoading: isFriendLoading } = useGetFriendsQuery(
+  const { data: friends, isLoading: isFriendLoading } = useGetFriendsQuery(
     {
-      userId,
+      userId: requestId,
     },
-    { skip: !isAdmin }
+    { skip: isAdmin ? false : mutualFriends?.userDetails?.length > 0 }
   );
 
+  console.log({ friends });
+
   bio = isAdmin ? bio : friendDetails?.bio;
+  const friendsContainer = friends?.length
+    ? friends
+    : mutualFriends?.userDetails;
+
   const onEditeable = () => {
     setEditBio(!editBio);
   };
@@ -108,7 +116,9 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
                         <button type="reset" onClick={onEditeable}>
                           Cancel
                         </button>
-                        <button type="submit">Save</button>
+                        <button type="submit" disabled={isLoading}>
+                          Save
+                        </button>
                       </div>
                     </Form>
                   );
@@ -133,29 +143,108 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
               </Link>
             )}
           </div>
+
           <div className="user-card mt-3">
             <div className="friends">
-              <div className="friends-header d-flex justify-content-between">
+              <div className="friends-header d-flex justify-content-between align-items-center">
                 <h3>Photos</h3>
                 <Link to={"/"}>See all photos</Link>
               </div>
-
               <div className="row gy-3 gx-1 pb-2">
-                {images?.map((item: any) => {
-                  return (
-                    <div className="col-4" key={item?._id}>
-                      <div className="ratio ratio-1x1">
-                        <div>
-                          <img
-                            className="w-100 h-100"
-                            src={item?.img}
-                            alt={"friend"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {imagesLoading ? (
+                  <>
+                    {Array(9)
+                      .fill("")
+                      .map((item: any, i: number) => {
+                        return (
+                          <div className="col-4" key={i}>
+                            <div className="ratio ratio-1x1">
+                              <div>
+                                <Skeleton className="w-100 h-100" />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </>
+                ) : (
+                  <>
+                    {images?.length > 0 && (
+                      <>
+                        {images?.map((item: any) => {
+                          return (
+                            <div className="col-4" key={item?._id}>
+                              <div className="ratio ratio-1x1">
+                                <div>
+                                  <img
+                                    className="w-100 h-100"
+                                    src={item?.img}
+                                    alt={"friend"}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="user-card mt-3">
+            <div className="friends">
+              <div className="friends-header d-flex justify-content-between align-items-center">
+                <h3>Friends</h3>
+                <Link to={"/"}>See all friends</Link>
+              </div>
+              <div className="row gy-3 gx-1 pb-2">
+                {mutualFriendsLoading || isFriendLoading ? (
+                  <>
+                    {Array(9)
+                      .fill("")
+                      .map((item: any, i: number) => {
+                        return (
+                          <div className="col-4" key={i}>
+                            <div className="ratio ratio-1x1">
+                              <div>
+                                <Skeleton className="w-100 h-100" />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </>
+                ) : (
+                  <>
+                    {friendsContainer?.length > 0 && (
+                      <>
+                        {friendsContainer?.map((item: any) => {
+                          const { profilePicture, userName, _id } = item || {};
+                          return (
+                            <div
+                              onClick={() => navigate(`/profile/${_id}`)}
+                              className="col-4"
+                              key={item?._id}
+                            >
+                              <div className="ratio ratio-1x1">
+                                <div>
+                                  <img
+                                    className="w-100 h-100"
+                                    src={profilePicture || defaultProfile}
+                                    alt={userName}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

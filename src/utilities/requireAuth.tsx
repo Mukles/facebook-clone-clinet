@@ -1,19 +1,12 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { Bars } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { RootState } from "../App/store";
 
 const RequiredAuth = ({ children }: { children: any }) => {
-  const { loading, user, error } = useSelector<RootState, any>(
-    (state) => state.auth
-  );
+  const { loading, user } = useSelector<RootState, any>((state) => state.auth);
   const location = useLocation();
-
-  useEffect(() => {
-    console.log("I a m requred auth");
-  }, []);
 
   if (loading) {
     return (

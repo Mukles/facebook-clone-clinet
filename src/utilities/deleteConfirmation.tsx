@@ -34,7 +34,7 @@ const DeleteConfirmation = ({ setDeleteReq, id, setOpen }: Props) => {
       "Post deleted successfully.!",
       dispatch
     );
-  }, [isSuccess, isError, setDeleteReq, setOpen]);
+  }, [isSuccess, isError, setDeleteReq, setOpen, dispatch, error]);
 
   return (
     <motion.div

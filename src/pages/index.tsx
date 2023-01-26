@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ColorRing } from "react-loader-spinner";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useGetNewsFeedQuery } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 import LeftSide from "../components/leftSide";
@@ -100,7 +101,16 @@ const Home = () => {
                   })}
                 </InfiniteScroll>
               ) : (
-                <h1></h1>
+                <div className="no-more-post shadow-sm rounded create-post mt-3">
+                  <h3>No more posts</h3>
+                  <p>Add more friends to see more posts in your Feed.</p>
+                  <Link
+                    to="/friends/suggestions"
+                    className="add-story profile-button"
+                  >
+                    <span>Find Friend</span>
+                  </Link>
+                </div>
               )}
             </div>
           )}
