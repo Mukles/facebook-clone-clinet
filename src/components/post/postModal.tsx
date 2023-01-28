@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useAddMutation,
@@ -30,7 +31,6 @@ const PostModal = ({ setShow, post }: Props) => {
     profilePicture,
   } = useSelector<RootState, IUser>((state) => state.auth.user);
   const [addPost, { isLoading, isError, isSuccess, error }] = useAddMutation();
-  console.log({ error });
   const [
     editPost,
     {
@@ -234,13 +234,25 @@ const PostModal = ({ setShow, post }: Props) => {
                 </div>
                 <div className="mx-3">
                   <motion.button
-                    disabled={isLoading}
+                    disabled={isLoading || isEditLoading}
                     whileTap={{ scale: 0.9 }}
                     className={`post-button w-100 d-block rounded ${
                       !(values.caption || values.image) && " disabled"
                     }`}
                   >
-                    {_id ? "Save" : "Post"}
+                    {isLoading || isEditLoading ? (
+                      <ThreeDots
+                        height="40"
+                        width="40"
+                        radius="9"
+                        color="#fff"
+                        ariaLabel="three-dots-loading"
+                        wrapperClass="post-loader"
+                        visible={true}
+                      />
+                    ) : (
+                      <>{_id ? "Save" : "Post"}</>
+                    )}
                   </motion.button>
                 </div>
               </Form>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setIndex } from "../../App/features/auth/authSlice";
@@ -17,12 +18,11 @@ const MessengerMenu = () => {
   );
 
   const {
-    /*
     isLoading,
     isError,
     isSuccess,
     error,
-    */
+
     data: convserationList,
   } = useGetConversationListQuery({ sender });
 
@@ -114,25 +114,45 @@ const MessengerMenu = () => {
           ref={ref}
           className="chat-lists d-flex flex-column mt-2 py-2 overflow-y-auto"
         >
-          {convserationList?.map((conversation: any, idx: number) => {
-            const partnerInfo = conversation?.user.find(
-              (user: IUser) => (user._id as string) !== sender
-            );
+          {isLoading ? (
+            <>
+              {Array(6)
+                .fill("")
+                .map((item, i) => {
+                  return (
+                    <li key={i} className="d-flex align-items-center mb-2">
+                      <Skeleton circle width={55} height={55} />
+                      <div className="ms-2">
+                        <Skeleton borderRadius={20} width={200} height={15} />
+                        <Skeleton borderRadius={20} width={300} height={20} />
+                      </div>
+                    </li>
+                  );
+                })}
+            </>
+          ) : (
+            <>
+              {convserationList?.map((conversation: any, idx: number) => {
+                const partnerInfo = conversation?.user.find(
+                  (user: IUser) => (user._id as string) !== sender
+                );
 
-            return (
-              <Link
-                to={`/messenger/${partnerInfo?._id}`}
-                key={idx}
-                className="text-decoration-none"
-                onClick={() => dispatch(setIndex(8))}
-              >
-                <SingleChat
-                  partnerInfo={partnerInfo}
-                  lastMessage={conversation?.lastMessage}
-                />
-              </Link>
-            );
-          })}
+                return (
+                  <Link
+                    to={`/messenger/${partnerInfo?._id}`}
+                    key={idx}
+                    className="text-decoration-none"
+                    onClick={() => dispatch(setIndex(8))}
+                  >
+                    <SingleChat
+                      partnerInfo={partnerInfo}
+                      lastMessage={conversation?.lastMessage}
+                    />
+                  </Link>
+                );
+              })}
+            </>
+          )}
         </ul>
       }
     </>

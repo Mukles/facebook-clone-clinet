@@ -7,7 +7,8 @@ import {
   useCheckRequestStatusQuery,
   useCoverChangeMutation,
   useGetFriendsQuery,
-  useGetReqUserQuery,
+  useGetMutualFriendsQuery,
+  useGetReqUserQuery
 } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 import defaultCover from "../assets/default/cover.jpg";
@@ -52,6 +53,14 @@ const ProfileLayout = () => {
       skip: !isAdmin,
     }
   );
+
+  const { data: mutualFriends, isLoading: mutualFriendsLoading } =
+    useGetMutualFriendsQuery(
+      { user1Id: _id, user2Id: userId },
+      { skip: isAdmin }
+    );
+
+  console.log({ mutualFriends });
 
   const [globalLoading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -99,7 +108,7 @@ const ProfileLayout = () => {
   return (
     <section id="profile">
       <div className="background-color">
-        {/* save change coverphot */}
+        {/* save change coverphoto */}
         <AnimatePresence>
           {converPhotoPreview && (
             <motion.div
@@ -161,7 +170,7 @@ const ProfileLayout = () => {
         </AnimatePresence>
         <div className="container-fluid nav-top p-0">
           <div className="profile-container">
-            {globalLoading || isDetailsLoading || friendsLoading ? (
+            {globalLoading || isDetailsLoading || friendsLoading || mutualFriendsLoading ? (
               <ProfileSkeleton />
             ) : (
               <>
@@ -250,6 +259,14 @@ const ProfileLayout = () => {
                             <>{frindesLength} friends</>
                           )}
                         </span>
+                        {mutualFriends?.count > 0 && (
+                          <>
+                            <span className="mutual-frd">
+                              {" "}
+                              &#9679;{mutualFriends.count} mutual
+                            </span>
+                          </>
+                        )}
                         <ul className="friend-list">
                           {friendsList?.map((item: any, i: number) => {
                             const { _id, profilePicture, userName } = item;

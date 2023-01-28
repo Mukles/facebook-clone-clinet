@@ -14,7 +14,6 @@ export const postApi = apiSlice.injectEndpoints({
       },
       async onQueryStarted(args, { queryFulfilled, dispatch, getState }) {
         const result = await queryFulfilled;
-        console.log({ result });
         const { _id } = (getState() as RootState).auth.user || {};
         const { post, user } = result.data || {};
 
@@ -75,7 +74,6 @@ export const postApi = apiSlice.injectEndpoints({
               "getPosts" as never,
               { userId } as never,
               (draftPosts: any) => {
-                console.log(JSON.stringify(draftPosts));
                 draftPosts.size -= 1;
                 const filterdPost: any = draftPosts.posts.filter(
                   (post: any) => post._id !== postId
@@ -102,12 +100,14 @@ export const postApi = apiSlice.injectEndpoints({
       async onQueryStarted(args, { dispatch, getState, queryFulfilled }) {
         const result = await queryFulfilled;
         const id: string = args.get("postId");
+        const userId: string = args.get("userId");
+        console.log({ result });
 
         if (result.data) {
           dispatch(
             apiSlice.util.updateQueryData(
               "getPosts" as never,
-              { postId: id } as never,
+              { userId } as never,
               (draftPosts: any) => {
                 const index = draftPosts.posts.findIndex(
                   (post: any) => post._id === id

@@ -25,7 +25,10 @@
   .messenger-body {
     height: calc(100% - 120px);
     overflow: hidden;
-    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
 
     li {
       &:not(:last-child) {

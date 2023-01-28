@@ -130,3 +130,13 @@ ul {
   position: sticky;
   top: 0;
 }
+
+.post-loader {
+  background: transparent !important;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 17px !important;
+  }
+}

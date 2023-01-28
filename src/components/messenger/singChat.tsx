@@ -48,5 +48,3 @@ const SingleChat = ({ partnerInfo, lastMessage }: Props) => {
 };
 
 export default SingleChat;
-
-const getParterInfo = () => {};

@@ -63,7 +63,7 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
 
   const [
     deleteFriendRequest,
-    {
+    { 
       isLoading: isDeleteLoading,
       isSuccess: isDeleteSuccess,
       // isError: isDeleteError,

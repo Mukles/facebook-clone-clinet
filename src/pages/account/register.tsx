@@ -35,8 +35,7 @@ const Register = ({ setShow, user }: Props) => {
     setShow && setShow(false);
   };
 
-  const [updateUser, { isLoading, isSuccess, error, data }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   return (
     <>
@@ -244,6 +243,7 @@ const Register = ({ setShow, user }: Props) => {
                   </FastField>
 
                   <button
+                    disabled={isLoading}
                     type="submit"
                     className="btn btn-primary register-submit mb-3"
                   >

@@ -24,9 +24,11 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isBottomVisible, setIsBottomVisible] = useState(false);
   const { id: requestId } = useParams();
-  let { bio, _id: userId } = useSelector<RootState, IUser>(
-    (state) => state.auth.user
-  );
+  let {
+    bio,
+    _id: userId,
+    numberOfFriends,
+  } = useSelector<RootState, IUser>((state) => state.auth.user);
 
   const [editBio, setEditBio] = useState(false);
   const [updateBio, { isLoading }] = useUpdateBioMutation();
@@ -51,8 +53,6 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
     { skip: isAdmin ? false : mutualFriends?.userDetails?.length > 0 }
   );
 
-  console.log({ friends });
-
   bio = isAdmin ? bio : friendDetails?.bio;
   const friendsContainer = friends?.length
     ? friends
@@ -61,6 +61,9 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   const onEditeable = () => {
     setEditBio(!editBio);
   };
+  const totalFriends = friendDetails?.friendDetails ?? numberOfFriends;
+
+  console.log({ totalFriends });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,7 +200,23 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
           <div className="user-card mt-3">
             <div className="friends">
               <div className="friends-header d-flex justify-content-between align-items-center">
-                <h3>Friends</h3>
+                <div>
+                  <h3>Friends</h3>
+                  <p className="mt-2">
+                    {isAdmin && totalFriends > 0 ? (
+                      <>{totalFriends} Friends</>
+                    ) : (
+                      <>
+                        {mutualFriends?.count > 0 && (
+                          <>
+                            {totalFriends} Friends ({mutualFriends?.count}{" "}
+                            mutual)
+                          </>
+                        )}
+                      </>
+                    )}
+                  </p>
+                </div>
                 <Link to={"/"}>See all friends</Link>
               </div>
               <div className="row gy-3 gx-1 pb-2">
