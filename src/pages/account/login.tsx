@@ -24,11 +24,9 @@ const Login = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [show, setShow] = useState<boolean>(false);
-  const { loginLoader, loading, error } = useSelector<RootState, any>(
+  const { loginLoader, error } = useSelector<RootState, any>(
     (state) => state.auth
   );
-
-  console.log("loginLoader: false", loginLoader);
 
   useEffect(() => {
     if (pathname === "/account/register") {
@@ -125,7 +123,7 @@ const Login = () => {
                             </button>
                           </li>
                         </ul>
-                        <a href="">Forget Password?</a>
+                        <a href="/">Forget Password?</a>
                         <motion.button
                           type="button"
                           className="register login-button"

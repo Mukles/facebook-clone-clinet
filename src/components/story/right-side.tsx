@@ -9,25 +9,31 @@ const RightSide = () => {
   const userId = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
   );
-  const { isLoading, isSuccess, isError, data } =
-    useGetFriendRequestListQuery(userId);
+  const { isLoading, data } = useGetFriendRequestListQuery(userId);
 
   const lastRequest = (data && data[0]) || {};
 
   return (
     <div className="right-side py-3">
-      {data?.length > 0 && (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
         <>
-          <div className="d-flex justify-content-between req-header">
-            <p className="mb-0 title">Friend requests</p>
-            <Link to="/friends/requests">See all</Link>
-          </div>
-          <FriendRequesItem
-            userId={userId}
-            friend={{ ...lastRequest, requestId: lastRequest._id }}
-          />
+          {data?.length > 0 && (
+            <>
+              <div className="d-flex justify-content-between req-header">
+                <p className="mb-0 title">Friend requests</p>
+                <Link to="/friends/requests">See all</Link>
+              </div>
+              <FriendRequesItem
+                userId={userId}
+                friend={{ ...lastRequest, requestId: lastRequest._id }}
+              />
+            </>
+          )}
         </>
       )}
+
       <ContactList />
     </div>
   );

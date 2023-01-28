@@ -15,7 +15,6 @@ import PrivacyScreen from "../utilities/PrivacyScreen";
 
 const Home = () => {
   const [loader, setLoader] = useState(true);
-  const [isRender, setRender] = useState(true);
   const [skip, setSkip] = useState(0);
   const [page, setPage] = useState(0);
 
@@ -23,12 +22,11 @@ const Home = () => {
     (state) => state.auth.user._id
   );
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data: feeds,
-  } = useGetNewsFeedQuery({ userId, skip, page });
+  const { isLoading, data: feeds } = useGetNewsFeedQuery({
+    userId,
+    skip,
+    page,
+  });
   const { posts } = feeds || {};
   console.log({ feeds, posts });
 
@@ -60,7 +58,7 @@ const Home = () => {
           <CreatePost />
           {/* posts */}
 
-          {(isLoading || loader) && isRender ? (
+          {isLoading || loader ? (
             <>
               {Array(3)
                 .fill("")

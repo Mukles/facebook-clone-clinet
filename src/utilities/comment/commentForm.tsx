@@ -54,10 +54,8 @@ const CommentForm = ({ postId, type, commentId, page, setVisiable }: Props) => {
     setFieldValue("image", "");
   };
 
-  const [addComment, { isLoading: addLoading, data: newComment }] =
-    useAddCommentMutation();
-  const [addReplay, { isLoading: replyLoading, data: replayComment }] =
-    useReplyCommentMutation();
+  const [addComment, { isLoading: addLoading }] = useAddCommentMutation();
+  const [addReplay, { isLoading: replyLoading }] = useReplyCommentMutation();
 
   return (
     <Formik
