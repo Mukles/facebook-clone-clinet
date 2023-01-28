@@ -19,7 +19,7 @@ const MessengerForm = ({ recipient }: Props) => {
     (state) => state.auth.user._id
   );
 
-  const [addConversation, { isLoading, isError, isSuccess, error, data }] =
+  const [addConversation, { isLoading, isSuccess }] =
     useAddConversationMutation();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const MessengerForm = ({ recipient }: Props) => {
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (message) {
+    if (message && !isLoading) {
       addConversation({ sender, recipient, message });
       return;
     }
@@ -81,7 +81,11 @@ const MessengerForm = ({ recipient }: Props) => {
 
       <div className="thums-up">
         {message ? (
-          <button className="submit-button" onClick={onClickHandler}>
+          <button
+            className="submit-button"
+            disabled={isLoading}
+            onClick={onClickHandler}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

@@ -17,14 +17,9 @@ const MessengerMenu = () => {
     (state) => state.auth.user._id
   );
 
-  const {
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-
-    data: convserationList,
-  } = useGetConversationListQuery({ sender });
+  const { isLoading, data: convserationList } = useGetConversationListQuery({
+    sender,
+  });
 
   useEffect(() => {
     ref.current?.addEventListener("scroll", function (e: any) {

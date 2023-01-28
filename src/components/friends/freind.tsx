@@ -42,6 +42,8 @@ const Frined = ({ sender, userId }: Props) => {
   ] = useDeleteFriendRequestMutation();
 
   const onDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    if (isDeleteSuccess) return;
+
     event.preventDefault();
     deleteFriendRequest({ userId, requestId });
   };
@@ -73,6 +75,7 @@ const Frined = ({ sender, userId }: Props) => {
             Confirm
           </button>
           <button
+            onClick={onDelete}
             disabled={isAccpetLoading || isDeleteLoading || isAccpetSuccess}
             type="button"
             className="frd-button cancel rounded"
