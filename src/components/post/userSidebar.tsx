@@ -63,8 +63,6 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   };
   const totalFriends = friendDetails?.friendDetails ?? numberOfFriends;
 
-  console.log({ totalFriends });
-
   useEffect(() => {
     const handleScroll = () => {
       if (!ref.current) return;
@@ -89,13 +87,13 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
         <div ref={ref} className={isBottomVisible ? "sticky" : ""}>
           <div className="user-card">
             <h3>Intro</h3>
-            {(editBio || !bio) && isAdmin && (
+            {(editBio || !bio) && !isLoading && isAdmin && (
               <Formik
                 onSubmit={({ bio }, { resetForm }) => {
                   updateBio({ userId, bio });
+                  setEditBio(false);
                   setTimeout(() => {
                     resetForm();
-                    onEditeable();
                   }, 500);
                 }}
                 initialValues={{ bio }}
@@ -120,7 +118,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
                           Cancel
                         </button>
                         <button type="submit" disabled={isLoading}>
-                          Save
+                          {!isLoading ? "Save" : "Saving..."}
                         </button>
                       </div>
                     </Form>

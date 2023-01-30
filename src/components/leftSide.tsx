@@ -23,6 +23,7 @@ const LeftSide = () => {
     useSelector<RootState, IUser>((state) => state.auth.user) || {};
   const [isShow, setShow] = useState(false);
   const { pathname } = useLocation();
+  
   useEffect(() => {
     if (pathname === "/bar") {
       setShow(true);

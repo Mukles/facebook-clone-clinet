@@ -8,7 +8,7 @@ export const leftSide = [
   {
     id: 1,
     icon: friends,
-    url: "friends",
+    url: "/friends",
     text: "Friends",
   },
   {
@@ -20,19 +20,19 @@ export const leftSide = [
   {
     id: 3,
     icon: messenger,
-    url: "messenger",
+    url: "/messenger",
     text: "Messenger",
   },
   {
     id: 4,
     icon: marketplace,
-    url: "marketplace",
+    url: "/marketplace",
     text: "Marketplace",
   },
   {
     id: 5,
     icon: watch,
-    url: "watch",
+    url: "/watch",
     text: "Watch",
   },
 ];

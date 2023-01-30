@@ -26,7 +26,6 @@ const MessengesBody = () => {
     skip,
   });
   const { messages, count } = messagesList || {};
-  console.log({ skip });
 
   return (
     <>
@@ -49,64 +48,80 @@ const MessengesBody = () => {
             <>
               <ChatHead user={friendDetails} userId={userId as string} />
               <ul className="messenger-body d-flex flex-column py-1">
-                <div
-                  id="scrollableDiv"
-                  style={{
-                    display: "flex",
-                    height: "100%",
-                    overflowY: "scroll",
-                    flexDirection: "column-reverse",
-                  }}
-                >
-                  <InfiniteScroll
-                    dataLength={messages.length}
-                    next={() => setSkip(messages.length)}
-                    inverse={true}
-                    hasMore={count > messages.length}
-                    style={{ paddingInline: "10px" }}
-                    endMessage={
-                      <div className="text-center position-static user-details py-3">
-                        <img
-                          style={{ width: "50px", height: "50px" }}
-                          className="rounded-circle"
-                          src={profilePicture || defaultProfile}
-                          alt="profile"
-                        />
-                        <p className="mt-1">{userName}</p>
-                        <p>You're not friends on Facebook</p>
-                        <p>
-                          4 mutual friends including Md. Yousuf Miah and Mominul
-                          Islam
-                        </p>
-                      </div>
-                    }
-                    loader={
-                      <h4 className="text-center text-2xl font-bold mb-3">
-                        Loading...
-                      </h4>
-                    }
-                    scrollableTarget="scrollableDiv"
-                    className="d-flex flex-column-reverse"
+                {messages?.length > 0 ? (
+                  <div
+                    id="scrollableDiv"
+                    style={{
+                      display: "flex",
+                      height: "100%",
+                      overflowY: "scroll",
+                      flexDirection: "column-reverse",
+                    }}
                   >
-                    {[...messages]
-                      .reverse()
-                      .map((message: any, idx: number) => {
-                        const justify =
-                          sender !== message.sender[0]._id ? "start" : "end";
-                        return (
-                          <SingleMessage
-                            key={idx}
-                            info={message}
-                            justify={justify}
+                    <InfiniteScroll
+                      dataLength={messages?.length}
+                      next={() => setSkip(messages?.length)}
+                      inverse={true}
+                      hasMore={true}
+                      style={{ paddingInline: "10px", height: "100%" }}
+                      endMessage={
+                        <div className="text-center position-static user-details py-3 h-100">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            className="rounded-circle"
+                            src={profilePicture || defaultProfile}
+                            alt="profile"
                           />
-                        );
-                      })}
-                  </InfiniteScroll>
-                </div>
+                          <p className="mt-1">{userName}</p>
+                          <p>You're not friends on Facebook</p>
+                          <p>
+                            4 mutual friends including Md. Yousuf Miah and
+                            Mominul Islam
+                          </p>
+                        </div>
+                      }
+                      loader={
+                        <h4 className="text-center text-2xl font-bold mb-3">
+                          Loading...
+                        </h4>
+                      }
+                      scrollableTarget="scrollableDiv"
+                      className="d-flex flex-column-reverse"
+                    >
+                      {[...messages]
+                        .reverse()
+                        .map((message: any, idx: number) => {
+                          const justify =
+                            sender !== message.sender[0]._id ? "start" : "end";
+                          return (
+                            <SingleMessage
+                              key={idx}
+                              info={message}
+                              justify={justify}
+                            />
+                          );
+                        })}
+                    </InfiniteScroll>
+                  </div>
+                ) : (
+                  <div className="text-center position-static user-details py-3">
+                    <img
+                      style={{ width: "50px", height: "50px" }}
+                      className="rounded-circle"
+                      src={profilePicture || defaultProfile}
+                      alt="profile"
+                    />
+                    <p className="mt-1">{userName}</p>
+                    <p>You're not friends on Facebook</p>
+                    <p>
+                      4 mutual friends including Md. Yousuf Miah and Mominul
+                      Islam
+                    </p>
+                  </div>
+                )}
               </ul>
             </>
           )}
-
           <MessengerForm recipient={userId} />
         </>
       ) : (

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const container = {
   hidden: { opacity: 0, y: 0 },
@@ -38,8 +38,9 @@ const ReactsPopup = ({
   postId,
   toggleReact,
 }: Props) => {
+  const timeRef = useRef<null | NodeJS.Timeout>(null);
   const reactions = ["like", "love", "wow", "haha", "sad", "angry"];
-  const [isHover, setIsHovered] = useState(false);
+  // const [isHover, setIsHovered] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
   const ClickHanlder = (reacts: string) => {
@@ -48,18 +49,36 @@ const ReactsPopup = ({
     toggleReact({ postId, react: reacts, userId });
   };
 
+  const handleTouchStart = () => {
+    if (timeRef.current) {
+      clearTimeout(timeRef.current as NodeJS.Timeout);
+      setOpen(true);
+    } else {
+      startPressTimer();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    startPressTimer();
+  };
+
+  const startPressTimer = () => {
+    clearTimeout(timeRef.current as NodeJS.Timeout);
+    timeRef.current = setTimeout(() => {
+      setOpen((open) => !open);
+    }, 500);
+  };
+
   return (
     <motion.button
       className="like-btn"
-      onHoverStart={() => {
-        setOpen(true);
-        setIsHovered(true);
-      }}
-      onHoverEnd={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
+      onHoverStart={handleTouchStart}
+      onHoverEnd={handleTouchEnd}
     >
       {children}
       <AnimatePresence>
-        {isHover && isOpen && (
+        {isOpen && (
           <motion.div
             variants={container}
             initial={"hidden"}

@@ -8,7 +8,7 @@ import {
 } from "../../App/features/comment/commentApi";
 import { RootState } from "../../App/store";
 import defaultProfile from "../../assets/default/profile.png";
-import { IUser } from "../../types/userTypes";
+import { IUser } from "../../types/userTypes";  
 import TextArea from "../textArea";
 
 interface Props {

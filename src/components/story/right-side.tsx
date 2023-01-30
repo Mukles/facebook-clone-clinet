@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetFriendRequestListQuery } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
+import RequestSkelton from "../../Skeleton/request-skeleton";
 import ContactList from "../contact-list";
 import { FriendRequesItem } from "../friends/requestList";
 
@@ -10,13 +11,12 @@ const RightSide = () => {
     (state) => state.auth.user._id
   );
   const { isLoading, data } = useGetFriendRequestListQuery(userId);
-
   const lastRequest = (data && data[0]) || {};
 
   return (
     <div className="right-side py-3">
       {isLoading ? (
-        <h1>Loading...</h1>
+        <RequestSkelton />
       ) : (
         <>
           {data?.length > 0 && (

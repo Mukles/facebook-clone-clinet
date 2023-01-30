@@ -70,8 +70,8 @@ export const header = {
     },
     {
       id: 6,
-      url: "/gamming",
-      icon: <GammingSvg />,
+      url: "/bar",
+      icon: BarSvg,
     },
   ],
 };

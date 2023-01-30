@@ -140,3 +140,12 @@ ul {
     height: 17px !important;
   }
 }
+
+.infinite-scroll-component {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -31,7 +31,7 @@
     width: 100%;
 
     li {
-      &:not(:last-child) {
+      &:not(:first-child) {
         margin-bottom: 5px;
       }
 

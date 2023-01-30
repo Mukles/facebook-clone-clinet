@@ -2,7 +2,7 @@ import { Outlet, useParams } from "react-router-dom";
 import SideBar from "../../components/friends/sidebar";
 
 const FriendLayout = () => {
-  const { selectedId } = useParams();
+  const { id: selectedId } = useParams();
 
   return (
     <div className="container-fluid nav-top">

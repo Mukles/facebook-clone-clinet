@@ -127,25 +127,33 @@ const MessengerMenu = () => {
             </>
           ) : (
             <>
-              {convserationList?.map((conversation: any, idx: number) => {
-                const partnerInfo = conversation?.user.find(
-                  (user: IUser) => (user._id as string) !== sender
-                );
+              {convserationList?.length > 0 ? (
+                <>
+                  {convserationList?.map((conversation: any, idx: number) => {
+                    const partnerInfo = conversation?.user.find(
+                      (user: IUser) => (user._id as string) !== sender
+                    );
 
-                return (
-                  <Link
-                    to={`/messenger/${partnerInfo?._id}`}
-                    key={idx}
-                    className="text-decoration-none"
-                    onClick={() => dispatch(setIndex(8))}
-                  >
-                    <SingleChat
-                      partnerInfo={partnerInfo}
-                      lastMessage={conversation?.lastMessage}
-                    />
-                  </Link>
-                );
-              })}
+                    return (
+                      <Link
+                        to={`/messenger/${partnerInfo?._id}`}
+                        key={idx}
+                        className="text-decoration-none"
+                        onClick={() => dispatch(setIndex(8))}
+                      >
+                        <SingleChat
+                          partnerInfo={partnerInfo}
+                          lastMessage={conversation?.lastMessage}
+                        />
+                      </Link>
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="h-100 d-flex align-items-center justify-content-center m-0">
+                  No messages found.
+                </p>
+              )}
             </>
           )}
         </ul>

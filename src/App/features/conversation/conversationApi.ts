@@ -22,7 +22,6 @@ export const conversationApi = apiSlice.injectEndpoints({
           const senderInfo = participants.filter(
             (user: IUser) => user._id === sender
           );
-
           if (_id) {
             dispatch(
               apiSlice.util.updateQueryData(
@@ -48,7 +47,17 @@ export const conversationApi = apiSlice.injectEndpoints({
                       x.participants.includes(sender) &&
                       x.participants.includes(recipient)
                   );
-                  conversation.lastMessage = lastMessage;
+                  console.log({conversation});
+                  if (conversation?.lastMessage) {
+                    conversation.lastMessage = lastMessage;
+                  } else {
+                    draftConversation.push({
+                      _id,
+                      lastMessage,
+                      user: [...participants],
+                      participants: [participants[0]._id, participants[1]._id],
+                    });
+                  }
                 }
               )
             );

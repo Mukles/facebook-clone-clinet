@@ -9,7 +9,7 @@ import {
   useCancelFriendRequestMutation,
   useDeleteFriendRequestMutation,
   useSentFriendRequestMutation,
-  useUnFriendRequestMutation
+  useUnFriendRequestMutation,
 } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 
@@ -192,7 +192,7 @@ const Button = ({ text, status, requestId }: buttonProps) => {
   };
 
   const onDelete = () => {
-    deleteFriendRequest({ userId, requestId, friendId: sender  });
+    deleteFriendRequest({ userId, requestId, friendId: sender });
   };
 
   const onUnFriend = () => {
@@ -224,7 +224,7 @@ const Button = ({ text, status, requestId }: buttonProps) => {
           {createPortal(
             <div className="d-flex justify-content-between profile-photo rounded mt-5 align-items-center request-status">
               <p>Kasfiya Islam sent you a friend request</p>
-              <div>
+              <div className="my-2 my-lg-0">
                 <button onClick={onAccept} className="add-story profile-button">
                   <span>Confirm request</span>
                 </button>

@@ -32,23 +32,12 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
 
   const [
     sendRequest,
-    {
-      data: requestData,
-      isSuccess: requestSuccess,
-      isLoading: requestLoading,
-      // error: requestError,
-    },
+    { data: requestData, isSuccess: requestSuccess, isLoading: requestLoading },
   ] = useSentFriendRequestMutation();
 
   const [
     cancelRequest,
-    {
-      isLoading: isCancelLoading,
-      isSuccess: isCancelSuccess,
-      // isError: isCancelError,
-      // data: cancelFriendRequestData,
-      // error: cancelFriendRequestError,
-    },
+    { isLoading: isCancelLoading, isSuccess: isCancelSuccess },
   ] = useCancelFriendRequestMutation();
 
   const [
@@ -56,17 +45,15 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
     {
       isLoading: isAccpetLoading,
       isSuccess: isAccpetSuccess,
-      // isError: isAccpetError,
       data: accpetData,
     },
   ] = useAccpetFriendRequestMutation();
 
   const [
     deleteFriendRequest,
-    { 
+    {
       isLoading: isDeleteLoading,
       isSuccess: isDeleteSuccess,
-      // isError: isDeleteError,
       data: deleteData,
     },
   ] = useDeleteFriendRequestMutation();
@@ -124,7 +111,7 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
                 ? `/friends/requests/${friendId}`
                 : `/friends/suggestions/${friendId}`
             }
-            className={`friend-request-item ${type} ${
+            className={`friend-request-item align-items-center ${type} ${
               isCancel ? "request-sent" : ""
             }`}
           >
