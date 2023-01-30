@@ -62,7 +62,7 @@ const MessengesBody = () => {
                       dataLength={messages?.length}
                       next={() => setSkip(messages?.length)}
                       inverse={true}
-                      hasMore={true}
+                      hasMore={count > messages?.length}
                       style={{ paddingInline: "10px", height: "100%" }}
                       endMessage={
                         <div className="text-center position-static user-details py-3 h-100">
