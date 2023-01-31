@@ -80,6 +80,7 @@ export const sidebarData = [
   {
     id: 5,
     text: "Custom Lists",
+    url: "",
     icon: <i className="fa-solid fa-user-pen"></i>,
     nested: {
       icon: (

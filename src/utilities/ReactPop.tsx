@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
+import Reacts from "./reacts";
 
 const container = {
   hidden: { opacity: 0, y: 0 },
@@ -10,14 +11,6 @@ const container = {
       duration: 0.3,
       staggerChildren: 0.1,
     },
-  },
-};
-
-const item = {
-  hidden: { scale: 0, y: 57 },
-  show: {
-    scale: 1,
-    y: 0,
   },
 };
 
@@ -40,10 +33,9 @@ const ReactsPopup = ({
 }: Props) => {
   const timeRef = useRef<null | NodeJS.Timeout>(null);
   const reactions = ["like", "love", "wow", "haha", "sad", "angry"];
-  // const [isHover, setIsHovered] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
-  const ClickHanlder = (reacts: string) => {
+  const clickHanlder = (reacts: string) => {
     setOpen(false);
     setSelectedReact(reacts);
     toggleReact({ postId, react: reacts, userId });
@@ -87,14 +79,11 @@ const ReactsPopup = ({
             className="reaction-box"
           >
             {reactions.map((reacts) => (
-              <motion.div
-                onClick={() => ClickHanlder(reacts)}
-                variants={item}
+              <Reacts
+                clickHanlder={clickHanlder}
+                reacts={reacts}
                 key={reacts}
-                className={`reaction-icon ${reacts}`}
-              >
-                <label>{reacts}</label>
-              </motion.div>
+              />
             ))}
           </motion.div>
         )}

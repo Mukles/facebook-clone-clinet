@@ -14,7 +14,6 @@ import { toastRise } from "../../hooks/toastRise";
 import { IUser } from "../../types/userTypes";
 import TextArea from "../../utilities/textArea";
 import Upload from "../../utilities/upload";
-import { postSchema } from "../../validation/postValidation";
 
 interface Props {
   setShow: any;
@@ -95,7 +94,6 @@ const PostModal = ({ setShow, post }: Props) => {
             caption: caption || "",
             image: img || null,
           }}
-          validationSchema={postSchema}
           onSubmit={({ image, caption }) => {
             const formData = new FormData();
             formData.append("email", email);
@@ -234,6 +232,7 @@ const PostModal = ({ setShow, post }: Props) => {
                 </div>
                 <div className="mx-3">
                   <motion.button
+                    type="submit"
                     disabled={isLoading || isEditLoading}
                     whileTap={{ scale: 0.9 }}
                     className={`post-button w-100 d-block rounded ${

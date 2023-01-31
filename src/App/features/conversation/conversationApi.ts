@@ -16,6 +16,7 @@ export const conversationApi = apiSlice.injectEndpoints({
       ) {
         try {
           const result = await queryFulfilled;
+
           const { _id, messages, participants, lastMessage } =
             result.data || {};
 
@@ -47,7 +48,7 @@ export const conversationApi = apiSlice.injectEndpoints({
                       x.participants.includes(sender) &&
                       x.participants.includes(recipient)
                   );
-                  console.log({conversation});
+                  console.log({ conversation });
                   if (conversation?.lastMessage) {
                     conversation.lastMessage = lastMessage;
                   } else {
@@ -109,7 +110,7 @@ export const conversationApi = apiSlice.injectEndpoints({
       },
 
       merge: (currentCache, newItems) => {
-        currentCache?.messages.push(...newItems.messages);
+        currentCache?.messages.unshift(...newItems.messages);
         currentCache.count = newItems.count;
       },
 

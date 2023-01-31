@@ -72,16 +72,25 @@ const ProfileLayout = () => {
   const [profilePhotoPreview, setProfilePhotoPreview] = useState<any | null>(
     null
   );
-  const [coverChange, { isLoading: isCoverLoading }] = useCoverChangeMutation();
+  const [
+    coverChange,
+    { isLoading: isCoverLoading, isSuccess: isCoverPhotoSuccess },
+  ] = useCoverChangeMutation();
 
   const onCoverPhotoSave = () => {
     const formdata = new FormData();
     formdata.append("coverPhoto", coverPhoto);
     formdata.append("email", email as string);
     coverChange(formdata);
+  
+  };
+
+  useEffect(() =>{
+  if(isCoverPhotoSuccess){
     setCoverPhotoPreview(null);
     setConverPhoto(null);
-  };
+  }
+  }, [isCoverPhotoSuccess])
 
   useEffect(() => {
     if (converPhotoPreview) {
@@ -93,6 +102,7 @@ const ProfileLayout = () => {
     const timeOutId = setTimeout(() => {
       setLoading(false);
     }, 500);
+
     return () => clearTimeout(timeOutId);
   }, []);
 
@@ -136,7 +146,7 @@ const ProfileLayout = () => {
                   type="button"
                   onClick={onCoverPhotoSave}
                 >
-                  {isCoverLoading ? (
+                  {isCoverLoading || isCoverPhotoSuccess ? (
                     <ThreeDots
                       height="19px"
                       width="38px"
@@ -170,7 +180,10 @@ const ProfileLayout = () => {
         </AnimatePresence>
         <div className="container-fluid nav-top p-0">
           <div className="profile-container">
-            {globalLoading || isDetailsLoading || friendsLoading || mutualFriendsLoading ? (
+            {globalLoading ||
+            isDetailsLoading ||
+            friendsLoading ||
+            mutualFriendsLoading ? (
               <ProfileSkeleton />
             ) : (
               <>

@@ -1,26 +1,23 @@
-import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { setIndex } from "../App/features/auth/authSlice";
 import logo from "../assets/Header/Facebook-Logo.png";
 import MessengerSvg from "../assets/Header/messagerSvg";
 import { header } from "../data/settings/header";
+import useScrollChange from "../hooks/useScrollChange";
 
 const MobileMenu = () => {
   const dispatch = useDispatch();
-  const { scrollY } = useScroll();
-  const [isScrooll, setScroll] = useState(true);
-
-  scrollY.onChange(() => {
-    setScroll(scrollY.getPrevious() < scrollY.get());
-  });
+  const naviagate = useNavigate();
+  const { pathname } = useLocation();
+  const isScrolling = useScrollChange();
 
   return (
     <div className={`d-block d-sm-none mobile-nav pb-1`}>
       {/* top-header */}
       <AnimatePresence>
-        {isScrooll && (
+        {isScrolling && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
@@ -35,7 +32,10 @@ const MobileMenu = () => {
               </Link>
             </div>
 
-            <div className="d-flex align-items-center gap-3">
+            <div
+              onClick={() => naviagate("/search")}
+              className="d-flex align-items-center gap-3"
+            >
               <div className="search-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,11 +52,7 @@ const MobileMenu = () => {
                   />
                 </svg>
               </div>
-              <Link
-                to={"/messenger"}
-                className="messenger-icon"
-                onClick={() => dispatch(setIndex(7))}
-              >
+              <Link to={"/messenger"} className="messenger-icon">
                 <MessengerSvg />
               </Link>
             </div>
@@ -69,7 +65,7 @@ const MobileMenu = () => {
         {header.small.map((item) => {
           return (
             <li
-              className="nav-item"
+              className="nav-item position-relative"
               key={item.id}
               onClick={() => dispatch(setIndex(item.id))}
             >
@@ -78,7 +74,16 @@ const MobileMenu = () => {
                 to={item.url}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                {item.icon}
+                <>
+                  {item.icon}
+
+                  {pathname === item.url && (
+                    <motion.div
+                      className="underline mobile"
+                      layoutId="underline-mobile"
+                    ></motion.div>
+                  )}
+                </>
               </NavLink>
             </li>
           );

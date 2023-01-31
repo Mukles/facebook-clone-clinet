@@ -1,28 +1,31 @@
-import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { useGetCommentListsQuery } from "../../App/features/comment/commentApi";
 import Comment from "./comment";
 import CommentForm from "./commentForm";
 
 interface Props {
+  setSkip: any;
+  setPage: any;
   postId: string;
+  commentsList: any;
+  page: number;
+  isLoading: boolean;
 }
 
-const Commentlist = ({ postId }: Props) => {
-  const [skip, setSkip] = useState(0);
-  const [page, setPage] = useState(0);
-  const { isLoading, data: commentsList } = useGetCommentListsQuery({
-    postId,
-    page,
-    skip,
-  });
+const Commentlist = ({
+  setSkip,
+  setPage,
+  postId,
+  commentsList,
+  page,
+  isLoading,
+}: Props) => {
   const { comments, size } = commentsList || {};
   const hasMore = comments?.length < size;
 
   const clickHanlder = () => {
     if (hasMore) {
       setSkip(comments?.length);
-      setPage((page) => page + 1);
+      setPage((page: number) => page + 1);
     }
   };
 

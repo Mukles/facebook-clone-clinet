@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { sidebarData } from "../../data/friend/sidebar";
 import List from "./list";
@@ -12,13 +13,32 @@ const requstedObject = {
 
 export type Url = "requests" | "suggestions";
 
-const SideBar = () => {
+interface Props {
+  setOpen: any;
+}
+
+const SideBar = ({ setOpen }: Props) => {
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const urlSplit = pathname.split("/");
   const url: Url = urlSplit[2] as Url;
 
+  useEffect(() => {
+    const handleClick = (e: any) => {
+      if (
+        !!e.target?.closest(".friend-right-side") &&
+        !e.target?.closest(".menu-close")
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+
+    return () => document.addEventListener("click", handleClick);
+  }, [setOpen]);
+
   return (
-    <div className="friend-sidebar shadow-sm">
+    <div ref={sidebarRef} className="friend-sidebar shadow-sm">
       {requstedObject[url] ?? (
         <>
           <div className="sidebar-top p-3">

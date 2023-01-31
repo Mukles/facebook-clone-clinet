@@ -1,5 +1,5 @@
 import { FastField, Form, Formik } from "formik";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -21,8 +21,6 @@ interface Porps {
 
 const ProfileSidebar = ({ isAdmin }: Porps) => {
   const navigate = useNavigate();
-  const ref = useRef<HTMLDivElement>(null);
-  const [isBottomVisible, setIsBottomVisible] = useState(false);
   const { id: requestId } = useParams();
   let {
     bio,
@@ -63,28 +61,10 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   };
   const totalFriends = friendDetails?.friendDetails ?? numberOfFriends;
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!ref.current) return;
-      const elementTop =
-        ref.current.getBoundingClientRect().top + window.pageYOffset;
-      const elementBottom = elementTop + ref.current.clientHeight;
-      const scrollY = window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      if (elementBottom <= scrollY + windowHeight) {
-        setIsBottomVisible(true);
-      } else {
-        setIsBottomVisible(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isBottomVisible]);
-
   return (
     <div className="col-lg-5 mt-3">
       <div className="h-100">
-        <div ref={ref} className={isBottomVisible ? "sticky" : ""}>
+        <div className="sticky">
           <div className="user-card">
             <h3>Intro</h3>
             {(editBio || !bio) && !isLoading && isAdmin && (

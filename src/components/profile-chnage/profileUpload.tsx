@@ -1,5 +1,6 @@
 import { FastField, Form, Formik } from "formik";
 import { useCallback, useEffect } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useProfileChangeMutation } from "../../App/features/user/userApi";
 import { RootState } from "../../App/store";
@@ -45,6 +46,7 @@ const ProifleUpload = ({
     }
     prevText = value;
   }
+
   const dispatch = useDispatch();
   const [changeProfile, { isLoading, isError, error, isSuccess }] =
     useProfileChangeMutation();
@@ -101,7 +103,19 @@ const ProifleUpload = ({
                 <div className="btn-group ms-auto">
                   <button type="reset">Cancel</button>
                   <button disabled={isLoading} type="submit">
-                    Save
+                    {isLoading ? (
+                      <ThreeDots
+                        height="40"
+                        width="40"
+                        radius="9"
+                        color="#fff"
+                        ariaLabel="three-dots-loading"
+                        wrapperClass="post-loader"
+                        visible={true}
+                      />
+                    ) : (
+                      "save"
+                    )}
                   </button>
                 </div>
               </Form>

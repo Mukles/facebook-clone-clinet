@@ -145,7 +145,7 @@ const Add = ({ title, type, isOwner }: Props) => {
                 Cancel
               </button>
               <button type="submit" disabled={isLoading}>
-                Save
+                {isLoading ? "saving": "save"}
               </button>
             </div>
           </motion.form>

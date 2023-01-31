@@ -71,7 +71,7 @@ export const header = {
     {
       id: 6,
       url: "/bar",
-      icon: BarSvg,
+      icon: <BarSvg />,
     },
   ],
 };

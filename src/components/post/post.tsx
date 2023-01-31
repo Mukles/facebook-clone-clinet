@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useGetCommentListsQuery } from "../../App/features/comment/commentApi";
 import { useToogleReactPostMutation } from "../../App/features/post/postApi";
-import { addToast } from "../../App/features/toast/toastSlice";
 import { RootState } from "../../App/store";
 import angry from "../../assets/post/angery.svg";
 import love from "../../assets/post/download.svg";
@@ -31,7 +31,6 @@ const reactIcons: any = {
 };
 
 const Post = ({ post }: Props) => {
-  const dispatch = useDispatch();
   const { img, caption, _id: id, likeReact, reactCount }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
@@ -43,12 +42,22 @@ const Post = ({ post }: Props) => {
     (state) => state.auth.user._id
   );
 
+  const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(0);
+  const { isLoading: isCommentLoading, data: commentsList } =
+    useGetCommentListsQuery({
+      postId: id,
+      page,
+      skip,
+    });
+
+  const { toatalCount } = commentsList || {};
+
   if (tuple[1] !== selectReact) {
     setTuple([tuple[1], selectReact]);
   }
 
   let prevSeletedReact = tuple[0];
-
   const clickReactToggler = (selectReact: string) => {
     if (!isLoading) {
       if (selectReact) {
@@ -172,7 +181,9 @@ const Post = ({ post }: Props) => {
               )}
             </AnimatePresence>
           </ul>
-          <p className="total-comments m-0">5 Comments</p>
+          <p className="total-comments m-0">
+            {toatalCount ? <>{toatalCount} Comments</> : <>No Comment yet.</>}
+          </p>
         </div>
 
         {/*react popup */}
@@ -265,19 +276,7 @@ const Post = ({ post }: Props) => {
             </svg>
             <span>Comment</span>
           </li>
-          <li
-            className="share-icon cursor-pointer flex-fill"
-            onClick={() => {
-              dispatch(
-                addToast({
-                  type: "success",
-                  message:
-                    "jflsdj alfajfla fjklaflkaflkajf aklfalf" +
-                    Math.random() * 10,
-                })
-              );
-            }}
-          >
+          <li className="share-icon cursor-pointer flex-fill">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -295,7 +294,14 @@ const Post = ({ post }: Props) => {
             <span>Share</span>
           </li>
         </ul>
-        <Commentlist postId={id} />
+        <Commentlist
+          postId={id}
+          commentsList={commentsList}
+          isLoading={isCommentLoading}
+          page={page}
+          setPage={setPage}
+          setSkip={setSkip}
+        />
       </div>
     </div>
   );

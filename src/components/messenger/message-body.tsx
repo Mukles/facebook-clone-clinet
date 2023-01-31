@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { RotatingLines } from "react-loader-spinner";
@@ -47,7 +48,10 @@ const MessengesBody = () => {
           ) : (
             <>
               <ChatHead user={friendDetails} userId={userId as string} />
-              <ul className="messenger-body d-flex flex-column py-1">
+              <motion.ul
+                layout
+                className="messenger-body d-flex flex-column py-1"
+              >
                 {messages?.length > 0 ? (
                   <div
                     id="scrollableDiv"
@@ -94,11 +98,9 @@ const MessengesBody = () => {
                           const justify =
                             sender !== message.sender[0]._id ? "start" : "end";
                           return (
-                            <SingleMessage
-                              key={idx}
-                              info={message}
-                              justify={justify}
-                            />
+                            <AnimatePresence initial={false} key={idx}>
+                              <SingleMessage info={message} justify={justify} />
+                            </AnimatePresence>
                           );
                         })}
                     </InfiniteScroll>
@@ -119,7 +121,7 @@ const MessengesBody = () => {
                     </p>
                   </div>
                 )}
-              </ul>
+              </motion.ul>
             </>
           )}
           <MessengerForm recipient={userId} />

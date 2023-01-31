@@ -13,7 +13,7 @@ export const searchApi = apiSlice.injectEndpoints({
       query: ({ userId, search }) => ({
         method: "POST",
         url: `/search/${userId}`,
-        body: { search },
+        body: { search: typeof search === "string" ? search : search._id },
       }),
       async onQueryStarted({ userId, search }, { queryFulfilled, dispatch }) {
         const patchResult: any = dispatch(
@@ -44,7 +44,7 @@ export const searchApi = apiSlice.injectEndpoints({
       query: ({ search, userId }) => ({
         method: "DELETE",
         url: `/search/${userId}`,
-        body: { search },
+        body: { search: typeof search === "string" ? search : search._id },
       }),
       async onQueryStarted({ userId, search }, { queryFulfilled, dispatch }) {
         const patchResult: any = dispatch(
@@ -52,8 +52,11 @@ export const searchApi = apiSlice.injectEndpoints({
             "getSearch" as never,
             userId as never,
             (draft: string[]) => {
-              console.log(JSON.stringify(draft));
-              return (draft = draft.filter((item: string) => item !== search));
+              const value = typeof search === "string" ? search : search._id;
+              return (draft = draft.filter(
+                (item: any) =>
+                  item[typeof search === "string" ? "" : "_id"] !== value
+              ));
             }
           )
         );

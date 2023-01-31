@@ -16,6 +16,7 @@ import MobileSpecificConversation from "../../pages/messenger/mobile/[id]";
 import SpecificConversation from "../../pages/messenger/[id]";
 import Videos from "../../pages/videos.tsx";
 import Animated from "../../utilities/Animate";
+import SearchOverlay from "../../utilities/comment/search-overlay";
 import PrivacyScreen from "../../utilities/PrivacyScreen";
 import PublicRoute from "../../utilities/publicRoute";
 import RequiredAuth from "../../utilities/requireAuth";
@@ -212,6 +213,15 @@ export const smallDevicesRoutes = [
         <Animated>
           <MobileSpecificConversation />
         </Animated>
+      </RequiredAuth>
+    ),
+  },
+
+  {
+    path: "/search",
+    element: (
+      <RequiredAuth>
+        <SearchOverlay sm={true} />
       </RequiredAuth>
     ),
   },

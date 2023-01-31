@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import { authSlice } from "./features/auth/authSlice";
-import { postSlice } from "./features/post/postSlice";
 import { searchSlice } from "./features/search/searchSlice";
+import { timeSlice } from "./features/theme/themeSlice";
 import { toastSlice } from "./features/toast/toastSlice";
 
 export const configStore = () =>
@@ -10,12 +10,12 @@ export const configStore = () =>
     reducer: {
       [apiSlice.reducerPath]: apiSlice.reducer,
       [authSlice.name]: authSlice.reducer,
-      [postSlice.name]: postSlice.reducer,
       [toastSlice.name]: toastSlice.reducer,
       [searchSlice.name]: searchSlice.reducer,
+      [timeSlice.name]: timeSlice.reducer,
     },
 
-    devTools: true,
+    devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddlewares) =>
       getDefaultMiddlewares().concat(apiSlice.middleware),
   });
