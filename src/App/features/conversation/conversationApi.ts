@@ -16,7 +16,6 @@ export const conversationApi = apiSlice.injectEndpoints({
       ) {
         try {
           const result = await queryFulfilled;
-
           const { _id, messages, participants, lastMessage } =
             result.data || {};
 
@@ -48,11 +47,10 @@ export const conversationApi = apiSlice.injectEndpoints({
                       x.participants.includes(sender) &&
                       x.participants.includes(recipient)
                   );
-                  console.log({ conversation });
                   if (conversation?.lastMessage) {
                     conversation.lastMessage = lastMessage;
                   } else {
-                    draftConversation.push({
+                    draftConversation.unshift({
                       _id,
                       lastMessage,
                       user: [...participants],

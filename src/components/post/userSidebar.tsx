@@ -62,7 +62,7 @@ const ProfileSidebar = ({ isAdmin }: Porps) => {
   const totalFriends = friendDetails?.friendDetails ?? numberOfFriends;
 
   return (
-    <div className="col-lg-5 mt-3">
+    <div className="col-lg-5 mt-4 p-0 me-0 me-lg-3">
       <div className="h-100">
         <div className="sticky">
           <div className="user-card">

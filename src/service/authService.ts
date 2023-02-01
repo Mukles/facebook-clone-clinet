@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
+  GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -16,6 +17,11 @@ import { loginType } from "../types/registerTypes";
 
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
+};
+
+export const loginWithGithub = async () => {
+  const provider = new GithubAuthProvider();
   await signInWithPopup(auth, provider);
 };
 

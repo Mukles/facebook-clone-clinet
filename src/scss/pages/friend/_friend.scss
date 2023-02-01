@@ -11,7 +11,7 @@
 
 .sidebar-container {
   position: sticky;
-  top: 66px;
+  top: 59px;
   left: 0;
   bottom: 0;
   max-width: 350px;
@@ -56,7 +56,6 @@
     @media (max-width: $xsm) {
       top: 121px;
       width: 100%;
-      height: calc(100% - 121px);
     }
 
     .sidebar-top {
@@ -97,7 +96,7 @@
   .bars {
     position: absolute;
     top: 12px;
-    left: 20px;
+    left: 35px;
     z-index: 10;
     border: none;
     background-color: rgba($color: $brand-color, $alpha: 0.8);
@@ -242,7 +241,6 @@ ul.sidebar-menu {
 }
 
 .no-proile-selected {
-  width: calc(100% - 350px);
   height: calc(100vh - 67px);
   display: flex;
   align-items: center;
@@ -250,6 +248,10 @@ ul.sidebar-menu {
   text-align: center;
   justify-content: center;
   margin: auto;
+
+  @media (max-width: $sm) {
+    height: calc(100vh - 267px);
+  }
 
   img {
     max-width: 120px;
@@ -261,6 +263,11 @@ ul.sidebar-menu {
     line-height: 24px;
     color: $color-semibalck;
     font-weight: 700;
+
+    @media (max-width: $sm) {
+      font-weight: 500;
+      font-size: 17px;
+    }
   }
 }
 

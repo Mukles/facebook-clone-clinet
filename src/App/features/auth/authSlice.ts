@@ -55,8 +55,6 @@ export const authSlice = createSlice({
     setBio: (state, { payload }) => {
       state.user.bio = payload;
     },
-
-    setDirection: (state, { payload }) => ({ ...state, direction: payload }),
   },
 });
 
@@ -64,7 +62,6 @@ export const {
   userLogin,
   setFormData,
   setIndex,
-  setDirection,
   setPicture,
   setDetails,
   setBio,

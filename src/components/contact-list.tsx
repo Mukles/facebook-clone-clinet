@@ -1,5 +1,9 @@
 import VideoSvg from "../assets/right-side/videoSvg";
-import img from "../assets/story/311888806_797128861505186_6075576457730166756_n.jpg";
+import img1 from "../assets/story/1.avif";
+import img2 from "../assets/story/2.avif";
+import img3 from "../assets/story/3.avif";
+import img4 from "../assets/story/4.jpg";
+import img5 from "../assets/story/5.png";
 
 const ContactList = () => {
   return (
@@ -51,27 +55,16 @@ const ContactList = () => {
       </div>
 
       {/* contact-list */}
+
       <div className="active-user-list">
-        <div className="active-user d-flex align-items-center gap-3">
-          <div className="user-profile">
-            <img src={img} height={30} width={30} alt={"Profile"} />
+        {[img1, img2, img3, img4, img5].map((img, i) => (
+          <div key={i} className="active-user d-flex align-items-center gap-3">
+            <div className="user-profile">
+              <img src={img} height={45} width={45} alt={"Profile"} />
+            </div>
+            <p className="mb-0">Mukles Mukles</p>
           </div>
-          <p className="mb-0">Mukles Mukles</p>
-        </div>
-
-        <div className="active-user d-flex align-items-center gap-3">
-          <div className="user-profile">
-            <img src={img} height={30} width={30} alt={"Profile"} />
-          </div>
-          <p className="mb-0">Mukles Mukles</p>
-        </div>
-
-        <div className="active-user d-flex align-items-center gap-3">
-          <div className="user-profile">
-            <img src={img} height={30} width={30} alt={"Profile"} />
-          </div>
-          <p className="mb-0">Mukles Mukles</p>
-        </div>
+        ))}
       </div>
     </div>
   );

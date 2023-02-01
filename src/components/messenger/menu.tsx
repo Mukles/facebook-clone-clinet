@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { setIndex } from "../../App/features/auth/authSlice";
 import { useGetConversationListQuery } from "../../App/features/conversation/conversationApi";
 import { RootState } from "../../App/store";
@@ -12,6 +12,7 @@ const MessengerMenu = () => {
   const ref = useRef<any>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+  const { id: reciverId } = useParams();
 
   const sender = useSelector<RootState, string | undefined>(
     (state) => state.auth.user._id
@@ -133,12 +134,15 @@ const MessengerMenu = () => {
                     const partnerInfo = conversation?.user.find(
                       (user: IUser) => (user._id as string) !== sender
                     );
+                    const isActive = partnerInfo._id === reciverId;
 
                     return (
                       <Link
                         to={`/messenger/${partnerInfo?._id}`}
                         key={idx}
-                        className="text-decoration-none"
+                        className={`text-decoration-none ${
+                          isActive ? "active" : ""
+                        }`}
                         onClick={() => dispatch(setIndex(8))}
                       >
                         <SingleChat

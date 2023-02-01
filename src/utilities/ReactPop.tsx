@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import Reacts from "./reacts";
 
 const container = {
   hidden: { opacity: 0, y: 0 },
@@ -24,6 +23,14 @@ interface Props {
   userId: string;
 }
 
+const item = {
+  hidden: { scale: 0, y: 57 },
+  show: {
+    scale: 1,
+    y: 0,
+  },
+};
+
 const ReactsPopup = ({
   children,
   setSelectedReact,
@@ -38,7 +45,6 @@ const ReactsPopup = ({
   const clickHanlder = (reacts: string) => {
     setOpen(false);
     setSelectedReact(reacts);
-    toggleReact({ postId, react: reacts, userId });
   };
 
   const handleTouchStart = () => {
@@ -79,11 +85,14 @@ const ReactsPopup = ({
             className="reaction-box"
           >
             {reactions.map((reacts) => (
-              <Reacts
-                clickHanlder={clickHanlder}
-                reacts={reacts}
+              <motion.div
                 key={reacts}
-              />
+                onClick={() => clickHanlder(reacts)}
+                variants={item}
+                className={`reaction-icon ${reacts}`}
+              >
+                <label>{reacts}</label>
+              </motion.div>
             ))}
           </motion.div>
         )}

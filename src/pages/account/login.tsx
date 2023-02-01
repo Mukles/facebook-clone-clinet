@@ -7,6 +7,7 @@ import { RootState } from "../../App/store";
 import logo from "../../assets/account/facebook.svg";
 import {
   authRequestHandler,
+  loginWithGithub,
   loginWithGoogle,
   loginWithPassword,
 } from "../../service/authService";
@@ -113,12 +114,22 @@ const Login = () => {
                             </button>
                           </li>
                           <li>
-                            <button type="button">
+                            <button disabled={loginLoader} type="button">
                               <i className="fa-brands fa-twitter"></i>
                             </button>
                           </li>
                           <li>
-                            <button type="button">
+                            <button
+                              disabled={loginLoader}
+                              onClick={() =>
+                                authRequestHandler(
+                                  values,
+                                  dispatch,
+                                  loginWithGithub
+                                )
+                              }
+                              type="button"
+                            >
                               <i className="fa-brands fa-github"></i>
                             </button>
                           </li>

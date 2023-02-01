@@ -1,11 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const timeSlice = createSlice({
   name: "theme",
-  initialState: "dark",
+  initialState: {
+    mode: localStorage.getItem("theme") || "light",
+  },
   reducers: {
-    changeTheme: () => {},
+    toggleTheme: (state, { payload }: PayloadAction<"dark" | "light">) => {
+      state.mode = payload;
+      localStorage.setItem("darkMode", JSON.stringify(payload));
+    },
   },
 });
 
-export const { changeTheme } = timeSlice.actions;
+export const { toggleTheme } = timeSlice.actions;

@@ -28,7 +28,6 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
   const dispatch = useAppDispatch();
   const { _id: requestId, createdAt, sender_details } = friend || {};
   const { userName, profilePicture, _id: friendId } = sender_details || {};
-  console.log({ friendId });
 
   const [
     sendRequest,
@@ -193,7 +192,6 @@ export const FriendRequesItem = ({ type, friend, userId }: Props) => {
                         </button>
                         <button
                           onClick={() => {
-                            console.log(" I am clcikc", friendId);
                             dispatch(
                               apiSlice.util.updateQueryData(
                                 "getSuggestionFrieds" as never,

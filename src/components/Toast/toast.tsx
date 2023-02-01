@@ -138,7 +138,6 @@ const Toast = ({
   };
 
   const moveToEnd = (event: any, info: PanInfo) => {
-    console.log("y:", info.offset.y);
     const y = info.offset.y;
     if (y >= 20 || y <= -100) {
       dispatch(moveToast());

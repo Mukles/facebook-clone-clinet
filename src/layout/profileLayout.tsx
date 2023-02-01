@@ -8,7 +8,7 @@ import {
   useCoverChangeMutation,
   useGetFriendsQuery,
   useGetMutualFriendsQuery,
-  useGetReqUserQuery
+  useGetReqUserQuery,
 } from "../App/features/user/userApi";
 import { RootState } from "../App/store";
 import defaultCover from "../assets/default/cover.jpg";
@@ -60,8 +60,6 @@ const ProfileLayout = () => {
       { skip: isAdmin }
     );
 
-  console.log({ mutualFriends });
-
   const [globalLoading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState<boolean>(false);
   const [coverPhoto, setConverPhoto] = useState<any | null>(null);
@@ -82,15 +80,14 @@ const ProfileLayout = () => {
     formdata.append("coverPhoto", coverPhoto);
     formdata.append("email", email as string);
     coverChange(formdata);
-  
   };
 
-  useEffect(() =>{
-  if(isCoverPhotoSuccess){
-    setCoverPhotoPreview(null);
-    setConverPhoto(null);
-  }
-  }, [isCoverPhotoSuccess])
+  useEffect(() => {
+    if (isCoverPhotoSuccess) {
+      setCoverPhotoPreview(null);
+      setConverPhoto(null);
+    }
+  }, [isCoverPhotoSuccess]);
 
   useEffect(() => {
     if (converPhotoPreview) {

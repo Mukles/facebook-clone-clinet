@@ -64,12 +64,14 @@ const SearchOverlay = ({
 
   useEffect(() => {
     const handleClick = (event: any) => {
-      if (
-        !modal.current?.contains(event.target) &&
-        !buttonRef.current?.contains(event.target) &&
-        !serachRef.current?.contains(event.target)
-      ) {
-        setShow(false);
+      if (!sm) {
+        if (
+          !modal.current?.contains(event.target) &&
+          !buttonRef.current?.contains(event.target) &&
+          !serachRef.current?.contains(event.target)
+        ) {
+          setShow(false);
+        }
       }
     };
 
@@ -192,7 +194,7 @@ const SearchOverlay = ({
                     <button>Edit</button>
                   </div>
                   {searchData?.map((item: any, i: number) => {
-                    const hasUserDetails = typeof item;
+                    const hasUserDetails = typeof item !== "string";
 
                     return (
                       <motion.div
@@ -206,7 +208,7 @@ const SearchOverlay = ({
                           to={`${hasUserDetails ? `/profile/${item._id}` : ""}`}
                           className="d-flex mt-2 search-item align-items-center rounded"
                         >
-                          {hasUserDetails === "string" ? (
+                          {!hasUserDetails ? (
                             <>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"

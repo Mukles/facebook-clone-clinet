@@ -15,7 +15,6 @@ export const userApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch, getState }) {
         try {
           const result = await queryFulfilled;
-          console.log({ result });
           const { _id } = (getState() as RootState).auth.user || {};
           const { post, user } = result.data || {};
           if (post) {
@@ -127,7 +126,6 @@ export const userApi = apiSlice.injectEndpoints({
         const result = await queryFulfilled;
         const { newRequest } = result.data;
         if (newRequest._id) {
-          console.log({ newRequest });
           dispatch(
             apiSlice.util.updateQueryData(
               "checkRequestStatus" as never,
@@ -135,7 +133,6 @@ export const userApi = apiSlice.injectEndpoints({
               (draftRequest: any) => {
                 draftRequest[0] = newRequest;
 
-                console.log(JSON.stringify(draftRequest));
                 return draftRequest;
               }
             )
@@ -160,7 +157,6 @@ export const userApi = apiSlice.injectEndpoints({
                 "checkRequestStatus" as never,
                 { sender: userId, recipient: friendId } as never,
                 (draftRequest: any) => {
-                  console.log(JSON.stringify(draftRequest));
                   draftRequest = [];
                   return draftRequest;
                 }
@@ -216,7 +212,6 @@ export const userApi = apiSlice.injectEndpoints({
               "checkRequestStatus" as never,
               { sender: userId, recipient: friendId } as never,
               (draftRequest: any) => {
-                console.log(JSON.stringify(draftRequest));
                 draftRequest[0].status = "accepted";
                 return draftRequest;
               }
@@ -240,7 +235,6 @@ export const userApi = apiSlice.injectEndpoints({
               "checkRequestStatus" as never,
               { sender: userId, recipient: friendId } as never,
               (draftRequest: any) => {
-                console.log(JSON.stringify(draftRequest));
                 draftRequest = [];
                 return draftRequest;
               }
@@ -257,9 +251,7 @@ export const userApi = apiSlice.injectEndpoints({
         params: { sender, recipient },
       }),
 
-      async onQueryStarted(args) {
-        console.log(args);
-      },
+      async onQueryStarted(args) {},
     }),
 
     getNewsFeed: build.query({

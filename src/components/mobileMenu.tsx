@@ -32,11 +32,8 @@ const MobileMenu = () => {
               </Link>
             </div>
 
-            <div
-              onClick={() => naviagate("/search")}
-              className="d-flex align-items-center gap-3"
-            >
-              <div className="search-icon">
+            <div className="d-flex align-items-center gap-3">
+              <div onClick={() => naviagate("/search")} className="search-icon">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

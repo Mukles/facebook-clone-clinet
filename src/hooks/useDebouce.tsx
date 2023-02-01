@@ -9,7 +9,7 @@ export function useDebounce(value: string, delay: number) {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebouncedValue(value);
-      dispatch(setSearch(value));
+      dispatch(setSearch(value || ""));
     }, delay);
 
     return () => {

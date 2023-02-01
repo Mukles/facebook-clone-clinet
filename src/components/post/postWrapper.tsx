@@ -32,6 +32,8 @@ const PostWrapper = () => {
 
   const { posts, size } = postData || {};
 
+  console.log({ posts });
+
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       setLoader(false);
@@ -44,7 +46,7 @@ const PostWrapper = () => {
   return (
     <>
       <ProfileSidebar isAdmin={isAdmin} />
-      <div className="col">
+      <div className="col p-0">
         {isAdmin && <CreatePost />}
 
         {(loader || isLoading) && isRender ? (
@@ -81,7 +83,7 @@ const PostWrapper = () => {
                   }
                 >
                   {posts?.map((post: any, index: number) => {
-                    return <Post key={index} post={post} />;
+                    return <Post key={post._id} post={post} />;
                   })}
                 </InfiniteScroll>
               </div>

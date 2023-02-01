@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetCommentListsQuery } from "../../App/features/comment/commentApi";
 import { useToogleReactPostMutation } from "../../App/features/post/postApi";
@@ -31,6 +31,7 @@ const reactIcons: any = {
 };
 
 const Post = ({ post }: Props) => {
+  const timeRef = useRef<null | NodeJS.Timeout>(null);
   const { img, caption, _id: id, likeReact, reactCount }: any = post || {};
   const [isOpen, setOpen] = useState<boolean>(false);
   const [delteReq, setDeleteReq] = useState<boolean>(false);
@@ -58,17 +59,25 @@ const Post = ({ post }: Props) => {
   }
 
   let prevSeletedReact = tuple[0];
+
   const clickReactToggler = (selectReact: string) => {
-    if (!isLoading) {
-      if (selectReact) {
-        setSelectedReact("");
-        toggleReact({ postId: id, react: "", userId });
-      } else {
-        setSelectedReact("like");
-        toggleReact({ postId: id, react: "like", userId });
-      }
-    }
+    if (isLoading) return;
+    selectReact ? setSelectedReact("") : setSelectedReact("like");
   };
+
+  useEffect(() => {
+    timeRef.current && clearTimeout(timeRef.current);
+    timeRef.current = setTimeout(() => {
+      toggleReact({ postId: id, react: selectReact, userId });
+    }, 500);
+
+    return () => {
+      if (timeRef.current) {
+        clearTimeout(timeRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectReact]);
 
   return (
     <div className="single-post mt-4 pt-1 rounded">
@@ -140,43 +149,36 @@ const Post = ({ post }: Props) => {
             <AnimatePresence>
               {Object.keys(reactCount || {})?.map(
                 (react: string, i: number) => {
-                  if (
-                    reactCount[likeReact?.react] === 1 &&
-                    selectReact &&
-                    react ===
-                      (likeReact?.react === selectReact ? "" : likeReact?.react)
-                  ) {
-                    return false;
-                  } else if (reactCount[react] > 0) {
-                    return (
-                      <motion.li
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        key={i}
-                      >
-                        <img
-                          src={reactIcons[react]}
-                          alt={react}
-                          width={20}
-                          height={20}
-                        />
-                      </motion.li>
-                    );
-                  } else if (selectReact === react) {
-                    return (
-                      <li key={i}>
-                        <img
-                          src={reactIcons[react]}
-                          alt={react}
-                          width={20}
-                          height={20}
-                        />
-                      </li>
-                    );
-                  }
-
-                  return null;
+                  return (
+                    <Fragment key={react}>
+                      {reactCount &&
+                      reactCount[likeReact?.react] === 1 &&
+                      ((selectReact !== likeReact?.react &&
+                        selectReact &&
+                        react === likeReact?.react) ||
+                        (!selectReact && prevSeletedReact !== selectReact)) ? (
+                        <></>
+                      ) : (
+                        <>
+                          {(reactCount[react] > 0 || react === selectReact) && (
+                            <motion.li
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              exit={{ scale: 0 }}
+                              key={i}
+                            >
+                              <img
+                                src={reactIcons[react]}
+                                alt={react}
+                                width={20}
+                                height={20}
+                              />
+                            </motion.li>
+                          )}
+                        </>
+                      )}
+                    </Fragment>
+                  );
                 }
               )}
             </AnimatePresence>
@@ -203,38 +205,18 @@ const Post = ({ post }: Props) => {
                 aria-disabled={isLoading}
                 onClick={() => clickReactToggler(selectReact)}
               >
-                {prevSeletedReact === selectReact && likeReact?.react ? (
-                  <motion.div
-                    onClick={() => setSelectedReact("")}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    key={selectReact}
-                  >
-                    <img
-                      className="me-2"
-                      src={reactIcons[likeReact?.react]}
-                      alt="react"
-                    />
-                    <span>{selectReact}</span>
-                  </motion.div>
+                {prevSeletedReact === selectReact ? (
+                  <>
+                    <img src={reactIcons[likeReact?.react]} alt={selectReact} />
+                    <span>{likeReact?.react}</span>
+                  </>
                 ) : (
                   <>
-                    {selectReact !== prevSeletedReact && selectReact ? (
-                      <motion.div
-                        onClick={() => setSelectedReact("")}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        key={selectReact}
-                      >
-                        <img
-                          className="me-2"
-                          src={reactIcons[selectReact]}
-                          alt="react"
-                        />
+                    {prevSeletedReact !== selectReact && selectReact ? (
+                      <>
+                        <img src={reactIcons[selectReact]} alt={selectReact} />
                         <span>{selectReact}</span>
-                      </motion.div>
+                      </>
                     ) : (
                       <>
                         <svg

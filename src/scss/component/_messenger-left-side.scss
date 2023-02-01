@@ -90,6 +90,10 @@
         align-items: initial;
       }
 
+      a.active {
+        background-color: #eaf3ff;
+      }
+
       .chat-list {
         padding: 10px 5px;
         transition: 0.3s;

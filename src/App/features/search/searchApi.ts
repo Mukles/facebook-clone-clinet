@@ -53,9 +53,8 @@ export const searchApi = apiSlice.injectEndpoints({
             userId as never,
             (draft: string[]) => {
               const value = typeof search === "string" ? search : search._id;
-              return (draft = draft.filter(
-                (item: any) =>
-                  item[typeof search === "string" ? "" : "_id"] !== value
+              return (draft = draft.filter((item: any) =>
+                typeof search === "string" ? item !== value : item._id !== value
               ));
             }
           )

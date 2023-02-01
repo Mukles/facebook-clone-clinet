@@ -23,7 +23,7 @@ const LaptopMenu = ({ setOpen }: Props) => {
   const profilePicture = useSelector<RootState, string | undefined>(
     (state) => state.auth.user?.profilePicture
   );
-  const search = useSelector<RootState, string>((state) => state.search);
+  const search = useSelector<RootState, string>((state) => state.search.value);
 
   return (
     <div className="nav-bar align-items-center justify-content-between d-none d-sm-flex">

@@ -1,18 +1,19 @@
 import { FastField, Form, Formik } from "formik";
 import { motion } from "framer-motion";
 import { SetStateAction } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFormData } from "../../App/features/auth/authSlice";
 import { useUpdateUserMutation } from "../../App/features/user/userApi";
+import { RootState } from "../../App/store";
 import {
   authRequestHandler,
-  signUpWithPassword,
+  signUpWithPassword
 } from "../../service/authService";
 import ErrorMessages from "../../utilities/errorMessage";
 import Password from "../../utilities/password";
 import {
   registerSchema,
-  updateUserSchema,
+  updateUserSchema
 } from "../../validation/loginValidition";
 
 interface Props {
@@ -36,6 +37,9 @@ const Register = ({ setShow, user }: Props) => {
   };
 
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const { loginLoader } = useSelector<RootState, any>(
+    (state) => state.auth
+  );
 
   return (
     <>
@@ -243,7 +247,7 @@ const Register = ({ setShow, user }: Props) => {
                   </FastField>
 
                   <button
-                    disabled={isLoading}
+                    disabled={isLoading || loginLoader}
                     type="submit"
                     className="btn btn-primary register-submit mb-3"
                   >

@@ -1,3 +1,4 @@
+import { toggleTheme } from "../../App/features/theme/themeSlice";
 import { logOut } from "../../service/authService";
 
 export const settings = [
@@ -201,11 +202,17 @@ export const settings = [
               />
             </svg>
           ),
+          onclick: (dispatch) => {
+            dispatch(toggleTheme("light"));
+          },
           text: "Light",
         },
         {
           id: 2,
           text: "Dark",
+          onclick: (dispatch) => {
+            dispatch(toggleTheme("dark"));
+          },
           icon: (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -265,6 +272,9 @@ export const settings = [
       </svg>
     ),
     text: "Logout",
-    onclick: (dispatch) => logOut(dispatch),
+    onclick: (dispatch, setOpen) => {
+      setOpen(false);
+      logOut(dispatch);
+    },
   },
 ];

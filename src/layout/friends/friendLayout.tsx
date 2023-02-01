@@ -3,11 +3,15 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import BarSvg from "../../assets/Header/barSvg";
 import SideBar from "../../components/friends/sidebar";
+import useScrollChange from "../../hooks/useScrollChange";
 import useWidth from "../../hooks/useWidth";
 
 const FriendLayout = () => {
   const [open, setOpen] = useState<boolean>();
   const width = useWidth();
+  const isScrolling = useScrollChange();
+  const top = isScrolling ? "119px" : "52px";
+  const height = isScrolling ? "calc(100vh - 119px)" : "calc(100vh - 52px)";
 
   if (width && open === undefined) {
     setOpen(width >= 1024);
@@ -18,7 +22,7 @@ const FriendLayout = () => {
   };
 
   return (
-    <div className="container-fluid nav-top d-flex">
+    <div className="container-fluid nav-top d-flex p-0">
       <div>
         <AnimatePresence initial={false}>
           {open && (
@@ -32,6 +36,7 @@ const FriendLayout = () => {
               exit="closed"
               transition={{ type: "spring", bounce: 0, duration: 0.5 }}
               className="sidebar-container"
+              style={width < 576 ? { top, height } : {}}
             >
               <SideBar setOpen={setOpen} />
             </motion.div>

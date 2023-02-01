@@ -69,7 +69,7 @@ const Settings = ({ setOpen }: Props) => {
                         if (setting.siblings) {
                           setIndex(setting.id);
                         } else if (setting.onclick) {
-                          setting.onclick(dispatch);
+                          setting.onclick(dispatch, setOpen);
                         }
                       }}
                     >
@@ -127,9 +127,12 @@ const Settings = ({ setOpen }: Props) => {
                 </div>
                 <h2>{settings[index || 0]?.siblings?.title}</h2>
               </div>
-              {settings[index || 0]?.siblings?.main.map((item) => {
+              {settings[index || 0]?.siblings?.main.map((item: any) => {
+                const clicker = (item as any)
+                  ? () => item.onclick(dispatch)
+                  : () => {};
                 return (
-                  <li key={item.id}>
+                  <li key={item.id} onClick={clicker}>
                     <div className="icon">{item.icon}</div>
                     <p>{item.text}</p>
                   </li>

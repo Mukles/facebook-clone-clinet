@@ -15,15 +15,16 @@ function App() {
   const dispatch = useDispatch();
   const width = useWidth();
   const { pathname } = useLocation();
-
-  const direction: number = useSelector<RootState, any>(
-    (state) => state.auth.direction
-  );
+  const theme = useSelector<RootState, string>((state) => state.theme.mode);
 
   useEffect(() => {
     onAuthChanged(dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    (document.querySelector("body") as HTMLBodyElement).className = theme;
+  }, [theme]);
 
   const largeRoutes: any = useRoutes([...largeDevicesRoutes]);
   const smallRoutes: any = useRoutes(smallDevicesRoutes);
@@ -32,8 +33,8 @@ function App() {
     return (
       <>
         <Header />
-        <AnimatePresence mode="wait" initial={false} custom={direction}>
-          {cloneElement(smallRoutes, { key: pathname })}
+        <AnimatePresence mode="wait" initial={false}>
+          {cloneElement(smallRoutes)}
         </AnimatePresence>
       </>
     );

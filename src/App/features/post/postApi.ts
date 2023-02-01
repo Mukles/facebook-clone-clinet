@@ -101,7 +101,6 @@ export const postApi = apiSlice.injectEndpoints({
         const result = await queryFulfilled;
         const id: string = args.get("postId");
         const userId: string = args.get("userId");
-        console.log({ result });
 
         if (result.data) {
           dispatch(
@@ -129,13 +128,6 @@ export const postApi = apiSlice.injectEndpoints({
         url: `/post/${postId}/react`,
         body: { userId, react },
       }),
-async onQueryStarted({postId, react, userId}, {dispatch, queryFulfilled}){
-try{
- const pathReact = dispatch (apiSlice.util.updateQueryData("toogleReactPost" as never, {postId, react, userId} as never,
- (draftReact) => console.log(JSON.strigify((draftReact)))))
-}
-Catch{}
-}
     }),
   }),
 });

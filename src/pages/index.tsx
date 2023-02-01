@@ -9,10 +9,9 @@ import LeftSide from "../components/leftSide";
 import CreatePost from "../components/post/createPost";
 import Post from "../components/post/post";
 import RightSide from "../components/story/right-side";
-import Story from "../components/story/story";
+import Stories from "../components/story/story";
 import PostSkeleton from "../Skeleton/Post-Skeleton";
 import PrivacyScreen from "../utilities/PrivacyScreen";
-
 const Home = () => {
   const [loader, setLoader] = useState(true);
   const [skip, setSkip] = useState(0);
@@ -28,7 +27,6 @@ const Home = () => {
     page,
   });
   const { posts } = feeds || {};
-  console.log({ feeds, posts });
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -48,11 +46,7 @@ const Home = () => {
         <div className="col-12 col-md-10 col-lg-6 mb-3 mx-auto">
           {/* sotries */}
           <div className="d-flex justify-content-center gap-2 py-2">
-            <Story />
-            <Story />
-            <Story />
-            <Story />
-            <Story />
+            <Stories />
           </div>
           {/* create a new post */}
           <CreatePost />

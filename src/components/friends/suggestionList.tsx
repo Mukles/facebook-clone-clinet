@@ -13,8 +13,6 @@ const SuggestionList = () => {
   const { data: suggestionFriends, isLoading } =
     useGetSuggestionFriedsQuery(userId);
 
-  console.log({ suggestionFriends });
-
   return (
     <>
       <SideBarTop text="Suggestions" />
