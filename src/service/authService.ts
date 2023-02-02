@@ -4,6 +4,7 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -99,6 +100,16 @@ const signInAndSignUp = async (data: any, dispatch: any) => {
   } catch (error) {
     dispatchError(error, dispatch);
   }
+};
+
+export const resetPassword = async (email: string) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("Password reset email sent!");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
 };
 
 const dispatchError = (error: any, dispatch: Dispatch<AnyAction>) => {

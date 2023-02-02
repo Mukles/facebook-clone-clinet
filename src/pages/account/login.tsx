@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RootState } from "../../App/store";
 import logo from "../../assets/account/facebook.svg";
 import {
@@ -134,7 +134,7 @@ const Login = () => {
                             </button>
                           </li>
                         </ul>
-                        <a href="/">Forget Password?</a>
+                        <Link to="/account/reset">Forget Password?</Link>
                         <motion.button
                           type="button"
                           className="register login-button"

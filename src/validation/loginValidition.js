@@ -14,6 +14,13 @@ export const loginSchema = yup.object().shape({
     ),
 });
 
+export const resetSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .required("Email is required"),
+});
+
 const commonSchema = {
   firstName: yup.string().required("This field is requried"),
   lastName: yup.string().required("This field is requried"),

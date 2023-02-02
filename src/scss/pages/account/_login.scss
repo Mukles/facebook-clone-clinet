@@ -6,6 +6,7 @@
       margin-bottom: 10px;
     }
   }
+
   .brand-details {
     margin-top: -25px;
 
@@ -146,6 +147,73 @@
         &:hover {
           background-color: #000;
           color: #fff;
+        }
+      }
+    }
+  }
+
+  &.forget-password {
+    .login-form {
+      max-width: 500px;
+      padding: 0;
+      border-radius: 10px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+
+      & > * {
+        padding-inline: 10px;
+        padding-block: 12px;
+        margin: 0;
+      }
+
+      input {
+        border-color: $color-gray;
+      }
+
+      h2 {
+        width: 100%;
+        border-bottom: 1px solid $secondary-color;
+        text-align: center;
+        font-size: 20px;
+        color: $color-semibalck;
+        line-height: 24px;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 17px;
+        line-height: 20px;
+        font-weight: 400;
+        color: $color-semibalck;
+      }
+
+      .buttons {
+        margin-top: 10px;
+        border-top: 1px solid $secondary-color;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        button {
+          width: 120px;
+          &:last-child {
+            background-color: $brand-color;
+          }
+
+          &:first-child {
+            background-color: $color-gray;
+            color: $color-semibalck;
+          }
+
+          font-size: 15px;
+          padding-inline: 35px;
+          line-height: 36px;
+          font-weight: 700;
+          color: $color-white;
         }
       }
     }

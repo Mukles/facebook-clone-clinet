@@ -205,16 +205,16 @@ const Post = ({ post }: Props) => {
                 aria-disabled={isLoading}
                 onClick={() => clickReactToggler(selectReact)}
               >
-                {prevSeletedReact === selectReact ? (
+                {prevSeletedReact === selectReact && !!likeReact?.react ? (
                   <>
-                    <img src={reactIcons[likeReact?.react]} alt={selectReact} />
+                    <img src={reactIcons[likeReact?.react]} alt={"Mokles"} />
                     <span>{likeReact?.react}</span>
                   </>
                 ) : (
                   <>
                     {prevSeletedReact !== selectReact && selectReact ? (
                       <>
-                        <img src={reactIcons[selectReact]} alt={selectReact} />
+                        <img src={reactIcons[selectReact]} alt={"Hi"} />
                         <span>{selectReact}</span>
                       </>
                     ) : (

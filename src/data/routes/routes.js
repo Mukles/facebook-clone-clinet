@@ -8,6 +8,7 @@ import FriendLayout from "../../layout/friends/friendLayout";
 import ProfileLayout from "../../layout/profileLayout";
 import Home from "../../pages";
 import NotFound from "../../pages/404";
+import ForgetPassword from "../../pages/account/forget";
 import Login from "../../pages/account/login";
 import MarketPlace from "../../pages/market-place";
 import Messenger from "../../pages/messenger/index";
@@ -56,6 +57,14 @@ const mutualRoutes = [
     element: (
       <PublicRoute>
         <Login />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/account/forget",
+    element: (
+      <PublicRoute>
+        <ForgetPassword />
       </PublicRoute>
     ),
   },

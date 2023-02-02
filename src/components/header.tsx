@@ -17,7 +17,7 @@ const Header = () => {
   const shadow = pathname.match(/\/messenger/gi)?.length ? "" : "shadow-sm";
 
   const display =
-    pathname === ("/account/login" || "/account/register") ||
+    pathname.match(/\/account/gi)?.length ||
     (pathname.match(/\/messenger|conversation(\/\d+)?$/gi)?.length &&
       width < 576)
       ? "mobile-nav"

@@ -20,7 +20,6 @@ const Frined = ({ sender, userId }: Props) => {
     {
       isLoading: isAccpetLoading,
       isSuccess: isAccpetSuccess,
-      //isError: isAccpetError,
       data: accpetData,
     },
   ] = useAccpetFriendRequestMutation();
@@ -35,9 +34,7 @@ const Frined = ({ sender, userId }: Props) => {
     {
       isLoading: isDeleteLoading,
       isSuccess: isDeleteSuccess,
-      //isError: isDeleteError,
       data: deleteData,
-      //error: deleteError,
     },
   ] = useDeleteFriendRequestMutation();
 
@@ -49,7 +46,7 @@ const Frined = ({ sender, userId }: Props) => {
   };
 
   return (
-    <div className="col-lg-4 col-md-6 col-xl-3">
+    <div className="col-lg-4 col-md-3 col-sm-6 col-6 col-xl-3">
       <div className="friend shadow rounded mx-auto">
         <div className="ratio ratio-1x1">
           <img

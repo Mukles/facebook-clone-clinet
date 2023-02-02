@@ -1,6 +1,6 @@
-import img1 from "../../assets/story/1.avif";
-import img2 from "../../assets/story/2.avif";
-import img3 from "../../assets/story/3.avif";
+import img1 from "../../assets/story/1.jpg";
+import img2 from "../../assets/story/2.jpg";
+import img3 from "../../assets/story/3.jpg";
 import img4 from "../../assets/story/4.jpg";
 import img5 from "../../assets/story/5.png";
 
